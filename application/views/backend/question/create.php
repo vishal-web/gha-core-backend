@@ -11,6 +11,14 @@
       </div> 
       <form action="<?=$form_location?>" class="form-horizontal" method="post" enctype="multipart/form-data">
         <div class="box-body">
+
+          <?php
+            echo '<pre>';
+            print_r($courses_dd);
+            echo '</pre>';
+
+          ?>
+
     			<div class="form-group">
     			  <label for="" class="col-md-3 control-label">Question Title</label>
     			  <?php

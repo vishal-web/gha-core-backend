@@ -125,6 +125,7 @@ class Question extends CI_Controller {
 		$data['headline'] = $headline; 
 		
 		$data['form_location'] = current_url();
+		$data['courses_dd'] = $this->get_courses_dd();
 	
 
 		$data['flash_message'] = $this->session->flashdata('flash_message');
@@ -158,6 +159,18 @@ class Question extends CI_Controller {
 				}
 			}
 		}
+	}
+
+	private function get_courses_dd() {
+		$query = $this->common_model->dbselect('gha_courses',  ['status' => 1])->result_array();
+		$options[''] = 'Choose Course';
+		if (!empty($query)) {
+ 			foreach ($query as $row) {
+ 				$options[$row['id']] = $row['title'];
+			}	
+		}
+
+		return $options;
 	}
 }
 ?>
