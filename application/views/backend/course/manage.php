@@ -11,7 +11,7 @@
 	<a href="<?=base_url()?>development/courselist">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
-	<a href="<?=base_url()?>development/coursecreate">
+	<a href="<?=base_url()?>development/course/create">
 		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New Course</button>
 	</a>
 </p>

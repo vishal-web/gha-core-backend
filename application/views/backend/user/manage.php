@@ -1,31 +1,24 @@
 <p class="">
-	<!-- <a href="<?=base_url()?>development/questionlist">
-		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Question</button>
+	<!-- <a href="<?=base_url()?>development/userlist">
+		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create User</button>
 	</a>
-	<a href="<?=base_url()?>development/questionlist">
+	<a href="<?=base_url()?>development/userlist">
 		<button type="button" class="btn bg-purple btn-flat margin-r-5">.btn.bg-purple.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/questionlist">
+	<a href="<?=base_url()?>development/userlist">
 		<button type="button" class="btn bg-navy btn-flat margin-r-5">.btn.bg-navy.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/questionlist">
+	<a href="<?=base_url()?>development/userlist">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
-	<a href="<?=base_url()?>development/questioncreate">
-		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New Question</button>
+	<a href="<?=base_url()?>development/user/create">
+		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New User</button>
 	</a>
 </p>
 
-<?php
-	$show_filter = FALSE;
-?>
-
-
-
 <div class="row">
-	
-	<?php if($show_filter === TRUE) { ?>
-	<div class="col-xs-12"> 
+	<div class="col-xs-12">
+
 		<div class="box box-primary">
 		  <div class="box-header with-border">
 		    <h3 class="box-title">Filters</h3>
@@ -65,26 +58,27 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/questionlist" class="btn btn-warning">Cancel</a>
+		      <a href="<?=base_url()?>development/userlist" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 
 	</div>
-	<?php } ?>
-
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Questions List</h3>
+				<h3 class="box-title">Existing Users</h3>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-condensed table-bordered">
+				<table class="table table-hover table-bordered">
 					<tr>
 						<th>SN</th>
-						<th>Question</th>
-						<!-- <th>Question Type</th> --> 
-						<th>Status</th> 
+						<th>Name</th>
+						<th>Email</th>
+						<th>Phone</th>
+						<th>Profession</th>
+						<th>Status</th>
+						<th>Date At</th>
 						<th>Action</th>
 					</tr>
 
@@ -103,59 +97,18 @@
 									$status_text = 'Inactive';
 									$status_label = 'warning';
 								}
-
-								$question_type = 'Single Choice';
-								if ($row['is_multiple_choice'] === 1) {
-									$question_type = 'Multiple Choice';
-								}
-
-								$options = !empty(unserialize($row['options'])) ? unserialize($row['options']) : [];
-
 					?>
 					
 					<tr>
 						<td><?=++$sn?></td>
-						<td>
-							<table class="table table-bordered table-striped m-b-0">
-								<thead>
-									<tr>
-										<th>Q. <?=$row['question_title']?></th> 
-									</tr>
-									<tr> 
-										<td>
-											<table class="table table-bordered table-striped m-b-0">
-												<tr>
-													<th>No.</th>
-													<th>Option</th>
-													<th>Correct</th>
-												</tr>
-
-												<?php
-													if (!empty($options)) {
-														$total_option_count = count($options);
-														$option_counter = 0;
-														foreach ($options as $key => $options_row) {
-												?>
-												<tr>
-													<td><?= ++$option_counter ?></td>
-													<td><?= $options_row['answer'] ?></td>
-													<td><?= $options_row['correct'] == 1 ? 'Yes' : 'No' ?></td>
-												</tr>
-												<?php
-														}
-													}
-												?>
-											</table>
-										</td>
-									</tr>									
-								</thead>
-							</table>
-						</td>
-						<!-- <td><?=$question_type?></td> -->
-						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
+						<td><?=$row['firstname'] .' '.$row['lastname']?></td>
+						<td><?=$row['email']?></td>
+						<td><?=$row['phone']?></td>
+						<td><?=$row['name']?></td>
+						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td>
+						<td><?=date('Y-m-d h:i a', strtotime($row['created_at']))?></td>
 						<td><a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a></td>
 					</tr>
-
 					<?php
 							}
 						} else {

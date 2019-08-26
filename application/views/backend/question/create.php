@@ -50,6 +50,31 @@
           </div> 
           <?php */ ?>
 
+          <div class="form-group">
+            <label for="" class="col-md-3 control-label">Status</label>
+            <?php
+              $status_value = set_value('status') == '' ? (isset($status) ? $status : '') : set_value('status');
+            ?>
+            <div class="col-md-8">
+
+              <?php
+
+                $dd_options = [
+                  '' => 'Choose Status',
+                  1 => 'Active',
+                  0 => 'Inactive',
+                ];
+
+                $additional_options = [
+                  'class' => 'form-control',
+                ];
+                
+                echo form_dropdown('status', $dd_options, $status_value,$additional_options);
+
+                echo form_error('status');
+              ?>
+            </div>
+          </div> 
 
           <?php
             if ($choice !== null && count($choice) > 0) {
@@ -57,6 +82,7 @@
               foreach ($choice as $row) {
                 $checked_ans = $row['correct'] == 1 ? 'checked' : '';
                 $initializer = $counter + 1;
+                $answer_id = isset($row['id']) ? $row['id'] : 0;
           ?>
           <div class="form-group choice removeChoice-<?=$initializer?>">
             <label for="" class="col-md-3 control-label">Choice <?= $initializer ?></label>
@@ -69,9 +95,10 @@
                   <div class="checkbox">
                     <label>
                       <input type="hidden" name="choice[<?=$counter?>][correct]" value="0">
+                      <input type="hidden" name="choice[<?=$counter?>][answer_id]" value="<?=$answer_id?>">
                       <input type="checkbox" name="choice[<?=$counter?>][correct]" value="1" <?=$checked_ans?>  style="margin-top: 1px;">&nbsp;&nbsp;Correct ?
                       <?php if($counter > 0) { ?>
-                      <a class="removeChoice" data-choice="<?=$counter?>" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;Remove Choice</a>
+                      <a class="removeChoice" data-choice="<?=$initializer?>" data-answer="<?=$answer_id?>" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;Remove Choice</a>
                       <?php } ?>
                     </label>
                   </div>

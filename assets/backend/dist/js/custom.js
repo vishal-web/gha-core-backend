@@ -78,4 +78,21 @@ $('#addChoice').on('click', function(e) {
 $(document).on('click', '.removeChoice', function(e) {
 	var choice = $(this).data('choice');
 	$('.removeChoice-' + choice).remove();
+
+	var answer = $(this).data('answer');
+	if (typeof answer !== 'undefind') {
+		$.ajax({
+			url : BASE_URL + 'ajaxresponse/removeanswer',
+			method : 'POST',
+			dataType: 'json',
+			data: {answer: answer},
+			success: function(response) {
+				if (response.status == true) {
+					console.log('option removed');
+				} else {
+					console.log('Something went wrong while removing options');
+				}
+			}
+		})
+	}
 });

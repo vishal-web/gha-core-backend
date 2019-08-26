@@ -1,18 +1,18 @@
 <p class="">
-	<!-- <a href="<?=base_url()?>development/courselist">
-		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Category</button>
+	<!-- <a href="<?=base_url()?>development/questionlist">
+		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Question</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/questionlist">
 		<button type="button" class="btn bg-purple btn-flat margin-r-5">.btn.bg-purple.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/questionlist">
 		<button type="button" class="btn bg-navy btn-flat margin-r-5">.btn.bg-navy.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/questionlist">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
-	<a href="<?=base_url()?>development/categorycreate">
-		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New Category</button>
+	<a href="<?=base_url()?>development/question/create">
+		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New Question</button>
 	</a>
 </p>
 
@@ -21,7 +21,9 @@
 ?>
 
 
-<div class="row">	
+
+<div class="row">
+	
 	<?php if($show_filter === TRUE) { ?>
 	<div class="col-xs-12"> 
 		<div class="box box-primary">
@@ -63,7 +65,7 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/courselist" class="btn btn-warning">Cancel</a>
+		      <a href="<?=base_url()?>development/questionlist" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 
@@ -73,15 +75,15 @@
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title"><?= $table_head_title ?></h3>
+				<h3 class="box-title">Questions List</h3>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-bordered">
+				<table class="table table-condensed table-bordered">
 					<tr>
-						<th>SR No</th>
-						<th>Title</th>
-						<th>Description</th>
+						<th>SN</th>
+						<th>Question</th>
+						<!-- <th>Question Type</th> --> 
 						<th>Status</th> 
 						<th>Action</th>
 					</tr>
@@ -102,26 +104,64 @@
 									$status_label = 'warning';
 								}
 
-								$image_html = '';
-								if ($row['featured_image']) {
-									$image_src = base_url().'uploads/backend/course/'.$row['featured_image'];
-									$image_html = '<a target="_blank" href="'.$image_src.'"><img width="100" height="50" src="'.$image_src.'"></a>';	
+								$question_type = 'Single Choice';
+								if ($row['is_multiple_choice'] === 1) {
+									$question_type = 'Multiple Choice';
 								}
+
+								$options = !empty(unserialize($row['options'])) ? unserialize($row['options']) : [];
+
 					?>
 					
 					<tr>
 						<td><?=++$sn?></td>
-						<td><?=$row['title']?></td>
-						<td><?=substr($row['description'], 0, 20)?></td>
+						<td>
+							<table class="table table-bordered table-striped m-b-0">
+								<thead>
+									<tr>
+										<th>Q. <?=$row['question_title']?></th> 
+									</tr>
+									<tr> 
+										<td>
+											<table class="table table-bordered table-striped m-b-0">
+												<tr>
+													<th>No.</th>
+													<th>Option</th>
+													<th>Correct</th>
+												</tr>
+
+												<?php
+													if (!empty($options)) {
+														$total_option_count = count($options);
+														$option_counter = 0;
+														foreach ($options as $key => $options_row) {
+												?>
+												<tr>
+													<td><?= ++$option_counter ?></td>
+													<td><?= $options_row['answer'] ?></td>
+													<td><?= $options_row['correct'] == 1 ? 'Yes' : 'No' ?></td>
+												</tr>
+												<?php
+														}
+													}
+												?>
+											</table>
+										</td>
+									</tr>									
+								</thead>
+							</table>
+						</td>
+						<!-- <td><?=$question_type?></td> -->
 						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
 						<td><a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a></td>
 					</tr>
+
 					<?php
 							}
 						} else {
 					?>
 					<tr>
-						<td colspan="9">No Record Found</td>
+						<td colspan="6">No Record Found</td>
 					</tr>
 					<?php
 						}
