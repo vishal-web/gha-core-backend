@@ -61,13 +61,35 @@ class Question extends CI_Controller {
 
 			if($this->form_validation->run('admin_question_create')) {
 				$choice = $this->input->post('choice');
+				$correct_answer_checked = 0;
 				if (!empty($choice)) {
 					foreach ($choice as $key => $row) {
+						if ($row['correct'] > 0) {
+							$correct_answer_checked = $row['correct'];
+						}
+
 						if (trim($row['answer']) == '') {
 							unset($choice[$key]);
 						}
 					}
+				} 
+
+
+				if (empty($choice)) {
+					$this->session->set_flashdata('flash_message', 'Please add some choices for this question.');
+					$this->session->set_flashdata('flash_type', 'danger');
+
+					redirect(current_url());
 				}
+
+				if ($correct_answer_checked === 0) {
+					$this->session->set_flashdata('flash_message', 'Please check correct from any of the choices below.');
+					$this->session->set_flashdata('flash_type', 'danger');
+
+					redirect(current_url());
+				}
+
+
 
 				$insert_data = [
 					'question_title' => $this->input->post('question_title'),
@@ -126,7 +148,7 @@ class Question extends CI_Controller {
 		
 		$data['form_location'] = current_url();
 		$data['courses_dd'] = $this->get_courses_dd();
-	
+		$data['update_id'] = $update_id;
 
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		$data['flash_type'] = $this->session->flashdata('flash_type');

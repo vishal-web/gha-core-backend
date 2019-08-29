@@ -11,14 +11,6 @@
       </div> 
       <form action="<?=$form_location?>" class="form-horizontal" method="post" enctype="multipart/form-data">
         <div class="box-body">
-
-          <?php
-            echo '<pre>';
-            print_r($courses_dd);
-            echo '</pre>';
-
-          ?>
-
     			<div class="form-group">
     			  <label for="" class="col-md-3 control-label">Question Title</label>
     			  <?php
@@ -85,6 +77,8 @@
           </div> 
 
           <?php
+
+
             if ($choice !== null && count($choice) > 0) {
               $counter = 0;
               foreach ($choice as $row) {
@@ -106,7 +100,7 @@
                       <input type="hidden" name="choice[<?=$counter?>][answer_id]" value="<?=$answer_id?>">
                       <input type="checkbox" name="choice[<?=$counter?>][correct]" value="1" <?=$checked_ans?>  style="margin-top: 1px;">&nbsp;&nbsp;Correct ?
                       <?php if($counter > 0) { ?>
-                      <a class="removeChoice" data-choice="<?=$initializer?>" data-answer="<?=$answer_id?>" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;Remove Choice</a>
+                      <a class="removeChoice" data-question="<?=$update_id?>" data-choice="<?=$initializer?>" data-answer="<?=$answer_id?>" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;Remove Choice</a>
                       <?php } ?>
                     </label>
                   </div>

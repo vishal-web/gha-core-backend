@@ -79,13 +79,14 @@ $(document).on('click', '.removeChoice', function(e) {
 	var choice = $(this).data('choice');
 	$('.removeChoice-' + choice).remove();
 
-	var answer = $(this).data('answer');
-	if (typeof answer !== 'undefind') {
+	var answer = $(this).data('answer'); 
+	var question = $(this).data('question');
+	if (typeof answer !== 'undefind' && answer > 0) {
 		$.ajax({
 			url : BASE_URL + 'ajaxresponse/removeanswer',
 			method : 'POST',
 			dataType: 'json',
-			data: {answer: answer},
+			data: {answer, question, choice},
 			success: function(response) {
 				if (response.status == true) {
 					console.log('option removed');
