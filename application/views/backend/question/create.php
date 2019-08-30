@@ -4,7 +4,15 @@
 		<div class="alert alert-<?=$flash_type?> alert-dismissible">
 	   	<?=$flash_message?>
 	  </div>
-		<?php } ?>  
+		<?php } ?> 
+
+
+    <?php if(isset($custom_error) && $custom_error == 1) { ?>
+    <div class="alert alert-danger alert-dismissible">
+      <?=$custom_error_msg?>
+    </div>
+    <?php } ?>  
+
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title"><?=$headline?></h3>

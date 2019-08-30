@@ -47,7 +47,7 @@ $('#addChoice').on('click', function(e) {
 	var appendPlace = $('#addChoice').parent().parent();
 	var html = '';
 	var counter = $('.choice').length + 1;
-
+	var initializer = counter - 1;
 	
 	
 
@@ -58,13 +58,13 @@ $('#addChoice').on('click', function(e) {
 	  '<div class="col-md-8">'+
 	    '<div class="row">'+
 	      '<div class="col-md-8">'+
-	        '<input type="text" class="form-control" name="choice['+ counter +'][answer]" placeholder="Enter Answer">'+
+	        '<input type="text" class="form-control" name="choice['+ initializer +'][answer]" placeholder="Enter Answer">'+
 	      '</div>'+
 	      '<div class="col-md-4">'+
 	        '<div class="checkbox">'+
 	          '<label>'+
-	            '<input type="hidden" name="choice['+ counter +'][correct]" value="0">'+
-	            '<input type="checkbox" name="choice['+ counter +'][correct]" style="margin-top: 1px;">&nbsp;&nbsp;Correct ?'+
+	            '<input type="hidden" name="choice['+ initializer +'][correct]" value="0">'+
+	            '<input type="checkbox" name="choice['+ initializer +'][correct]" value="1" style="margin-top: 1px;">&nbsp;&nbsp;Correct ?'+
 	          '</label>'+
 	        	'<a class="removeChoice" data-choice="'+ counter +'" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;Remove Choice</a>'+
 	        '</div>'+

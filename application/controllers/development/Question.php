@@ -61,6 +61,7 @@ class Question extends CI_Controller {
 
 			if($this->form_validation->run('admin_question_create')) {
 				$choice = $this->input->post('choice');
+
 				$correct_answer_checked = 0;
 				if (!empty($choice)) {
 					foreach ($choice as $key => $row) {
@@ -74,7 +75,6 @@ class Question extends CI_Controller {
 					}
 				} 
 
-
 				if (empty($choice)) {
 					$this->session->set_flashdata('flash_message', 'Please add some choices for this question.');
 					$this->session->set_flashdata('flash_type', 'danger');
@@ -82,41 +82,39 @@ class Question extends CI_Controller {
 					redirect(current_url());
 				}
 
-				if ($correct_answer_checked === 0) {
-					$this->session->set_flashdata('flash_message', 'Please check correct from any of the choices below.');
-					$this->session->set_flashdata('flash_type', 'danger');
-
-					redirect(current_url());
-				}
-
-
+				$serialize_choice = serialize($choice);
 
 				$insert_data = [
 					'question_title' => $this->input->post('question_title'),
 					'status' => $this->input->post('status'),
 					'is_multiple_choice' => 0,
 					'updated_at' => Date('Y-m-d H:i:s a'),
-					'options' => serialize($choice)
+					'options' => $serialize_choice
 				];
 
-				if ($update_id > 0) {
-					$query = $this->common_model->dbupdate('gha_questions',$insert_data,['id' => $update_id]);
-					if ($query) {
-						$this->answers($update_id, $choice);
-						$this->session->set_flashdata('flash_message', 'Question details has been successfully updated.');
-						$this->session->set_flashdata('flash_type', 'success');
+				if ($correct_answer_checked > 0) {
+					if ($update_id > 0) {
+						$query = $this->common_model->dbupdate('gha_questions',$insert_data,['id' => $update_id]);
+						if ($query) {
+							$this->answers($update_id, $choice);
+							$this->session->set_flashdata('flash_message', 'Question details has been successfully updated.');
+							$this->session->set_flashdata('flash_type', 'success');
 
-						redirect(current_url());	
+							redirect(current_url());	
+						}
+					} else {
+						$query = $this->common_model->dbinsert('gha_questions', $insert_data);
+						if ($query) {
+							$this->answers($this->db->insert_id(), $choice);
+							$this->session->set_flashdata('flash_message', 'Question has been successfully added.');
+							$this->session->set_flashdata('flash_type', 'success');
+							
+							redirect(current_url());
+						}
 					}
 				} else {
-					$query = $this->common_model->dbinsert('gha_questions', $insert_data);
-					if ($query) {
-						$this->answers($this->db->insert_id(), $choice);
-						$this->session->set_flashdata('flash_message', 'Question has been successfully added.');
-						$this->session->set_flashdata('flash_type', 'success');
-						
-						redirect(current_url());
-					}
+					$data['custom_error'] = 1;
+					$data['custom_error_msg'] = 'Please check correct from any of the choices below.';
 				}
 			}
 		}
@@ -128,7 +126,7 @@ class Question extends CI_Controller {
 		if ($update_id > 0 && $submit !== 'submit') {
 			$choice = $getAns;
 			if (empty($choice)) {
-				$choice = !empty(unserialize($data['options'])) ? unserialize($data['options']) : [];
+				// $choice = !empty(unserialize($data['options'])) ? unserialize($data['options']) : [];
 			}
 		} else {
 			$choice = $this->input->post('choice');
@@ -171,7 +169,7 @@ class Question extends CI_Controller {
 						'correct' => $row['correct'],
 						'question_id' => $question_id,
 					];
-					
+
 					if (isset($row['answer_id']) && $row['answer_id'] > 0) {
 						$insert_data['updated_at'] = Date('Y-m-d H:i:s');
 						$this->common_model->dbupdate('gha_answers', $insert_data, ['id' => $row['answer_id']]);
