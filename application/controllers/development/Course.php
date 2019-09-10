@@ -74,16 +74,21 @@ class Course extends MY_Controller {
 			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 			if ($this->input->post('submit') == 'submit') {
 			if($this->form_validation->run('admin_course_create')) {
-				$do_upload = $this->do_upload('featured_image', './uploads/backend/course');
+				$do_upload = $this->do_upload('featured_image', './uploads/course');
 
 				$insert_data = [
 					'title' => 	$this->input->post('title'),
 					'price' => 	$this->input->post('price'),
 					'duration' => 	$this->input->post('duration'),
 					'description' => 	$this->input->post('description'),
-					'url_title' =>	url_title(strtolower($this->input->post('title'))),
+					'status' => 	$this->input->post('status'),
 				];
 				
+				$url_title = url_title(strtolower($this->input->post('title')));
+				$is_url_title_exists = $this->is_url_title_exists($url_title, $update_id);
+				$insert_data['url_title'] = $is_url_title_exists ? $this->generate_url_title($url_title, $update_id) : $url_title;
+				
+
 				$image_err = 0;
 
 				if ($update_id > 0) {
@@ -128,7 +133,7 @@ class Course extends MY_Controller {
 
 
 		$data['headline'] = $headline; 
-		
+		$data['editor'] = true;
 		$data['form_location'] = current_url();
 
 		$data['flash_message'] = $this->session->flashdata('flash_message');
@@ -138,6 +143,39 @@ class Course extends MY_Controller {
 		$data['view_file'] = 'backend/course/create';
 		$data['update_id'] = $update_id;
 		$this->load->view($this->layout, $data); 
+	}
+
+	public function is_url_title_exists($url_title, $update_id) {
+		$condition['url_title'] = $url_title;
+		if ($update_id > 0) {
+			$condition['id !='] = $update_id;
+		}
+
+		$query = $this->common_model->dbselect('gha_courses',$condition)->result_array();
+		return !empty($query) ? true : false;
+	}
+
+	public function generate_url_title($url_title, $update_id) {
+		$random_string = $this->generate_random_string(6);
+		$url_title .= '-'.strtolower($random_string); 
+
+
+		$is_url_title_exists = $this->is_url_title_exists($url_title, $update_id);
+		if ($is_url_title_exists) {
+			$this->generate_url_title($url_title, $update_id);
+		} else {
+			return $url_title;
+		}
+	}
+
+	public function generate_random_string($length = 8) {
+		$characters = '123456789abcdefghijklmnopqrs092u3tuvwxyzaskdhfhf9882323ABCDEFGHIJKLMNksadf9044OPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+		  $randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
 	}
 }
 ?>

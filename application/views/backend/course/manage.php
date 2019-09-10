@@ -1,14 +1,14 @@
 <p class="">
-	<!-- <a href="<?=base_url()?>development/courselist">
+	<!-- <a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Course</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-purple btn-flat margin-r-5">.btn.bg-purple.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-navy btn-flat margin-r-5">.btn.bg-navy.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
 	<a href="<?=base_url()?>development/course/create">
@@ -65,7 +65,7 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/courselist" class="btn btn-warning">Cancel</a>
+		      <a href="<?=base_url()?>development/course" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 
@@ -109,7 +109,7 @@
 
 								$image_html = '';
 								if ($row['featured_image']) {
-									$image_src = base_url().'uploads/backend/course/'.$row['featured_image'];
+									$image_src = base_url().'uploads/course/'.$row['featured_image'];
 									$image_html = '<a target="_blank" href="'.$image_src.'"><img width="100" height="50" src="'.$image_src.'"></a>';	
 								}
 					?>

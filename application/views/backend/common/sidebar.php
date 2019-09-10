@@ -6,22 +6,22 @@
         <a href="<?=base_url()?>development/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
       </li>
       <li class="">
-        <a href="<?=base_url()?>development/user/manage"><i class="fa fa-user"></i> <span>Manage Users</span></a>
+        <a href="<?=base_url()?>development/user/manage"><i class="fa fa-user"></i> <span>Users</span></a>
       </li>
+      <!-- <li class="">
+        <a href="<?=base_url()?>development/category/manage"><i class="fa fa-tag"></i> <span>Category</span></a>
+      </li> -->
+
       <li class="">
-        <a href="<?=base_url()?>development/category/manage"><i class="fa fa-tag"></i> <span>Manage Category</span></a>
+        <a href="<?=base_url()?>development/course/manage"><i class="fa fa-bars"></i> <span>Courses</span></a>
       </li>
 
       <li class="">
-        <a href="<?=base_url()?>development/course/manage"><i class="fa fa-bars"></i> <span>Manage Courses</span></a>
+        <a href="<?=base_url()?>development/question/manage"><i class="fa fa-question-circle"></i> <span>Question</span></a>
       </li>
 
       <li class="">
-        <a href="<?=base_url()?>development/question/manage"><i class="fa fa-question-circle"></i> <span>Manage Question</span></a>
-      </li>
-
-      <li class="">
-        <a href="<?=base_url()?>development/exam/manage"><i class="fa fa-book"></i> <span>Manage Exams</span></a>
+        <a href="<?=base_url()?>development/exam/manage"><i class="fa fa-book"></i> <span>Exams</span></a>
       </li>
 
       <li class="treeview">

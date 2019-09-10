@@ -58,4 +58,7 @@ $route['about'] = 'welcome/about';
 $route['help'] = 'welcome/help';
 $route['login'] = 'welcome/login';
 $route['register'] = 'welcome/register';
+$route['webdev'] = 'welcome/admin_login';
 $route['forgotpassword'] = 'welcome/forgot_password';
+
+$route['course/(:any)'] = 'course/index/$1';

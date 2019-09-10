@@ -1,14 +1,14 @@
 <p class="">
-	<!-- <a href="<?=base_url()?>development/courselist">
+	<!-- <a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Course</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-purple btn-flat margin-r-5">.btn.bg-purple.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-navy btn-flat margin-r-5">.btn.bg-navy.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/courselist">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
 	<a href="<?=base_url()?>development/course/create">
@@ -65,7 +65,7 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/courselist" class="btn btn-warning">Cancel</a>
+		      <a href="<?=base_url()?>development/course" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 

@@ -36,7 +36,7 @@
         	</div>
 
           <div class="row"> 
-        		<div class="col-md-6">
+        		<div class="col-md-4">
         			<div class="form-group">
         			  <label for="">Price</label>
         			  <?php
@@ -47,7 +47,7 @@
         			</div>
         		</div>
             
-        		<div class="col-md-6">
+        		<div class="col-md-4">
         			<div class="form-group">
         			  <label for="">Duration</label>
         			  <?php
@@ -62,7 +62,21 @@
                   echo form_error('duration');
                 ?>
         			</div>
-        		</div>            
+        		</div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="">Status</label>
+                <?php
+                  $status_value = set_value('status') == '' ? (isset($status) ? $status : '') : set_value('status');
+                  $status_options[''] = 'Select status';
+                  $status_options[1] = 'Active';
+                  $status_options[0] = 'Inactive';
+                  
+                  echo form_dropdown('status', $status_options, $status_value, $additional_option);
+                  echo form_error('status');
+                ?>
+              </div>
+            </div>            
         	</div>
 
 
@@ -73,7 +87,7 @@
                 <?php
                   $description_value = set_value('description') == '' ? (isset($description) ? $description : '') : set_value('description');
                 ?>
-                <textarea class="form-control" name="description" rows="10" placeholder="Enter description"><?=$description_value?></textarea>
+                <textarea class="form-control" id="editor1" name="description" rows="6" placeholder="Enter description"><?=$description_value?></textarea>
                 <?=form_error('description')?>
               </div>
             </div>
@@ -93,7 +107,7 @@
       </div>
       <div class="box-body">
         <?php if($featured_image !== '') {
-          $full_path_image = base_url().'uploads/backend/course/'.$featured_image;  
+          $full_path_image = base_url().'uploads/course/'.$featured_image;  
         ?>
         <div class="row">
           <div class="col-md-12">

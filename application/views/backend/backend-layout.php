@@ -30,7 +30,7 @@
     <header class="main-header">
 
       <!-- Logo -->
-      <a href="index2.html" class="logo">
+      <a href="<?=base_url()?>development/dashboard" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
@@ -203,5 +203,16 @@
     })
   </script>
   <script src="<?=base_url()?>assets/backend/dist/js/custom.js"></script>
+  <?php if(isset($editor) && $editor == true) { ?>
+  <script src="<?=base_url()?>assets/backend/bower_components/ckeditor/ckeditor.js"></script>
+  <script> 
+    $(function () {
+      // Replace the <textarea id="editor1"> with a CKEditor
+      // instance, using default configuration.
+      CKEDITOR.replace('editor1') 
+    })
+  </script>
+  <?php } ?>
+  
 </body>
 </html>

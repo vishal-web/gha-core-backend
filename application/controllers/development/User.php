@@ -8,7 +8,7 @@ Class User extends CI_Controller {
 	}
 
 	public function index() {
-		echo "You finally reached here is the outout that u are seeking the way of";
+		redirect(current_url().'/manage');
 	}
 
 	public function manage() { 

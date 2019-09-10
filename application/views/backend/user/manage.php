@@ -1,14 +1,14 @@
 <p class="">
-	<!-- <a href="<?=base_url()?>development/userlist">
+	<!-- <a href="<?=base_url()?>development/user">
 		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create User</button>
 	</a>
-	<a href="<?=base_url()?>development/userlist">
+	<a href="<?=base_url()?>development/user">
 		<button type="button" class="btn bg-purple btn-flat margin-r-5">.btn.bg-purple.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/userlist">
+	<a href="<?=base_url()?>development/user">
 		<button type="button" class="btn bg-navy btn-flat margin-r-5">.btn.bg-navy.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/userlist">
+	<a href="<?=base_url()?>development/user">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
 	<a href="<?=base_url()?>development/user/create">
@@ -58,7 +58,7 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/userlist" class="btn btn-warning">Cancel</a>
+		      <a href="<?=base_url()?>development/user" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 

@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
-	public $head_title = 'Gloobal Health Alliance';
-	public $layout = 'frontend/frontend-layout';
-	public $homepage = FALSE;
+class Welcome extends Public_Controller {
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->library('form_validation'); 
+		$this->load->library('Google');
+
+		$this->generate_navbar();
 	}
 
 	public function index() {
@@ -57,7 +57,7 @@ class Welcome extends CI_Controller {
 
 			}	
 		}
-
+		
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		$data['flash_type'] = $this->session->flashdata('flash_type');
 		$data['view_file'] = 'frontend/home/login';
@@ -103,7 +103,7 @@ class Welcome extends CI_Controller {
 			}
 		}
 		
-
+		$data['google_login_url'] = $this->google->getUrl();
 		$data['country'] = $this->input->post('country');
 		$data['state'] = $this->input->post('state');
 		$data['flash_message'] = $this->session->flashdata('flash_message');
@@ -152,10 +152,42 @@ class Welcome extends CI_Controller {
 
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		$data['flash_type'] = $this->session->flashdata('flash_type');
-		$data['view_file'] = 'frontend/home/forgot_password';
+		$data['view_file'] = 'frontend/home/forgot-password';
 		$this->load->view($this->layout, $data);
 	}
 
+	public function admin_login() {
+		$submit = $this->input->post('submit');
+		
+		if ($submit == 'submit') {
+			$this->form_validation->set_rules('email', 'Email', 'trim|required');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required');
+			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
+			if ($this->form_validation->run()) {
+				$email = $this->input->post('email');
+				$password = $this->input->post('password');
+
+				if ($email == 'admin@gmail.com' && $password == 'admin@ghahealth') {
+					$set_session = [
+						'admin_id' => 1,
+						'admin_user_name' => 'admin',
+						'admin_logged_in' => true,
+						'admin_logged_in_time' => Date('Y-m-d H:i:s'),
+					];
+
+					$this->session->set_userdata('logged_in_admin_data', $set_session);
+
+					redirect(base_url().'development/dashboard');
+				} else {
+					$data['error'] = 1;
+					$data['error_message'] = 'Email & password is not correct';
+				}
+			}
+		}
+
+		$data['view_file'] = 'frontend/home/admin-login';
+		$this->load->view('frontend/home/admin-login', $data);
+	}
 
 	public function get_profession_dropdown() {
 		$options[''] = 'Select profession';
@@ -186,7 +218,7 @@ class Welcome extends CI_Controller {
 		return $options;
 	}
 
-	public function get_city_dropdown(int $state_id) {
+	public function get_city_dropdown($state_id) {
 		$options[''] = 'Select city';
 		if ($state_id > 0) {
 			$query = $this->common_model->dbselect('gha_cities', ['state_id' => $state_id])->result_array();

@@ -12,7 +12,7 @@
                                 </a>
                             </li>
                             <li class="g-plus" >
-                                <a href="#">
+                                <a href="<?=$google_login_url?>">
                                     <i class="fab fa-google"></i>
                                 </a>
                             </li>

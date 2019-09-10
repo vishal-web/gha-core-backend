@@ -103,7 +103,7 @@ $autoload['helper'] = array('url','file','common_helper');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array('pagination');
+$autoload['config'] = array('pagination', 'google');
 
 /*
 | -------------------------------------------------------------------

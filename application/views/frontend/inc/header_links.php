@@ -2,7 +2,7 @@
 <link rel="shortcut icon" href="<?=base_url()?>assets/frontend/img/favicon.png" type="image/x-icon">
 
 
-<?php if (!empty($this->session->userdata('logged_in_user_data'))) { ?>
+<?php if (!empty($this->session->userdata('logged_in_user_data')) && $this->uri->segment(1) == 'user') { ?>
 <link href="<?=base_url()?>assets/frontend/css/style2.css" rel="stylesheet">
 <link href="<?=base_url()?>assets/frontend/css/inilab.css" rel="stylesheet">
 <?php } ?>

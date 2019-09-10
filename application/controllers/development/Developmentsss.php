@@ -19,13 +19,13 @@
 
 		public function questionList() { 
 			$data['headline'] = 'Manage Questions'; 
-			$data['view_file'] = 'backend/question/question-list';
+			$data['view_file'] = 'backend/question/question-';
 			$data['edit_url'] = base_url().'development/questioncreate';
 
 			
 
 			$per_page = $this->input->get('per_page') != '' ? $this->input->get('per_page') : 0;
-			$base_url = base_url().'development/questionlist';
+			$base_url = base_url().'development/question';
 			$condition = [];
 
 			$this->load->library('pagination');
@@ -108,7 +108,7 @@
 			}
 
 			if ($this->input->post('submit') == 'cancel') {
-				redirect(base_url().'development/questionlist');
+				redirect(base_url().'development/question');
 			}
 
 			if ($update_id > 0 && $submit !== 'submit') {

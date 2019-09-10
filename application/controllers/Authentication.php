@@ -1,0 +1,62 @@
+<?php
+
+	class Authentication extends CI_Controller {
+
+
+		public function __construct() {
+			parent::__construct();
+			$this->load->library('google');
+		}
+
+		public function google() {
+			$code = $this->input->get('code');
+			if ($code == '') {
+				redirect(base_url());
+			}
+
+			if ($this->google->getAuthenticate($code)) {
+				
+				$userInfo = $this->google->getUserInfo();
+
+				$checkUser = $this->common_model->dbselect('gha_registration',['oauth_provider' => 'google', 'oauth_uid' => $userInfo['id']])->result_array();
+
+				if (empty($checkUser)) {
+					$insert_data = [
+						'oauth_provider' => 'google',
+						'oauth_uid' => $userInfo['id'],
+						'firstname' => $userInfo['name'], 
+						'email' => $userInfo['email'],
+						'profile_picture' => isset($userInfo['picture']) ? $userInfo['picture'] : '',
+						'profession' => 4, 
+						'status' => 1
+					];			
+
+					$query = $this->common_model->dbinsert('gha_registration', $insert_data);
+
+					if ($query) {
+						$insert_id = $this->db->insert_id();
+						$checkUser = $this->common_model->dbselect('gha_registration',['id' => $insert_id])->result_array();
+					}
+				}
+
+				$session_data = [
+					'user_logged_in' => true,
+					'user_id' => $checkUser[0]['id'],
+					'user_name' => $checkUser[0]['firstname'],
+					'user_email' => $checkUser[0]['email'],
+					'logged_in_date' => date('Y-m-d H:i:s a'),
+				];
+
+				$this->session->set_userdata('logged_in_user_data', $session_data);
+				
+				redirect('user/dashboard');
+			}else {
+				redirect(base_url());
+			}
+		} 
+
+		public function facebook() {
+
+		}
+	}
+?>

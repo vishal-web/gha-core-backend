@@ -1,9 +1,35 @@
+<?php
+
+    function getUserAddress($data) {
+        $address = '';
+        if ($data[0]['city_name'] !== null) {
+            $address += $data[0]['city_name'].', ';
+        }
+
+        if ($data[0]['state_name'] !== null) {
+            $address += $data[0]['state_name'].', ';
+        }
+
+        if ($data[0]['country_name'] !== null) {
+            $address += $data[0]['country_name'];
+        }
+
+        
+        return $address;
+    }
+
+    $profile_picture = '';
+    if ($user_data[0]['oauth_provider'] !== '') {
+        $profile_picture = $user_data[0]['profile_picture'];
+    }
+?>
+
 <div class="course-details-area default-padding bg-gray">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box">
-                    <a class="small-box-footer bg-aqua" href="https://demo.inilabs.net/itest/v3.0/teacher">
+                    <a class="small-box-footer bg-aqua" href="#">
                         <div class="icon  bg-aqua" style="padding: 9.5px 18px 8px 18px;">
                             <i class="fa fa-book" aria-hidden="true"></i>
                         </div>
@@ -19,7 +45,7 @@
             </div>
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box ">
-                    <a class="small-box-footer bg-blue" href="https://demo.inilabs.net/itest/v3.0/student">
+                    <a class="small-box-footer bg-blue" href="#">
                         <div class="icon bg-blue" style="padding: 9.5px 18px 8px 18px;">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
                         </div>
@@ -35,7 +61,7 @@
             </div>
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box ">
-                    <a class="small-box-footer bg-green" href="https://demo.inilabs.net/itest/v3.0/subject">
+                    <a class="small-box-footer bg-green" href="#">
                         <div class="icon bg-green" style="padding: 9.5px 18px 8px 18px;">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
                         </div>
@@ -51,7 +77,7 @@
             </div>
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box ">
-                    <a class="small-box-footer bg-black" href="https://demo.inilabs.net/itest/v3.0/question_group">
+                    <a class="small-box-footer bg-black" href="#">
                         <div class="icon  bg-black" style="padding: 9.5px 18px 8px 18px;">
                             <i class="fa fa-graduation-cap" aria-hidden="true"></i>
                         </div>
@@ -70,10 +96,10 @@
             <div class="col-sm-4">
                 <section class="panel">
                     <div class="profile-db-head  bg-yellow-gradient">
-                        <a href="https://demo.inilabs.net/itest/v3.0/profile/index">
-                        <img src="https://demo.inilabs.net/itest/v3.0/uploads/images/default.png" alt="" />            </a>
-                        <h1 style="color:#FFFFFF;">Sandeep Negi</h1>
-                        <p style="color:#FFFFFF;">Student</p>
+                        <a href="javascript:void();">
+                        <img src="<?=$profile_picture?>" alt="profile" /></a>
+                        <h1 style="color:#FFFFFF;"><?=$user_data[0]['firstname']?></h1>
+                        <p style="color:#FFFFFF;"><?=$user_data[0]['profession_name']?></p>
                     </div>
                     <table class="table table-hover">
                         <tbody>
@@ -82,28 +108,28 @@
                                     <i class="fa fa-user text-black"></i>
                                 </td>
                                 <td>Username</td>
-                                <td>SandeepNegi1985</td>
+                                <td><?=$user_data[0]['firstname'] .' '.$user_data[0]['lastname']?></td>
                             </tr>
                             <tr>
                                 <td>
                                     <i class="fa fa-envelope text-black"></i>
                                 </td>
                                 <td>Email</td>
-                                <td>sandeenegi82@gmail.com</td>
+                                <td><?=$user_data[0]['email']?></td>
                             </tr>
                             <tr>
                                 <td>
                                     <i class="fa fa-phone text-black"></i>
                                 </td>
                                 <td>Phone</td>
-                                <td>0123456789</td>
+                                <td><?=$user_data[0]['phone']?></td>
                             </tr>
                             <tr>
                                 <td>
                                     <i class=" fa fa-globe text-black"></i>
                                 </td>
                                 <td>Address</td>
-                                <td>Mirpur, Dhaka</td>
+                                <td><?=getUserAddress($user_data)?></td>
                             </tr>
                         </tbody>
                     </table>

@@ -25,7 +25,7 @@
             $this->load->view($view_file);
         } else {
             echo "<div class='container' style='padding:50px'>";
-            echo "Please send me the view files";
+            echo "This page is under development";
             echo "</div>";
         }
     ?>
@@ -38,11 +38,8 @@
     <!-- jQuery Frameworks
     ============================================= -->
     <?php $this->load->view('frontend/inc/footer_links'); ?>
-    
-    <script>
-
-        var BASE_URL = '<?=base_url()?>';
-
+    <?php if ($this->uri->segment(1) == ''){ ?>
+    <script> 
         $("#slider").carousel({
             autoPlay:5,
             //autoPlay: true, <-- if you want to set default slide time (5000)
@@ -53,6 +50,11 @@
             navigation: true,
             scrollPerPage: true
         });
+    </script>
+    <?php } ?>
+
+    <script>
+        var BASE_URL = '<?=base_url()?>';
     </script>
 </body>
 

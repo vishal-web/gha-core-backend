@@ -33,9 +33,14 @@
           'condition' => 'ct.id = r.city', 
           'table' => 'gha_cities ct'
         ],
+        [
+          'type' => 'left',
+          'condition' => 'p.id = r.profession', 
+          'table' => 'gha_profession p'
+        ],
       ];
 
-      $select_data = ['r.*', 'c.name as country_name', 's.name as state_name', 'ct.name as city_name'];
+      $select_data = ['r.*', 'c.name as country_name', 's.name as state_name', 'ct.name as city_name', 'p.name as profession_name'];
       $query = $this->common_model->dbselect('gha_registration r', ['r.id' => $this->logged_in_user_id], $select_data, null, $join)->result_array();
 
       return $query;
@@ -46,34 +51,39 @@
     }
 
     public function dashboard() {
-      $this->get_logged_in_user_details();
+      $data['user_data'] = $this->get_logged_in_user_details();
       $data['view_file'] = 'frontend/user/dashboard';
       $this->load->view($this->layout, $data);
     }
 
     public function profile() {
-      $data['view_file'] = 'user/';
+      $data['view_file'] = '';
       $this->load->view($this->layout, $data);
     }
 
     public function payment() {
-      $data['view_file'] = 'user/';
+      $data['view_file'] = '';
       $this->load->view($this->layout, $data);
     }
 
     public function exam() {
-      $data['view_file'] = 'user/';
+      $data['view_file'] = '';
       $this->load->view($this->layout, $data);
     }
 
     public function studymaterial() {
-      $data['view_file'] = 'user/';
+      $data['view_file'] = '';
       $this->load->view($this->layout, $data);
     }
 
     public function certificate() {
-      $data['view_file'] = 'user/';
+      $data['view_file'] = '';
       $this->load->view($this->layout, $data);
+    }
+
+    public function logout() {
+      $this->session->unset_userdata('logged_in_user_data');
+      redirect(base_url());
     }
   }
 ?>
