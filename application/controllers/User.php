@@ -47,7 +47,7 @@
     }
 
     public function index() {
-
+      redirect(base_url().'user/dashboard');
     }
 
     public function dashboard() {

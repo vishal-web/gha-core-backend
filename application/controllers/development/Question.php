@@ -1,5 +1,5 @@
 <?php
-class Question extends CI_Controller {
+class Question extends Backend_Controller {
 
 	private $layout = 'backend/backend-layout';
 

@@ -1,6 +1,5 @@
 <?php
-class Exam extends CI_Controller {
-	private $layout = 'backend/backend-layout';
+class Exam extends Backend_Controller { 
 	
 	public function __construct() {
 		parent::__construct();

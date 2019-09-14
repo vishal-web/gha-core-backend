@@ -1,5 +1,5 @@
 <?php
-class Dummy extends CI_Controller {
+class Dummy extends Backend_Controller {
 	public function __construct() {
 		parent::__construct();
 	}

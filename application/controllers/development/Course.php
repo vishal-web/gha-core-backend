@@ -1,5 +1,5 @@
 <?php
-class Course extends MY_Controller {
+class Course extends Backend_Controller {
 	
 	private $layout = 'backend/backend-layout';
 

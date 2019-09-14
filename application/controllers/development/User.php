@@ -1,5 +1,5 @@
 <?php
-Class User extends CI_Controller {
+Class User extends Backend_Controller {
 
 	private $layout = 'backend/backend-layout';
 

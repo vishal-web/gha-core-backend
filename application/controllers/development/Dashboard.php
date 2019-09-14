@@ -1,5 +1,5 @@
 <?php
-	class Dashboard extends CI_Controller {
+	class Dashboard extends Backend_Controller {
 		public function __construct() {
 			parent::__construct();
 		}

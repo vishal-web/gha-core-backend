@@ -41,3 +41,12 @@ $('#state').on('change', function(e) {
 		})
 	}
 });
+
+/*$('#login-with-google').click((e) => { 
+
+	// console.log($(e.target));
+	// let url = $(this).data('href');
+	// console.log('url', $(this).data("href"));
+	// window.open(url,'_blank','toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400');
+
+});*/

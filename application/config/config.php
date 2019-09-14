@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/ghahealth';
-// $config['base_url'] = 'http://ghahealth.angelinajoseph.com';
+// $config['base_url'] = 'http://localhost/ghahealth';
+$config['base_url'] = 'http://ghahealth.herokuapp.com';
 
 /*
 |--------------------------------------------------------------------------

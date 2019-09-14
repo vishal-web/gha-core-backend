@@ -1,6 +1,6 @@
 <?php
 	
-	class Development extends CI_Controller {
+	class Development extends Backend_Controller {
 
 		public function __constructor() {
 			parent::__construct();

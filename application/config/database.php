@@ -79,9 +79,6 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => '123456',
 	'database' => 'ghahealth',
-	/* 'username' => 'angelinajosep_ghahealth',
-	'password' => 'Ghahealth@123',
-	'database' => 'angelinajosep_ghahealth', */
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -97,3 +94,30 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost') {
+	/*$db['default']['hostname'] = 'angelinajoseph.com';
+	$db['default']['username'] = 'angelinajosep_ghahealth';
+	$db['default']['password'] = 'Ghahealth@123';
+	$db['default']['database'] = 'angelinajosep_ghahealth';*/
+
+
+	$db['default']['hostname'] = 'remotemysql.com';
+	$db['default']['username'] = 'kKTPrkjIvj';
+	$db['default']['password'] = 'AZLxijL00d';
+	$db['default']['database'] = 'kKTPrkjIvj';
+}
+
+
+/*
+	Username: kKTPrkjIvj
+
+	Database name: kKTPrkjIvj
+
+	Password: AZLxijL00d
+
+	Server: remotemysql.com
+
+	Port: 3306
+	
+*/

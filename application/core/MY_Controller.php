@@ -1,8 +1,16 @@
 <?php
-class MY_Controller extends CI_Controller {
-	
+class Backend_Controller extends CI_Controller {
+	public $head_title = 'Global Health Alliance';
+	public $layout = 'backend/backend-layout'; 
+	public $logged_in_user_data = '';
+
+
 	function __construct() {
     parent::__construct();
+    $this->logged_in_user_data = $this->session->userdata('logged_in_admin_data');
+    if (empty($this->logged_in_user_data)) {
+    	redirect(base_url());
+    }
   }
 
 	public function do_upload($image, $upload_path) {

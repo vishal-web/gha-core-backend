@@ -62,3 +62,5 @@ $route['webdev'] = 'welcome/admin_login';
 $route['forgotpassword'] = 'welcome/forgot_password';
 
 $route['course/(:any)'] = 'course/index/$1';
+
+$route['development'] = 'development/dashboard';
