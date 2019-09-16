@@ -20,22 +20,22 @@
       <form action="<?=$form_location?>" class="form-horizontal" method="post" enctype="multipart/form-data">
         <div class="box-body">
     			<div class="form-group">
-    			  <label for="" class="col-md-3 control-label">Question Title</label>
+    			  <label for="" class="col-md-2 control-label">Question Title</label>
     			  <?php
     			  	$question_title_value = set_value('question_title') == '' ? (isset($question_title) ? $question_title : '') : set_value('question_title');
     			  ?>
-            <div class="col-md-8">
-              <input type="text" class="form-control col-md-9" name="question_title" value="<?=$question_title_value?>" placeholder="Enter Question title">
+            <div class="col-md-9">
+              <textarea rows="6" class="form-control col-md-9" name="question_title"  placeholder="Enter Question title"><?=$question_title_value?></textarea>
               <?=form_error('question_title')?>
             </div>
     			</div> 
           <?php /* ?>
           <div class="form-group">
-            <label for="" class="col-md-3 control-label">Question Type</label>
+            <label for="" class="col-md-2 control-label">Question Type</label>
             <?php
               $is_multiple_choice_value = set_value('is_multiple_choice') == '' ? (isset($is_multiple_choice) ? $is_multiple_choice : '') : set_value('is_multiple_choice');
             ?>
-            <div class="col-md-8">
+            <div class="col-md-9">
 
               <?php
 
@@ -59,11 +59,11 @@
           <?php */ ?>
 
           <div class="form-group">
-            <label for="" class="col-md-3 control-label">Status</label>
+            <label for="" class="col-md-2 control-label">Status</label>
             <?php
               $status_value = set_value('status') == '' ? (isset($status) ? $status : '') : set_value('status');
             ?>
-            <div class="col-md-8">
+            <div class="col-md-9">
 
               <?php
 
@@ -95,12 +95,19 @@
                 $answer_id = isset($row['id']) ? $row['id'] : 0;
           ?>
           <div class="form-group choice removeChoice-<?=$initializer?>">
-            <label for="" class="col-md-3 control-label">Choice <?= $initializer ?></label>
-            <div class="col-md-8">
+            <label for="" class="col-md-2 control-label">Choice <?= $initializer ?></label>
+            <div class="col-md-9">
               <div class="row">
-                <div class="col-md-8">
+                
+                <div class="col-md-12 m-b-15"> 
                   <input type="text" class="form-control" value="<?=$row['answer']?>" name="choice[<?=$counter?>][answer]" placeholder="Enter Answer">
                 </div>
+
+                <div class="col-md-6"> 
+                  <input type="hidden" name="choice[<?=$counter?>][image]" value="<?=$row['image']?>">
+                  <input type="file" class="form-control" name="choice[<?=$counter?>][image]" /> 
+                </div>
+
                 <div class="col-md-4">
                   <div class="checkbox">
                     <label>
@@ -112,7 +119,8 @@
                       <?php } ?>
                     </label>
                   </div>
-                </div>
+                </div> 
+                
               </div>
             </div>
           </div>
@@ -122,12 +130,18 @@
             }else {
           ?>
           <div class="form-group choice removeChoice-1">
-            <label for="" class="col-md-3 control-label">Choice 1</label>
-            <div class="col-md-8">
-              <div class="row">
-                <div class="col-md-8">
+            <label for="" class="col-md-2 control-label">Choice 1</label>
+            <div class="col-md-9">
+              <div class="row"> 
+
+                <div class="col-md-12 m-b-15"> 
                   <input type="text" class="form-control" name="choice[0][answer]" placeholder="Enter Answer">
                 </div>
+
+                <div class="col-md-6"> 
+                  <input type="file" class="form-control" name="choice[0][image]" /> 
+                </div>
+
                 <div class="col-md-4">
                   <div class="checkbox">
                     <label>
@@ -144,14 +158,16 @@
 
 
           <div class="form-group">
-            <div class="col-md-offset-3 col-md-9"><a id="addChoice" href="javascript:void(0);">Add Choice</a></div>
+            <div class="col-md-offset-2 col-md-10"><span id="addChoice" class="btn btn-danger btn-sm" href="javascript:void(0);">Add Choice</span></div>
           </div>
           
         </div>  
-        <div class="box-footer">
-          <div class="col-md-offset-3 col-sm-9">
-            <button type="submit" name='submit' value='submit' class="btn btn-primary">Submit</button>
-            <button type="submit" name='submit' value='cancel' class="btn btn-warning">Cancel</button>
+        <div class="box-footer m-t-40">
+          <div class="form-group"> 
+            <div class="col-md-offset-2 col-sm-10">
+              <button type="submit" name='submit' value='submit' class="btn btn-primary">Submit</button>
+              <button type="submit" name='submit' value='cancel' class="btn btn-warning">Cancel</button>
+            </div>
           </div>
         </div>
       </form>

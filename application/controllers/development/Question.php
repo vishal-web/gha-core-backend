@@ -1,8 +1,6 @@
 <?php
 class Question extends Backend_Controller {
 
-	private $layout = 'backend/backend-layout';
-
 	public function __construct() {
 		parent::__construct();
 	}
@@ -11,6 +9,7 @@ class Question extends Backend_Controller {
 		$data['headline'] = 'Manage Questions'; 
 		$data['view_file'] = 'backend/question/manage';
 		$data['edit_url'] = base_url().'development/question/create';
+		$data['view_url'] = base_url().'development/question/view';
 
 		$per_page = $this->input->get('per_page') != '' ? $this->input->get('per_page') : 0;
 		$base_url = base_url().'development/question/manage';
@@ -62,18 +61,36 @@ class Question extends Backend_Controller {
 			if($this->form_validation->run('admin_question_create')) {
 				$choice = $this->input->post('choice');
 
+				// options image upload
+				if (isset($_FILES)) {
+					$uploaded_options = $this->multiple_upload('choice','./uploads/question/options');
+				}
+
 				$correct_answer_checked = 0;
 				if (!empty($choice)) {
 					foreach ($choice as $key => $row) {
+
 						if ($row['correct'] > 0) {
 							$correct_answer_checked = $row['correct'];
 						}
 
-						if (trim($row['answer']) == '') {
-							unset($choice[$key]);
+						if ((isset($uploaded_options[$key]) && isset($uploaded_options[$key]['file_name']))) {
+							$option_image = $uploaded_options[$key]['file_name'];
+							$choice[$key]['image'] = $option_image;
+						}
+
+
+						if (trim($row['answer']) == '' && $choice[$key]['image'] == '') { 
+							unset($choice[$key]); 
 						}
 					}
 				} 
+
+echo '<pre>';
+print_r($choice);
+echo '</pre>';
+die();
+
 
 				if (empty($choice)) {
 					$this->session->set_flashdata('flash_message', 'Please add some choices for this question.');
@@ -139,9 +156,7 @@ class Question extends Backend_Controller {
 			}
 		}
 
-
-		$data['choice'] = $choice;
-
+		$data['choice'] = $choice; 
 		$data['headline'] = $headline; 
 		
 		$data['form_location'] = current_url();
@@ -157,9 +172,29 @@ class Question extends Backend_Controller {
 		$this->load->view($this->layout, $data); 
 	}
 
+	public function view($question_id) {
+		$question_id = (int)$question_id;
+
+		if ($question_id == 0 || $question_id < 1) {
+			redirect($this->referrer_url !== '' ? $this->referrer_url : base_url().'development/question/manage');
+		}
+
+
+		$data['query'] = $this->common_model->dbselect('gha_questions',['id' => $question_id])->result_array(); 
+		if (empty($data['query'])) {
+			redirect($this->referrer_url !== '' ? $this->referrer_url : base_url().'development/question/manage');
+		}
+
+		$data['headline'] = 'View Question'; 
+		$data['view_file'] = 'backend/question/view';
+		$data['edit_url'] = base_url().'development/question/create/'.$question_id;
+		$data['form_location'] = current_url();
+
+		$this->load->view($this->layout, $data); 
+	}
 
 	private function answers($question_id, $data) {
-
+	
 		if ($question_id > 0) {
 
 			if (!empty($data)) {
@@ -168,6 +203,7 @@ class Question extends Backend_Controller {
 						'answer' => $row['answer'],
 						'correct' => $row['correct'],
 						'question_id' => $question_id,
+						'image' => $row['image'],
 					];
 
 					if (isset($row['answer_id']) && $row['answer_id'] > 0) {

@@ -110,11 +110,13 @@
 								}
 
 								$options = !empty(unserialize($row['options'])) ? unserialize($row['options']) : [];
-
 					?>
 					
 					<tr>
 						<td><?=++$sn?></td>
+						<td class="col-md-8"><?=substr($row['question_title'], 0, 110)?></td>
+						
+						<?php /* ?>
 						<td>
 							<table class="table table-bordered table-striped m-b-0">
 								<thead>
@@ -151,9 +153,14 @@
 								</thead>
 							</table>
 						</td>
+						<?php */?>
+
 						<!-- <td><?=$question_type?></td> -->
 						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
-						<td><a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a></td>
+						<td>
+							<a class="btn btn-sm btn-warning" href="<?=$view_url.'/'.$row['id']?>">View</a>
+							<a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a>
+						</td>
 					</tr>
 
 					<?php

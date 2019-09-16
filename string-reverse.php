@@ -15,4 +15,7 @@
 		echo "Yes";
 	}
 
+
+	// ALTER TABLE gha_answers ADD COLUMN image TEXT NOT NULL AFTER correct
+
 ?>

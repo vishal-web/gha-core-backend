@@ -1,6 +1,6 @@
 <?php
 	class Category extends Backend_Controller {
-		private $layout = 'backend/backend-layout';
+		
 
 		public function __construct() {
 			parent::__construct();

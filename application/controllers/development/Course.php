@@ -1,7 +1,7 @@
 <?php
 class Course extends Backend_Controller {
 	
-	private $layout = 'backend/backend-layout';
+	
 
 	public function __construct() {
 		parent::__construct();

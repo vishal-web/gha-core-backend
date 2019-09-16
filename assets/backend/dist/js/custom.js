@@ -48,17 +48,16 @@ $('#addChoice').on('click', function(e) {
 	var html = '';
 	var counter = $('.choice').length + 1;
 	var initializer = counter - 1;
-	
-	
-
-	
 
 	html += '<div class="form-group choice removeChoice-'+ counter +'">'+
-	  '<label for="" class="col-md-3 control-label">Choice '+ counter +'</label>'+
-	  '<div class="col-md-8">'+
+	  '<label for="" class="col-md-2 control-label">Choice '+ counter +'</label>'+
+	  '<div class="col-md-9">'+
 	    '<div class="row">'+
-	      '<div class="col-md-8">'+
+	      '<div class="col-md-12 m-b-15">'+
 	        '<input type="text" class="form-control" name="choice['+ initializer +'][answer]" placeholder="Enter Answer">'+
+	      '</div>'+ 
+	      '<div class="col-md-6">'+ 
+	        '<input type="file" class="form-control" name="choice['+ initializer +'][image]" />' + 
 	      '</div>'+
 	      '<div class="col-md-4">'+
 	        '<div class="checkbox">'+
@@ -76,24 +75,27 @@ $('#addChoice').on('click', function(e) {
 
 
 $(document).on('click', '.removeChoice', function(e) {
-	var choice = $(this).data('choice');
-	$('.removeChoice-' + choice).remove();
 
-	var answer = $(this).data('answer'); 
-	var question = $(this).data('question');
-	if (typeof answer !== 'undefind' && answer > 0) {
-		$.ajax({
-			url : BASE_URL + 'ajaxresponse/removeanswer',
-			method : 'POST',
-			dataType: 'json',
-			data: {answer, question, choice},
-			success: function(response) {
-				if (response.status == true) {
-					console.log('option removed');
-				} else {
-					console.log('Something went wrong while removing options');
+	if (confirm('Sure you want to remove this ..?')) {
+		var choice = $(this).data('choice');
+		$('.removeChoice-' + choice).remove();
+
+		var answer = $(this).data('answer'); 
+		var question = $(this).data('question');
+		if (typeof answer !== 'undefined' && answer > 0) {
+			$.ajax({
+				url : BASE_URL + 'ajaxresponse/removeanswer',
+				method : 'POST',
+				dataType: 'json',
+				data: {answer, question, choice},
+				success: function(response) {
+					if (response.status == true) {
+						console.log('option removed');
+					} else {
+						console.log('Something went wrong while removing options');
+					}
 				}
-			}
-		})
+			})
+		}
 	}
 });

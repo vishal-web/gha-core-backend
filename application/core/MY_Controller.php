@@ -1,9 +1,9 @@
-<?php
+	<?php
 class Backend_Controller extends CI_Controller {
 	public $head_title = 'Global Health Alliance';
 	public $layout = 'backend/backend-layout'; 
 	public $logged_in_user_data = '';
-
+	public $referrer_url = '';
 
 	function __construct() {
     parent::__construct();
@@ -11,6 +11,9 @@ class Backend_Controller extends CI_Controller {
     if (empty($this->logged_in_user_data)) {
     	redirect(base_url());
     }
+
+    $this->load->library('user_agent');
+    $this->referrer_url = $this->agent->referrer();
   }
 
 	public function do_upload($image, $upload_path) {
@@ -26,6 +29,41 @@ class Backend_Controller extends CI_Controller {
 		} else {
 			$uploadData['err'] = 0;
 			$uploadData['file_name'] = $this->upload->data()['file_name']; 
+		}
+
+		return $uploadData;
+	}
+
+	public function multiple_upload($image, $upload_path) {
+	
+		$count = count($_FILES[$image]['name']);
+		$FILES = $_FILES;
+		$uploadData = [];
+
+		if (isset($_FILES[$image])) {
+			for ($i=0; $i < $count; $i++) { 
+
+				$config['upload_path'] = $upload_path;
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$config['encrypt_name'] = TRUE;
+				// $config['max_size'] = 2048;
+				$this->load->library('upload');
+				$this->upload->initialize($config);
+
+				$_FILES[$image]['name']     = isset($FILES[$image]['name'][$i]['image']) ? $FILES[$image]['name'][$i]['image'] : '';
+        $_FILES[$image]['type']     = isset($FILES[$image]['type'][$i]['image']) ? $FILES[$image]['type'][$i]['image'] : '';
+        $_FILES[$image]['tmp_name'] = isset($FILES[$image]['tmp_name'][$i]['image']) ? $FILES[$image]['tmp_name'][$i]['image'] : '';
+        $_FILES[$image]['error']    = isset($FILES[$image]['error'][$i]['image']) ? $FILES[$image]['error'][$i]['image'] : '';
+        $_FILES[$image]['size']     = isset($FILES[$image]['size'][$i]['image']) ? $FILES[$image]['size'][$i]['image'] : '';
+
+				if (!$this->upload->do_upload('choice')) {
+					$uploadData[$i]['err'] = 1;
+					$uploadData[$i]['error_message'] = $this->upload->display_errors('<p class="text-danger">','</p>'); 
+				} else {
+					$uploadData[$i]['err'] = 0;
+					$uploadData[$i]['file_name'] = $this->upload->data()['file_name']; 
+				}
+			}
 		}
 
 		return $uploadData;
