@@ -77,6 +77,35 @@
 				'label' => 'Question title',
 				'rules' => 'required|trim',
  			],
+			[
+				'field' => 'course_id',
+				'label' => 'Course',
+				'rules' => 'required|trim',
+				'errors' => array('required' => 'Please select a course')
+ 			],
+ 			/*[
+ 				'field' => 'is_multiple_choice',
+ 				'label' => 'Question type',
+ 				'rules' => 'required|trim'
+ 			]*/
+		],
+		'admin_studymaterial_create' => [
+			[
+				'field' => 'material_type',
+				'label' => 'Material type',
+				'rules' => 'required|trim',
+ 			],
+			[
+				'field' => 'status',
+				'label' => 'Status',
+				'rules' => 'required|trim',
+ 			],
+			[
+				'field' => 'course_id',
+				'label' => 'Course',
+				'rules' => 'required|trim',
+				'errors' => array('required' => 'Please select a course')
+ 			],
  			/*[
  				'field' => 'is_multiple_choice',
  				'label' => 'Question type',

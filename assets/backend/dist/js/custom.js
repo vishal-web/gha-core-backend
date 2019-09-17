@@ -59,7 +59,7 @@ $('#addChoice').on('click', function(e) {
 	      '<div class="col-md-6">'+ 
 	        '<input type="file" class="form-control" name="choice['+ initializer +'][image]" />' + 
 	      '</div>'+
-	      '<div class="col-md-4">'+
+	      '<div class="col-md-6">'+
 	        '<div class="checkbox">'+
 	          '<label>'+
 	            '<input type="hidden" name="choice['+ initializer +'][correct]" value="0">'+

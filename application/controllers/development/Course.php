@@ -70,9 +70,9 @@ class Course extends Backend_Controller {
 		}
 
 		
-			$this->load->library('form_validation');
-			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
-			if ($this->input->post('submit') == 'submit') {
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
+		if ($this->input->post('submit') == 'submit') {
 			if($this->form_validation->run('admin_course_create')) {
 				$do_upload = $this->do_upload('featured_image', './uploads/course');
 

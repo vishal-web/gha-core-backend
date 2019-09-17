@@ -1,22 +1,21 @@
 <?php
-class Exam extends Backend_Controller { 
-	
+class Studymaterial extends Backend_Controller {
+
 	public function __construct() {
 		parent::__construct();
 	}
 
-
 	public function manage() { 
-		$data['headline'] = 'Manage Exam'; 
-		$data['view_file'] = 'backend/exam/manage';
-		$data['edit_url'] = $data['add_url'] = base_url().'development/exam/create'; 
+		$data['headline'] = 'Manage Material'; 
+		$data['view_file'] = 'backend/studymaterial/manage';
+		$data['edit_url'] = $data['add_url'] = base_url().'development/studymaterial/create'; 
 
 		$search = trim($this->input->get('search'));			
 		$start_date = trim($this->input->get('start_date'));			
 		$end_date = trim($this->input->get('end_date'));			
 
 		$per_page = $this->input->get('per_page') != '' ? $this->input->get('per_page') : 0;
-		$base_url = base_url().'development/exam/manage';
+		$base_url = base_url().'development/studymaterial/manage';
 		$condition = [];
 
 		if (isset($_GET['search']) || (isset($_GET['start_date']) && isset($_GET['end_date']))) {
@@ -36,7 +35,7 @@ class Exam extends Backend_Controller {
 		$this->load->library('pagination');
 		$order_by = ['field' => 'sm.id', 'type' => 'desc'];
 		$limit	= 10;
-		$total_result	= $this->common_model->dbselect("gha_exams",$condition, "COUNT(id) as Total")->result_array();
+		$total_result	= $this->common_model->dbselect("gha_study_material",$condition, "COUNT(id) as Total")->result_array();
 
 		$this->config->load('pagination');
 		$config = $this->config->item('case2');
@@ -55,7 +54,7 @@ class Exam extends Backend_Controller {
 			]
 		];
 		$select_data = ['c.title as course_title', 'sm.*'];
-		$query = $this->common_model->dbselect('gha_exams sm',$condition, $select_data, $per_page,$join, $order_by, $limit); 
+		$query = $this->common_model->dbselect('gha_study_material sm',$condition, $select_data, $per_page,$join, $order_by, $limit); 
 		$data['query'] = $query->result_array();
 
 		$data['form_location'] = current_url();
@@ -65,12 +64,12 @@ class Exam extends Backend_Controller {
 	public function create() { 
 		$update_id = (int)$this->uri->segment(4);
 
-		$headline = 'Add New Exam';
+		$headline = 'Add New Study Material';
 		if ($update_id > 0) {
-			$headline = 'Update Exam Details';
-			$getData = $this->common_model->dbselect('gha_exams', ['id' => $update_id])->result_array();
+			$headline = 'Update Study Material Details';
+			$getData = $this->common_model->dbselect('gha_study_material', ['id' => $update_id])->result_array();
 			if (empty($getData)) {
-				redirect(base_url().'development/exam/create');
+				redirect(base_url().'development/studymaterial/create');
 			} else {
 				$data = $getData[0];
 			}
@@ -80,7 +79,7 @@ class Exam extends Backend_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 		if ($this->input->post('submit') == 'submit') {
-			if($this->form_validation->run('admin_exam_create')) {
+			if($this->form_validation->run('admin_studymaterial_create')) {
 
 				$material_type = $this->input->post('material_type');
 
@@ -95,7 +94,7 @@ class Exam extends Backend_Controller {
 
 				if (in_array($material_type, ['ppt','pdf','img','doc'])) {
 
-					$do_upload = $this->do_upload('featured_image', './uploads/exam');
+					$do_upload = $this->do_upload('featured_image', './uploads/studymaterial');
 					
 					if ($update_id > 0) {
 						if (isset($_FILES['featured_image']['name']) && $_FILES['featured_image']['name'] !== '' ) {
@@ -114,16 +113,16 @@ class Exam extends Backend_Controller {
 
 				if ($image_err == 0 ) {
 					if ($update_id > 0) {
-						$query = $this->common_model->dbupdate('gha_exams',$insert_data,['id' => $update_id]);
+						$query = $this->common_model->dbupdate('gha_study_material',$insert_data,['id' => $update_id]);
 						if ($query) {
-							$this->session->set_flashdata('flash_message', 'Exam details has been successfully updated.');
+							$this->session->set_flashdata('flash_message', 'Study Material details has been successfully updated.');
 							$this->session->set_flashdata('flash_type', 'success');
 							redirect(current_url());	
 						}
 					} else {
-						$query = $this->common_model->dbinsert('gha_exams', $insert_data);
+						$query = $this->common_model->dbinsert('gha_study_material', $insert_data);
 						if ($query) {
-							$this->session->set_flashdata('flash_message', 'Exam has been successfully added.');
+							$this->session->set_flashdata('flash_message', 'Study Material has been successfully added.');
 							$this->session->set_flashdata('flash_type', 'success');
 							redirect(current_url());	
 						}
@@ -135,7 +134,7 @@ class Exam extends Backend_Controller {
 		}
 					
 		if ($this->input->post('submit') == 'cancel') {
-			redirect(base_url().'development/exam/manage');
+			redirect(base_url().'development/studymaterial/manage');
 		}
 
 
@@ -146,15 +145,43 @@ class Exam extends Backend_Controller {
 
 		$data['flash_message'] = $this->session->flashdata('flash_message');
 		$data['flash_type'] = $this->session->flashdata('flash_type');
-	
-		$data['view_file'] = 'backend/exam/create';
+ 
+		$data['view_file'] = 'backend/studymaterial/create';
 		$data['update_id'] = $update_id;
 		$this->load->view($this->layout, $data); 
 	}
 
+	public function is_url_title_exists($url_title, $update_id) {
+		$condition['url_title'] = $url_title;
+		if ($update_id > 0) {
+			$condition['id !='] = $update_id;
+		}
 
-	public function view() {
+		$query = $this->common_model->dbselect('gha_study_material',$condition)->result_array();
+		return !empty($query) ? true : false;
+	}
 
+	public function generate_url_title($url_title, $update_id) {
+		$random_string = $this->generate_random_string(6);
+		$url_title .= '-'.strtolower($random_string); 
+
+
+		$is_url_title_exists = $this->is_url_title_exists($url_title, $update_id);
+		if ($is_url_title_exists) {
+			$this->generate_url_title($url_title, $update_id);
+		} else {
+			return $url_title;
+		}
+	}
+
+	public function generate_random_string($length = 8) {
+		$characters = '123456789abcdefghijklmnopqrs092u3tuvwxyzaskdhfhf9882323ABCDEFGHIJKLMNksadf9044OPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+		  $randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
 	}
 
 	private function get_courses_dd() {

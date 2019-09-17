@@ -16,9 +16,12 @@ class Backend_Controller extends CI_Controller {
     $this->referrer_url = $this->agent->referrer();
   }
 
-	public function do_upload($image, $upload_path) {
+	public function do_upload($image, $upload_path, $allowed_types = null) {
+
+		$allowed_types = $allowed_types == null || $allowed_types == '' ? 'gif|jpg|png|jpeg' : $allowed_types;
+
 		$config['upload_path'] = $upload_path;
-		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['allowed_types'] = $allowed_types;
 		$config['encrypt_name'] = TRUE;
 		// $config['max_size'] = 2048;
 		$this->load->library('upload', $config);
@@ -50,11 +53,11 @@ class Backend_Controller extends CI_Controller {
 				$this->load->library('upload');
 				$this->upload->initialize($config);
 
-				$_FILES[$image]['name']     = isset($FILES[$image]['name'][$i]['image']) ? $FILES[$image]['name'][$i]['image'] : '';
-        $_FILES[$image]['type']     = isset($FILES[$image]['type'][$i]['image']) ? $FILES[$image]['type'][$i]['image'] : '';
+				$_FILES[$image]['name'] = isset($FILES[$image]['name'][$i]['image']) ? $FILES[$image]['name'][$i]['image'] : '';
+        $_FILES[$image]['type'] = isset($FILES[$image]['type'][$i]['image']) ? $FILES[$image]['type'][$i]['image'] : '';
         $_FILES[$image]['tmp_name'] = isset($FILES[$image]['tmp_name'][$i]['image']) ? $FILES[$image]['tmp_name'][$i]['image'] : '';
-        $_FILES[$image]['error']    = isset($FILES[$image]['error'][$i]['image']) ? $FILES[$image]['error'][$i]['image'] : '';
-        $_FILES[$image]['size']     = isset($FILES[$image]['size'][$i]['image']) ? $FILES[$image]['size'][$i]['image'] : '';
+        $_FILES[$image]['error'] = isset($FILES[$image]['error'][$i]['image']) ? $FILES[$image]['error'][$i]['image'] : '';
+        $_FILES[$image]['size'] = isset($FILES[$image]['size'][$i]['image']) ? $FILES[$image]['size'][$i]['image'] : '';
 
 				if (!$this->upload->do_upload('choice')) {
 					$uploadData[$i]['err'] = 1;

@@ -24,7 +24,11 @@
         <a href="<?=base_url()?>development/exam/manage"><i class="fa fa-book"></i> <span>Exams</span></a>
       </li>
 
-      <li class="treeview">
+      <li class="">
+        <a href="<?=base_url()?>development/studymaterial/manage"><i class="fa fa-file"></i> <span>Study Material</span></a>
+      </li>
+
+      <!-- <li class="treeview">
         <a href="#"><i class="fa fa-book"></i> <span>Course</span>
           <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -34,7 +38,7 @@
           <li><a href="#">Link in level 2</a></li>
           <li><a href="#">Link in level 2</a></li>
         </ul>
-      </li>
+      </li> -->
     </ul>
   <!-- /.sidebar-menu -->
   </section>

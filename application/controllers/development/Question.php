@@ -74,23 +74,17 @@ class Question extends Backend_Controller {
 							$correct_answer_checked = $row['correct'];
 						}
 
+						// push new image if uploaded
 						if ((isset($uploaded_options[$key]) && isset($uploaded_options[$key]['file_name']))) {
 							$option_image = $uploaded_options[$key]['file_name'];
 							$choice[$key]['image'] = $option_image;
 						}
-
 
 						if (trim($row['answer']) == '' && $choice[$key]['image'] == '') { 
 							unset($choice[$key]); 
 						}
 					}
 				} 
-
-echo '<pre>';
-print_r($choice);
-echo '</pre>';
-die();
-
 
 				if (empty($choice)) {
 					$this->session->set_flashdata('flash_message', 'Please add some choices for this question.');
@@ -103,6 +97,8 @@ die();
 
 				$insert_data = [
 					'question_title' => $this->input->post('question_title'),
+					'course_id' => $this->input->post('course_id'),
+					'description' => $this->input->post('description'),
 					'status' => $this->input->post('status'),
 					'is_multiple_choice' => 0,
 					'updated_at' => Date('Y-m-d H:i:s a'),
@@ -181,6 +177,7 @@ die();
 
 
 		$data['query'] = $this->common_model->dbselect('gha_questions',['id' => $question_id])->result_array(); 
+		$data['options'] = $this->common_model->dbselect('gha_answers',['question_id' => $question_id])->result_array(); 
 		if (empty($data['query'])) {
 			redirect($this->referrer_url !== '' ? $this->referrer_url : base_url().'development/question/manage');
 		}
@@ -188,6 +185,7 @@ die();
 		$data['headline'] = 'View Question'; 
 		$data['view_file'] = 'backend/question/view';
 		$data['edit_url'] = base_url().'development/question/create/'.$question_id;
+		$data['manage_url'] = base_url().'development/question/manage/';
 		$data['form_location'] = current_url();
 
 		$this->load->view($this->layout, $data); 
@@ -218,7 +216,9 @@ die();
 	}
 
 	private function get_courses_dd() {
-		$query = $this->common_model->dbselect('gha_courses',  ['status' => 1])->result_array();
+		$order_by['field'] = 'title';
+		$order_by['type'] = 'asc';
+		$query = $this->common_model->dbselect('gha_courses',  ['status' => 1],null,null,null,$order_by)->result_array();
 		$options[''] = 'Choose Course';
 		if (!empty($query)) {
  			foreach ($query as $row) {

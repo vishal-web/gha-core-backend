@@ -28,7 +28,18 @@
               <textarea rows="6" class="form-control col-md-9" name="question_title"  placeholder="Enter Question title"><?=$question_title_value?></textarea>
               <?=form_error('question_title')?>
             </div>
-    			</div> 
+    			</div>
+
+          <div class="form-group">
+            <label for="" class="col-md-2 control-label">Description</label>
+            <?php
+              $description_value = set_value('description') == '' ? (isset($description) ? $description : '') : set_value('description');
+            ?>
+            <div class="col-md-9">
+              <textarea rows="2" class="form-control col-md-9" name="description"  placeholder="Enter Question description"><?=$description_value?></textarea>
+              <?=form_error('description')?>
+            </div>
+          </div> 
           <?php /* ?>
           <div class="form-group">
             <label for="" class="col-md-2 control-label">Question Type</label>
@@ -57,6 +68,25 @@
             </div>
           </div> 
           <?php */ ?>
+
+          <div class="form-group">
+            <label for="" class="col-md-2 control-label">Course</label>
+            <?php
+              $course_id_value = set_value('course_id') == '' ? (isset($course_id) ? $course_id : '') : set_value('course_id');
+            ?>
+            <div class="col-md-9">
+
+              <?php
+                $additional_options = [
+                  'class' => 'form-control',
+                ];
+                
+                echo form_dropdown('course_id', $courses_dd, $course_id_value,$additional_options);
+
+                echo form_error('course_id');
+              ?>
+            </div>
+          </div> 
 
           <div class="form-group">
             <label for="" class="col-md-2 control-label">Status</label>
@@ -93,6 +123,8 @@
                 $checked_ans = $row['correct'] == 1 ? 'checked' : '';
                 $initializer = $counter + 1;
                 $answer_id = isset($row['id']) ? $row['id'] : 0;
+                $option_image = $row['image'];
+                $option_image_full_path = $option_image !== '' ? base_url('uploads/question/options/'.$option_image) : '';
           ?>
           <div class="form-group choice removeChoice-<?=$initializer?>">
             <label for="" class="col-md-2 control-label">Choice <?= $initializer ?></label>
@@ -108,7 +140,7 @@
                   <input type="file" class="form-control" name="choice[<?=$counter?>][image]" /> 
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="checkbox">
                     <label>
                       <input type="hidden" name="choice[<?=$counter?>][correct]" value="0">
@@ -117,7 +149,11 @@
                       <?php if($counter > 0) { ?>
                       <a class="removeChoice" data-question="<?=$update_id?>" data-choice="<?=$initializer?>" data-answer="<?=$answer_id?>" href="javascript:void(0);">&nbsp;&nbsp;&nbsp;&nbsp;Remove Choice</a>
                       <?php } ?>
+
                     </label>
+                    <?php if($option_image_full_path !== '') { ?>
+                    <a href="<?=$option_image_full_path?>" target="_blank"><img src="<?=$option_image_full_path?>" class="img-thumbnail" width='50' height='50'/></a>
+                    <?php } ?>
                   </div>
                 </div> 
                 
