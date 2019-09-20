@@ -24,4 +24,9 @@
 	// ALTER TABLE gha_questions ADD COLUMN image TEXT NOT NULL AFTER options;
 	// ALTER TABLE gha_questions ADD COLUMN description TEXT NOT NULL AFTER options;
 	// CREATE TABLE gha_exams ( id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, duration INT NOT NULL, duration_type VARCHAR(20) NOT NULL, course_id INT NOT NULL, negative_marking TINYINT NOT NULL, each_marks INT NOT NULL, passing_percentage INT NOT NULL, status TINYINT NOT NULL, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT NULL)
+
+
+	----NOT--UPDATED---
+
+	// ALTER TABLE gha_registration ADD COLUMN about TEXT NOT NULL AFTER profile_picture
 ?>

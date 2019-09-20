@@ -48,6 +48,10 @@
 				];
 
 				$this->session->set_userdata('logged_in_user_data', $session_data);
+
+				if ($checkUser[0]['city'] == 0 || $checkUser[0]['state'] == 0 || $checkUser[0]['country'] == 0) {
+					redirect('user/profile');
+				}
 				
 				redirect('user/dashboard');
 			}else {

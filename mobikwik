@@ -1,0 +1,69 @@
+orderId	ZPLive1568767560797
+responseCode	100
+responseDescription	The transaction was completed successfully.
+checksum	f547ccb8c8d56f6edff42c5566ce1a0f66fbfd10f3cf631cc5a42badb29c747b
+amount	100
+doRedirect	false
+paymentMode	Credit Card
+cardId	bce8e4e1e66520cb0bc2bf3a0e760412d53273a844bf0931f2b3136a2ee0ada3~1
+cardScheme	Visa
+cardToken	4012 XXXX XXXX 1881
+bank	NA
+bankid	NA
+paymentMethod	401288
+cardhashid	CH101
+productDescription	Zaakpay subscription fee
+product1Description	NA
+product2Description	NA
+product3Description	NA
+product4Description	NA
+pgTransId	ZP592c92b48e003
+pgTransTime	09/18/2019 06:17:21
+Checksum Verified?	Yes
+
+
+merchantIdentifier: 41ef6f1d41bb4f9d864a83de5e898b25
+orderId: ZPLive1568768411172
+returnUrl: http://localhost/mobikwik/response.php
+buyerEmail: vishalkumar@gmail.com
+buyerFirstName: vishal
+buyerLastName: kumar
+buyerAddress: delhi
+buyerCity: delhi
+buyerState: delhi
+buyerCountry: india
+buyerPincode: 11001
+buyerPhoneNumber: 989898989
+txnType: 1
+zpPayOption: 1
+mode: 1
+currency: INR
+amount: 10000
+merchantIpAddress: 127.0.0.1
+purpose: 1
+productDescription: Zaakpay subscription fee
+txnDate: 2019-9-18
+
+
+merchantIdentifier:b19e8f103bce406cbd3476431b6b7973
+orderId:ZPLive1568769364027
+returnUrl:http://localhost/mobikwik/response.php
+buyerEmail:vishal@gmail.com
+buyerFirstName:vishal
+buyerLastName:vishal
+buyerAddress:delhi
+buyerCity:delhi
+buyerState:delhi
+buyerCountry:india
+buyerPincode:110091
+buyerPhoneNumber:989898989
+txnType:1
+zpPayOption:1
+mode:1
+currency:INR
+amount:100
+merchantIpAddress:127.0.0.1
+purpose:1
+productDescription:Zaakpay subscription fee
+txnDate:2019-9-18
+checksum:1099c6edfa973182af7fc5611cddc4d9689694d1b85935de54fa6c5d0664bd68

@@ -83,6 +83,7 @@
                                 <div class="form-group">
                                     <input class="form-control" name="phone" value="<?=set_value('phone')?>" placeholder="Phone" type="text">
                                     <?=form_error('phone')?>
+                                    <span class="text-warning"><small>If you are not from India (+91), please add your country code.</small></span>
                                 </div>
                             </div>
                         </div>

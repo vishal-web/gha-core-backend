@@ -3,6 +3,56 @@ class Exam extends Backend_Controller {
 	
 	public function __construct() {
 		parent::__construct();
+
+		$arr = [
+			"CREATE TABLE `gha_study_material` (
+			 `id` int(11) NOT NULL AUTO_INCREMENT,
+			 `study_material` text NOT NULL,
+			 `type` varchar(255) NOT NULL,
+			 `course_id` int(11) NOT NULL,
+			 `status` tinyint(4) NOT NULL DEFAULT '0',
+			 `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			 `updated_at` timestamp NULL DEFAULT NULL,
+			 PRIMARY KEY (`id`)
+			) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1",
+			"CREATE TABLE `gha_cart` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `user_id` int(11) NOT NULL,
+ `course_id` int(11) NOT NULL,
+ `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1",
+"CREATE TABLE `gha_order` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `order_course_id` int(11) NOT NULL,
+ `status` tinyint(4) NOT NULL DEFAULT '0',
+ `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1",
+"CREATE TABLE `gha_order_product` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `user_id` int(11) NOT NULL,
+ `course_id` int(11) NOT NULL,
+ `course_title` varchar(255) NOT NULL,
+ `course_price` decimal(10,2) NOT NULL,
+ `course_duration` int(11) NOT NULL,
+ `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+ `updated_at` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1",
+
+		];
+
+		foreach ($arr as $key => $value) {
+			if ($this->db->query($value)) {
+				echo "-------success-----";
+			} else {
+				echo "-------failed-----";
+			}
+			echo "<br>";
+		}
 	}
 
 

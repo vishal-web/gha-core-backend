@@ -19,6 +19,7 @@
 <link href="<?=base_url()?>assets/frontend/css/bootsnav.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/style.css" rel="stylesheet">
 <link href="<?=base_url()?>assets/frontend/css/responsive.css" rel="stylesheet" />
+<link href="<?=base_url()?>assets/frontend/css/common.css" rel="stylesheet">
 <!-- ========== End Stylesheet ========== -->
 
 

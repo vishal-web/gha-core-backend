@@ -2,7 +2,7 @@
 	$banner_image = base_url('uploads/course/').$course_details['featured_image'];
 	$redirect_url = '';
 	if (!empty($this->logged_in_user_data)) {
-		$redirect_url = base_url().'user/dashboard';
+		$redirect_url = base_url().'course/enroll/'.$this->uri->segment(2);
 	} else {
 		$redirect_url = base_url().'login';
 	}

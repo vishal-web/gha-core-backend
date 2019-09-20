@@ -3,15 +3,15 @@
     function getUserAddress($data) {
         $address = '';
         if ($data[0]['city_name'] !== null) {
-            $address += $data[0]['city_name'].', ';
+            $address .= $data[0]['city_name'].', ';
         }
 
         if ($data[0]['state_name'] !== null) {
-            $address += $data[0]['state_name'].', ';
+            $address .= $data[0]['state_name'].', ';
         }
 
         if ($data[0]['country_name'] !== null) {
-            $address += $data[0]['country_name'];
+            $address .= $data[0]['country_name'];
         }
 
         
@@ -148,7 +148,11 @@
                                 <table class="table table-hover">
                                     <tbody>
                                         <tr>
-                                            <td colspan="3">So, practice yourself by reading sample myself essays, write yourself in few words like 200,500,1000 words about yourself. In this way, you will be able to express fully about your personality, your interests and your future goals.</td>
+                                            <td colspan="3">
+                                            <?php if($user_data[0]['about'] !== '') { 
+                                                echo $user_data[0]['about']; } else {
+                                            ?>
+                                            So, practice yourself by reading sample myself essays, write yourself in few words like 200,500,1000 words about yourself. In this way, you will be able to express fully about your personality, your interests and your future goals. <?php } ?></td>
                                             <td></td>
                                         </tr>
                                     </tbody>

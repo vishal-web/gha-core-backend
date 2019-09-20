@@ -9,6 +9,10 @@ $('#country').on('change', function(e) {
 			dataType: 'JSON',
 			success: function(data, err) {
 				if (data.length > 0) {
+					state.append($('<option>', {
+						value: '',
+						text: 'Select state'
+					}));
 					data.forEach(function(row, index) {
 						state.append($('<option>', {
 							value: row.id,
@@ -30,6 +34,10 @@ $('#state').on('change', function(e) {
 			dataType: 'JSON',
 			success: function(data, err) {
 				if (data.length > 0) {
+					city.append($('<option>', {
+						value: '',
+						text: 'Select city'
+					}));
 					data.forEach(function(row, index) {
 						city.append($('<option>', {
 							value: row.id,
