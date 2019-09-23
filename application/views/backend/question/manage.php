@@ -114,7 +114,7 @@
 					
 					<tr>
 						<td><?=++$sn?></td>
-						<td class="col-md-8"><?=substr($row['question_title'], 0, 110)?></td>
+						<td class="col-md-8"><?=substr($row['question_title'], 0, 105)?></td>
 						
 						<?php /* ?>
 						<td>

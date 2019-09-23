@@ -53,6 +53,7 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+// frontend routes
 
 $route['about'] = 'welcome/about';
 $route['help'] = 'welcome/help';
@@ -60,7 +61,14 @@ $route['login'] = 'welcome/login';
 $route['register'] = 'welcome/register';
 $route['webdev'] = 'welcome/admin_login';
 $route['forgotpassword'] = 'welcome/forgot_password';
-
 $route['course/(:any)'] = 'course/index/$1';
 
+
+// backend routes
+
 $route['development'] = 'development/dashboard';
+
+
+// user routes
+
+$route['user/logout'] = 'user/dashboard/logout';

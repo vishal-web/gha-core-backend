@@ -3,56 +3,6 @@ class Exam extends Backend_Controller {
 	
 	public function __construct() {
 		parent::__construct();
-
-		$arr = [
-			"CREATE TABLE `gha_study_material` (
-			 `id` int(11) NOT NULL AUTO_INCREMENT,
-			 `study_material` text NOT NULL,
-			 `type` varchar(255) NOT NULL,
-			 `course_id` int(11) NOT NULL,
-			 `status` tinyint(4) NOT NULL DEFAULT '0',
-			 `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			 `updated_at` timestamp NULL DEFAULT NULL,
-			 PRIMARY KEY (`id`)
-			) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1",
-			"CREATE TABLE `gha_cart` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `user_id` int(11) NOT NULL,
- `course_id` int(11) NOT NULL,
- `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
- `updated_at` datetime DEFAULT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1",
-"CREATE TABLE `gha_order` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `order_course_id` int(11) NOT NULL,
- `status` tinyint(4) NOT NULL DEFAULT '0',
- `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
- `updated_at` datetime DEFAULT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1",
-"CREATE TABLE `gha_order_product` (
- `id` int(11) NOT NULL AUTO_INCREMENT,
- `user_id` int(11) NOT NULL,
- `course_id` int(11) NOT NULL,
- `course_title` varchar(255) NOT NULL,
- `course_price` decimal(10,2) NOT NULL,
- `course_duration` int(11) NOT NULL,
- `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
- `updated_at` datetime DEFAULT NULL,
- PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1",
-
-		];
-
-		foreach ($arr as $key => $value) {
-			if ($this->db->query($value)) {
-				echo "-------success-----";
-			} else {
-				echo "-------failed-----";
-			}
-			echo "<br>";
-		}
 	}
 
 
@@ -74,17 +24,17 @@ class Exam extends Backend_Controller {
 		}
 
 		if ($search !== '') {
-			$condition['(sm.email LIKE "%'.$search.'%" OR sm.phone LIKE "%'.$search.'%")' ] = NULL;
+			$condition['(e.email LIKE "%'.$search.'%" OR e.phone LIKE "%'.$search.'%")' ] = NULL;
 			$base_url .= '&search='.$search; 
 		}
 
 		if ($start_date !== '' && $end_date !== '') {
-			$condition['(DATE(sm.created_at) >= "'.Date('Y-m-d', strtotime($start_date)) .'" AND DATE(sm.created_at) <= "'.Date('Y-m-d', strtotime($end_date)).'")' ] = NULL;
+			$condition['(DATE(e.created_at) >= "'.Date('Y-m-d', strtotime($start_date)) .'" AND DATE(e.created_at) <= "'.Date('Y-m-d', strtotime($end_date)).'")' ] = NULL;
 			$base_url .= '&start_date='.$start_date.'&end_date='.$end_date; 
 		}
 
 		$this->load->library('pagination');
-		$order_by = ['field' => 'sm.id', 'type' => 'desc'];
+		$order_by = ['field' => 'e.id', 'type' => 'desc'];
 		$limit	= 10;
 		$total_result	= $this->common_model->dbselect("gha_exams",$condition, "COUNT(id) as Total")->result_array();
 
@@ -101,11 +51,11 @@ class Exam extends Backend_Controller {
 			[
 				'type' => 'LEFT',
 				'table' => 'gha_courses c',
-				'condition' => 'c.id = sm.course_id',
+				'condition' => 'c.id = e.course_id',
 			]
 		];
-		$select_data = ['c.title as course_title', 'sm.*'];
-		$query = $this->common_model->dbselect('gha_exams sm',$condition, $select_data, $per_page,$join, $order_by, $limit); 
+		$select_data = ['c.title as course_title', 'e.*'];
+		$query = $this->common_model->dbselect('gha_exams e',$condition, $select_data, $per_page,$join, $order_by, $limit); 
 		$data['query'] = $query->result_array();
 
 		$data['form_location'] = current_url();
@@ -132,37 +82,22 @@ class Exam extends Backend_Controller {
 		if ($this->input->post('submit') == 'submit') {
 			if($this->form_validation->run('admin_exam_create')) {
 
-				$material_type = $this->input->post('material_type');
-
 				$insert_data = [
-					'course_id' => 	$this->input->post('course_id'),
-					'type' => 	$this->input->post('material_type'), 
+					'course_id' => 	$this->input->post('course_id'), 
 					'status' => 	$this->input->post('status'),
+					'title' => 	$this->input->post('title'),
+					'duration' => 	$this->input->post('duration'),
+					'duration_type' => 	$this->input->post('duration_type'),
+					'each_marks' => 	$this->input->post('each_marks'),
+					'passing_percentage' => 	$this->input->post('passing_percentage'),
+					'course_id' => 	$this->input->post('course_id'),
+					'total_question' => 	$this->input->post('total_question'),
 				];
-				
 
-				$image_err = 0;
+				$course_question_count = $this->get_total_question($insert_data['course_id']);
+				$course_question_count = !empty($course_question_count) ? $course_question_count[0]['count'] : 0; 
 
-				if (in_array($material_type, ['ppt','pdf','img','doc'])) {
-
-					$do_upload = $this->do_upload('featured_image', './uploads/exam');
-					
-					if ($update_id > 0) {
-						if (isset($_FILES['featured_image']['name']) && $_FILES['featured_image']['name'] !== '' ) {
-							$image_err = $do_upload['err']; 
-							$featured_image = isset($do_upload['file_name']) ? $do_upload['file_name'] : $data['study_material'];
-						} else {
-							$featured_image = $data['study_material'];
-						}
-					} else {
-						$image_err = $do_upload['err'];
-						$featured_image = isset($do_upload['file_name']) ? $do_upload['file_name'] : '';
-					}
-				}
-
-				$insert_data['study_material'] = $featured_image;
-
-				if ($image_err == 0 ) {
+				if ($course_question_count >= $insert_data['total_question']) {
 					if ($update_id > 0) {
 						$query = $this->common_model->dbupdate('gha_exams',$insert_data,['id' => $update_id]);
 						if ($query) {
@@ -178,8 +113,8 @@ class Exam extends Backend_Controller {
 							redirect(current_url());	
 						}
 					}	
-				} else { 
-					$data['featured_image_error'] = $do_upload['error_message'];
+				} else {
+					$data['total_question_error'] = '<p class="text-danger">The selected course has '.$course_question_count.' questions</p>';
 				}
 			}
 		}
@@ -210,15 +145,21 @@ class Exam extends Backend_Controller {
 	private function get_courses_dd() {
 		$order_by['field'] = 'title';
 		$order_by['type'] = 'asc';
-		$query = $this->common_model->dbselect('gha_courses',  ['status' => 1],null,null,null,$order_by)->result_array();
+		$select_data = ['id', 'title', '(SELECT count(id) FROM gha_questions WHERE gha_questions.course_id = gha_courses.id AND status = 1) as question_count'];
+		$query = $this->common_model->dbselect('gha_courses',  ['status' => 1],$select_data,null,null,$order_by)->result_array();
 		$options[''] = 'Choose Course';
+
 		if (!empty($query)) {
  			foreach ($query as $row) {
- 				$options[$row['id']] = $row['title'];
+ 				$options[$row['id']] = $row['title'] .' => '. $row['question_count'];
 			}	
 		}
 
 		return $options;
+	}
+
+	private function get_total_question($course_id) { 
+		return $this->common_model->dbselect('gha_questions', ['course_id' => $course_id, 'status' => '1'],'count(id) as count')->result_array();
 	}
 }
 ?>

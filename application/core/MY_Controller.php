@@ -79,10 +79,14 @@ class Public_Controller extends CI_Controller {
 	public $homepage = FALSE;
 	public $navbar = '';
 	public $logged_in_user_data = '';
+	public $referrer_url = '';
 
 	public function __construct() {
 		parent::__construct();
 		$this->logged_in_user_data = $this->session->userdata('logged_in_user_data');
+		$this->load->library('mobikwik');
+		$this->load->library('user_agent');
+		$this->referrer_url = $this->agent->referrer();
 	}
 
 	public function generate_navbar() {
@@ -149,6 +153,129 @@ class Public_Controller extends CI_Controller {
 		}
 
 		return $uploadData;
+	}
+}
+
+
+class User_Controller extends CI_Controller {
+	public $head_title = 'Global Health Alliance';
+	public $layout = 'frontend/frontend-layout';
+	public $homepage = FALSE;
+	public $navbar = '';
+	public $logged_in_user_data = '';
+	public $referrer_url = '';
+	public $logged_in_user_id = 0;
+
+	public function __construct() {
+		parent::__construct();
+		$this->logged_in_user_data = $this->session->userdata('logged_in_user_data');
+		$this->load->library('mobikwik');
+		$this->load->library('user_agent');
+		$this->referrer_url = $this->agent->referrer();
+
+		$logged_in_user_data = $this->session->userdata('logged_in_user_data');
+		if (empty($logged_in_user_data)) {
+			redirect('login');
+		}
+
+		$this->logged_in_user_id = $logged_in_user_data['user_id'];
+	}
+
+	public function generate_navbar() {
+		$query = $this->common_model->dbselect('gha_courses', ['status'=>1], null, null, null,['field' => 'title', 'type'=>'asc'])->result_array();
+
+		$html = '';
+		if (!empty($query)) {
+			
+			$count = count($query);
+			$divider = ($count / 4);
+			$size = 5;
+
+			if ($divider > 5) {
+				$size = 6;
+			} else if ($divider > 6) {
+				$size = 7;
+			} else if ($divider > 7) {
+				$size = 8;
+			} else if ($divider > 8) {
+				$size = 9;
+			} else if ($divider > 9) {
+				$size = 10;
+			} else if ($divider > 10) {
+				$size = 11;
+			} else if ($divider > 11) {
+				$size = 12;
+			}
+
+			$chunk = array_chunk($query, $size);
+
+			for ($i=0; $i < count($chunk) ; $i++) { 
+				$html .= '<div class="col-menu col-md-3"><h6 class="title">Courses</h6><div class="content"><ul class="menu-col">';
+				if (!empty($chunk[$i])) {
+					foreach ($chunk[$i] as $row) {
+						$html .= '<li><a href="'.base_url().'course/'.$row['url_title'].'">'.$row['title'].'</a></li>';
+					}
+				}
+				$html .= '</ul></div></div>';
+			}
+		}
+
+		
+
+		return $this->navbar = $html;
+	}
+
+
+	public function do_upload($image, $upload_path, $allowed_types = null) {
+
+		$allowed_types = $allowed_types == null || $allowed_types == '' ? 'gif|jpg|png|jpeg' : $allowed_types;
+
+		$config['upload_path'] = $upload_path;
+		$config['allowed_types'] = $allowed_types;
+		$config['encrypt_name'] = TRUE;
+		// $config['max_size'] = 2048;
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload($image)) {
+			$uploadData['err'] = 1;
+			$uploadData['error_message'] = $this->upload->display_errors('<p class="text-danger">','</p>'); 
+		} else {
+			$uploadData['err'] = 0;
+			$uploadData['file_name'] = $this->upload->data()['file_name']; 
+		}
+
+		return $uploadData;
+	}
+
+	public function get_logged_in_user_details() {
+
+		$join = [
+			[
+				'type' => 'left',
+				'condition' => 'c.id = r.country', 
+				'table' => 'gha_countries c'
+			],
+			[
+				'type' => 'left',
+				'condition' => 's.id = r.state', 
+				'table' => 'gha_states s'
+			],
+			[
+				'type' => 'left',
+				'condition' => 'ct.id = r.city', 
+				'table' => 'gha_cities ct'
+			],
+			[
+				'type' => 'left',
+				'condition' => 'p.id = r.profession', 
+				'table' => 'gha_profession p'
+			],
+		];
+
+		$select_data = ['r.*', 'c.name as country_name', 's.name as state_name', 'ct.name as city_name', 'p.name as profession_name'];
+		$query = $this->common_model->dbselect('gha_registration r', ['r.id' => $this->logged_in_user_id], $select_data, null, $join)->result_array();
+
+		return $query;
 	}
 }
 

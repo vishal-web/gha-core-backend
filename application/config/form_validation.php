@@ -1,4 +1,8 @@
 <?php
+	$custom_err_message = [
+		'greater_than' => '%s must be greater than 0'
+	];
+
 	$config = [
 		'admin_user_create' => [
 			[
@@ -112,5 +116,51 @@
  				'rules' => 'required|trim'
  			]*/
 		],
+		'admin_exam_create' => [
+			[
+				'field' => 'title',
+				'label' => 'Title',
+				'rules' => 'required|trim',
+			],
+			[
+				'field' => 'duration',
+				'label' => 'Duration',
+				'rules' => 'required|trim|is_numeric|greater_than[0]',
+				'errors' => $custom_err_message
+			],
+			[
+				'field' => 'duration_type',
+				'label' => 'Duration type',
+				'rules' => 'required|trim',
+			],
+			[ 
+				'field' => 'each_marks',
+				'label' => 'Marks',
+				'rules' => 'required|trim|is_numeric|greater_than[0]',
+				'errors' => $custom_err_message
+			],	
+			[ 
+				'field' => 'passing_percentage',
+				'label' => 'Passing percentage',
+				'rules' => 'required|trim|is_numeric|greater_than[0]',
+				'errors' => $custom_err_message
+			],
+			[ 
+				'field' => 'course_id',
+				'label' => 'Course',
+				'rules' => 'required|trim',
+			],
+			[ 
+				'field' => 'total_question',
+				'label' => 'Total question',
+				'rules' => 'required|trim|is_numeric|greater_than[0]',
+				'errors' => $custom_err_message
+			],
+			[ 
+				'field' => 'status',
+				'label' => 'Status',
+				'rules' => 'required|trim',
+			],
+		]
 	]
 ?>

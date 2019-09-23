@@ -55,7 +55,7 @@
               <ul class="dropdown-menu">
                   <li><a href="<?=base_url()?>user/profile">User Profile</a></li>
                   <li><a href="<?=base_url()?>user/payment">Payment History</a></li>
-                  <li><a href="<?=base_url()?>user/exam">Online Exam</a></li>
+                  <li><a href="<?=base_url()?>user/exams">Online Exam</a></li>
                   <li><a href="<?=base_url()?>user/studymaterial">Study Material</a></li>
                   <li><a href="<?=base_url()?>user/certificate">Dwonlaod Certificate</a></li>
                   <li><a href="<?=base_url()?>user/logout">Logout</a></li>

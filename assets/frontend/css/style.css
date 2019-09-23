@@ -6756,6 +6756,16 @@ footer.demo .copyright {
 }
 
 
+.custom-table table tr td, .custom-table table tr th {
+  padding: 10px;
+}
+.custom-table table td {
+  vertical-align: middle !important; 
+}
+
+.custom-table table tr td , .custom-table table tr th {
+  font-size: 14px !important;
+}
 
 
 

@@ -41,7 +41,7 @@
 								
 							</div>
 							<div class="align-right">
-								<a class="btn btn-dark effect btn-sm" href="<?=$redirect_url?>" style="width:250px; font-size:17px;">
+								<a class="btn btn-dark effect btn-sm" target="_blank" href="<?=$redirect_url?>" style="width:250px; font-size:17px;">
 									<i class="fas fa-chart-bar"></i> Enroll
 								</a>
 							</div>

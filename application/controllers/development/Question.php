@@ -154,7 +154,7 @@ class Question extends Backend_Controller {
 
 		$data['choice'] = $choice; 
 		$data['headline'] = $headline; 
-		
+		$data['editor'] = TRUE;
 		$data['form_location'] = current_url();
 		$data['courses_dd'] = $this->get_courses_dd();
 		$data['update_id'] = $update_id;
@@ -201,7 +201,7 @@ class Question extends Backend_Controller {
 						'answer' => $row['answer'],
 						'correct' => $row['correct'],
 						'question_id' => $question_id,
-						'image' => $row['image'],
+						'image' => isset($row['image']) && $row['image'] !== null && $row['image'] ? $row['image'] : '',
 					];
 
 					if (isset($row['answer_id']) && $row['answer_id'] > 0) {

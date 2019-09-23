@@ -25,7 +25,7 @@
     			  	$question_title_value = set_value('question_title') == '' ? (isset($question_title) ? $question_title : '') : set_value('question_title');
     			  ?>
             <div class="col-md-9">
-              <textarea rows="6" class="form-control col-md-9" name="question_title"  placeholder="Enter Question title"><?=$question_title_value?></textarea>
+              <textarea rows="6" class="form-control col-md-9" name="question_title" id="editor1" placeholder="Enter Question title"><?=$question_title_value?></textarea>
               <?=form_error('question_title')?>
             </div>
     			</div>
@@ -123,7 +123,7 @@
                 $checked_ans = $row['correct'] == 1 ? 'checked' : '';
                 $initializer = $counter + 1;
                 $answer_id = isset($row['id']) ? $row['id'] : 0;
-                $option_image = $row['image'];
+                $option_image = isset($row['image']) ? $row['image'] : '';
                 $option_image_full_path = $option_image !== '' ? base_url('uploads/question/options/'.$option_image) : '';
           ?>
           <div class="form-group choice removeChoice-<?=$initializer?>">
@@ -136,7 +136,7 @@
                 </div>
 
                 <div class="col-md-6"> 
-                  <input type="hidden" name="choice[<?=$counter?>][image]" value="<?=$row['image']?>">
+                  <input type="hidden" name="choice[<?=$counter?>][image]" value="<?=$option_image?>">
                   <input type="file" class="form-control" name="choice[<?=$counter?>][image]" /> 
                 </div>
 
