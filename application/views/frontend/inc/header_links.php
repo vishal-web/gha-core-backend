@@ -8,6 +8,8 @@
 <?php } ?>
 
 
+
+
 <!-- ========== Start Stylesheet ========== -->
 <link href="<?=base_url()?>assets/frontend/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/font-awesome.min.css" rel="stylesheet" />
@@ -20,8 +22,14 @@
 <link href="<?=base_url()?>assets/frontend/css/style.css" rel="stylesheet">
 <link href="<?=base_url()?>assets/frontend/css/responsive.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/common.css" rel="stylesheet">
-<!-- ========== End Stylesheet ========== -->
 
+<?php if ($this->uri->segment('3') === 'start') {?>
+  <link type="text/css" href="<?=base_url('assets/frontend/css/fuelux.css')?>" rel="stylesheet">
+  <link href="<?=base_url()?>assets/frontend/css/combined.css" rel="stylesheet">
+  <link href="<?=base_url()?>assets/frontend/css/checkbox.css" rel="stylesheet">
+<?php } ?>
+
+<!-- ========== End Stylesheet ========== --> 
 
 <!-- ========== Google Fonts ========== -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">

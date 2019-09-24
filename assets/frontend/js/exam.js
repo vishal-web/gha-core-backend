@@ -175,8 +175,8 @@ function timeString() {
   return ((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
 }
 
-var duration = parseInt("10");
-var totalQuestions = parseInt("50");
+var duration = parseInt(document.getElementById('examDuration').value);
+var totalQuestions = parseInt(document.getElementById('totalQuestion').value);
 var seconds = 1;
 var hours = 0;
 var minutes = -1;
@@ -199,7 +199,7 @@ function disableF5(e) {
   }
 }
 
-$(document).bind("keydown", disableF5);
+// $(document).bind("keydown", disableF5);
 
 function Disable(event) {
   if (event.button == 2) {
@@ -209,7 +209,7 @@ function Disable(event) {
   }
 }
 
-document.onmousedown = Disable;
+// document.onmousedown = Disable;
 
 if (totalQuestions == 1) {
   $('#nextbutton').removeClass('oe-btn-answered');

@@ -29,6 +29,8 @@
 
       $exam_query = $this->common_model->dbselect('gha_exams', ['id' => $exam_id])->result_array();
       
+      $data['exam_query'] = $exam_query[0];
+
       $mysql_query = "SELECT * FROM gha_questions 
       WHERE course_id = '".$exam_query[0]['course_id']."'
       ORDER BY RAND() 

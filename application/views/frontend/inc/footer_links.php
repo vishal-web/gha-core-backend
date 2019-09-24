@@ -13,3 +13,12 @@
 <script src="<?=base_url()?>assets/frontend/js/bootsnav.js"></script>
 <script src="<?=base_url()?>assets/frontend/js/main.js"></script>
 <script src="<?=base_url()?>assets/frontend/js/custom.js"></script>
+
+<?php
+  if ($this->uri->segment('3') === 'start') {
+?>
+    <script src="<?=base_url()?>assets/frontend/js/fuelux.min.js"></script>
+    <script src="<?=base_url()?>assets/frontend/js/exam.js"></script>
+<?php
+  }
+?>
