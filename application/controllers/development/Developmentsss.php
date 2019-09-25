@@ -16,7 +16,6 @@
 			$this->load->view('backend/backend-layout', $data);
 		}
 
-
 		public function questionList() { 
 			$data['headline'] = 'Manage Questions'; 
 			$data['view_file'] = 'backend/question/question-';

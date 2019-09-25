@@ -11,8 +11,34 @@ class Welcome extends Public_Controller {
 		$this->generate_navbar();
 	}
 
+	private function get_homepage_content($content_type) {
+		
+		if ($content_type == 'homepage_banner') {
+			$condition['type'] = $content_type;
+			$condition['status'] = 1;
+			$query = $this->common_model->dbselect('gha_homepage',$condition)->result_array();
+		}
+		
+		if ($content_type == 'homepage_course') {
+			$condition['h.type'] = $content_type;
+			$condition['h.status'] = 1;
+			$condition['c.status'] = 1;
+			$join = [
+				['type' => 'left', 'condition' => 'h.course_id = c.id', 'table' => 'gha_courses c']
+			];
+
+			$select_data = ['h.*', 'c.title as course_title','c.url_title'];
+			$query = $this->common_model->dbselect('gha_homepage h',$condition, $select_data, null, $join)->result_array();
+		}
+		
+		return $query;
+	}
+
 	public function index() {
 		$this->homepage = TRUE;
+
+		$data['homepage_banner'] = $this->get_homepage_content('homepage_banner');
+		$data['homepage_course'] = $this->get_homepage_content('homepage_course');
 		$data['view_file'] = 'frontend/home/index';
 		$this->load->view($this->layout, $data);
 	}

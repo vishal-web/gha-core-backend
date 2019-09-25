@@ -5,6 +5,8 @@
       parent::__construct();
     }
 
+    // https://dba.stackexchange.com/questions/107250/query-how-to-get-both-question-and-multi-answers-in-one-query/107257#107257
+
     public function index() { 
 
       $join = [

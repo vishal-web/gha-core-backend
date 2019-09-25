@@ -74,6 +74,26 @@
 				'label' => 'Duration',
 				'rules' => 'required|trim'
 			]
+		],	
+		'admin_homepage_create' => [
+			[
+				'field' => 'course_id',
+				'label' => 'Course',
+				'rules' => 'required|trim',
+				'errors' => array('required' => 'Please select a course')
+			],
+			[
+				'field' => 'status',
+				'label' => 'Status',
+				'rules' => 'required|trim',
+ 			],
+		],
+		'admin_homepage_banner' => [
+			[
+				'field' => 'status',
+				'label' => 'Status',
+				'rules' => 'required|trim',
+ 			],
 		],
 		'admin_question_create' => [
 			[

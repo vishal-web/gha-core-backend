@@ -188,7 +188,28 @@
     //Date picker
     $('#start-datepicker , #end-datepicker').datepicker({
       autoclose: true
-    })
+    });
+
+    /* ---------- Add class .active to current link  ---------- */
+    $('ul.sidebar-menu li a').each(function() {
+      if($($(this))[0].href==String(window.location)) {
+        console.log('hello');
+        $(this).parent().addClass('active');
+        
+      }
+    });
+
+    $('ul.sidebar-menu li ul li a').each(function(){
+      
+        if($($(this))[0].href==String(window.location)) {
+          
+          $(this).parent().addClass('active');
+          $(this).parent().parent().show();
+          
+        }
+
+    });
+
   </script>
   <script src="<?=base_url()?>assets/backend/dist/js/custom.js"></script>
   <?php if(isset($editor) && $editor == true) { ?>

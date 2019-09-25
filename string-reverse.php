@@ -52,4 +52,10 @@
 	*/
 
 	//  ALTER TABLE gha_order ADD COLUMN order_reference_id VARCHAR(100) NOT NULL AFTER order_product_id;
+
+
+		/* 
+			 create table gha_homepage (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, course_id int NOT NULL, description TEXT NOT NULL, type VARCHAR(100) NOT NULL, status TINYINT not null default 0, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , updated_at DATETIME default NULL)
+			
+		*/
 ?>
