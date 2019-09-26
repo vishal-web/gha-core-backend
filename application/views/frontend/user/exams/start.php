@@ -24,6 +24,8 @@
                 $total_count = $query->num_rows();
                 $counter = 1;
                 foreach ($query->result_array() as $key => $row) {
+                  $choices = array_chunk($controller->get_options($row['id']), 2); 
+
               ?> 
               <div class="clearfix step-pane sample-pane active" data-questionID="10" data-step="<?=$counter?>">
                 <div class="question-body">
@@ -35,31 +37,28 @@
                 </div>
                 <div class="question-answer" id="step<?=$counter?>">
                   <table class="table">
-                    <tr>
-                      <td>
-                        <input id="option91" value="91" name="answer[1][10][]" type="radio">
-                        <label for="option91">
-                        <span class="fa-stack radio-button">
-                        <i class="active fa fa-check">                                                            </i>                                                        </span>
-                        <span >   Muslim League</span>                                                                                                            </label>                                                
-                      </td>
-                      <td>
-                        <input id="option92" value="92" name="answer[1][10][]" type="radio">
-                        <label for="option92">
-                        <span class="fa-stack radio-button">
-                        <i class="active fa fa-check">                                                            </i>                                                        </span>
-                        <span >   Awami League</span>                                                                                                            </label>                                                
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input id="option93" value="93" name="answer[1][10][]" type="radio">
-                        <label for="option93">
-                        <span class="fa-stack radio-button">
-                        <i class="active fa fa-check">                                                            </i>                                                        </span>
-                        <span >   Pakistan People's Party</span>                                                                                                            </label>
-                      </td>
-                    </tr>
+
+                    <?php if (!empty($choices)) {
+                      for ($i=0; $i < count($choices); $i++) {
+                        echo "<tr>";
+                        if (!empty($choices[$i])) {
+                          foreach ($choices[$i] as $choice) {
+
+                    ?>
+                            <td>
+                              <input id="option<?=$choice['id']?>" value="<?=$choice['id']?>" name="answer[<?=$row['id']?>][]" type="radio">
+                              <label for="option<?=$choice['id']?>">
+                              <span class="fa-stack radio-button">
+                              <i class="active fa fa-check"></i></span>
+                              <span >   <?=$choice['answer']?></span>                                                                                                            </label>                                                
+                            </td>
+
+                    <?php
+                          }
+                        }
+                        echo "</tr>";
+                      }
+                    } ?>
                   </table>
                 </div>
               </div>

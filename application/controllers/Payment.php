@@ -9,9 +9,10 @@
 			if($this->mobikwik->verifyChecksum()) {
 
 				$payment_reference_id = $this->get_payment_reference_id();
+				$order_id = $this->get_order_id($this->input->post('orderId'));
 
 				$insertData = [
-					'order_id' => $this->input->post('orderId'),
+					'order_id' => $order_id,
 					'amount' => $this->input->post('amount'),
 					'transaction_id' => $this->input->post('pgTransId'),
 					'mode' => $this->input->post('paymentMode'),
@@ -23,9 +24,9 @@
 				$this->common_model->dbinsert('gha_payment', $insertData);
 
 				// update order
-				$condition = ['order_reference_id' => $this->input->post('orderId')];
+				$condition['id'] = order_id;
 				$updateData = ['status' => 1, 'updated_at' => Date('Y-m-d')];
-				$this->common_model->dbupdate('gha_order', $condition, $updateData);
+				$this->common_model->dbupdate('gha_order', $updateData, $condition);
 				redirect(base_url('payment/success/'.$payment_reference_id));
 			} else {
 				redirect(base_url('payment/failed'));
@@ -59,7 +60,13 @@
 				$this->get_payment_reference_id();
 			}
 		}
+
+		private function get_order_id($order_reference_id) {
+			$query = $this->common_model->dbselect('gha_order', ['order_reference_id' => $order_reference_id])->result_array();
+			return !empty($query) ? $query[0]['id'] : 0;
+		}
 	}
+	
 
 
 	/*
