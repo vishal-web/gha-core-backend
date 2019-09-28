@@ -1,5 +1,6 @@
 <div class='default-padding'>
   <div class='container custom-table'>
+    <h3><?=$headline?></h3>
     <table class='table table-bordered table-condensed'>
       <thead>
         <tr>
@@ -25,12 +26,16 @@
           <td><?=$row['total_question']?></td>
           <td><?=$row['each_marks']?></td>
           <td>
-            <a href='<?=base_url('user/exams/start/'.$row['id'])?>'>
+            <a href='<?=base_url('user/exams/preview/'.$row['id'])?>'>
               <button type="button" class="btn btn-danger ">Take Exam</button>
             </a>
           </td>
         </tr>
-      <?php } } ?>
+      <?php } } else { ?> 
+        <tr>
+          <td colspan='8'>Unfortunately no exam is available for you</td>
+        </tr>
+      <?php } ?>
       </tbody>
     </table>
   </div>

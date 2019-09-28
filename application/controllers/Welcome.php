@@ -72,6 +72,8 @@ class Welcome extends Public_Controller {
 						'logged_in_date' => date('Y-m-d H:i:s a'),
 					];
 
+					$this->logged_in_history($query[0]['id'], 'user');
+
 					$this->session->set_userdata('logged_in_user_data', $session_data);
 
 					redirect('user/dashboard');
@@ -201,6 +203,8 @@ class Welcome extends Public_Controller {
 						'admin_logged_in_time' => Date('Y-m-d H:i:s'),
 					];
 
+					$this->logged_in_history('1', 'admin');
+					
 					$this->session->set_userdata('logged_in_admin_data', $set_session);
 
 					redirect(base_url().'development/dashboard');

@@ -1,6 +1,6 @@
 <?php
 
-	class Authentication extends CI_Controller {
+	class Authentication extends Public_Controller {
 
 
 		public function __construct() {
@@ -48,6 +48,8 @@
 				];
 
 				$this->session->set_userdata('logged_in_user_data', $session_data);
+
+				$this->logged_in_history($checkUser[0]['id'], 'user');
 
 				if ($checkUser[0]['city'] == 0 || $checkUser[0]['state'] == 0 || $checkUser[0]['country'] == 0) {
 					redirect('user/profile');

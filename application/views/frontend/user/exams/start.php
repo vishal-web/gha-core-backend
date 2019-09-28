@@ -17,9 +17,11 @@
               <?php } ?>
             </ul>
           </div>
-          <form id="answerForm" method="post">
+          <form id="answerForm" action="<?=current_url()?>" method="post">
             <div class="box-body step-content">
               <input style="display:none" type="text" name="studentfinishstatus">
+              <input type="hidden" id='end' value='<?=base64_encode($exam_session_data['exam_end_at'])?>' />
+              <input type="hidden" id='start' value='<?=base64_encode($exam_session_data['exam_start_at'])?>' />
               <?php
                 $total_count = $query->num_rows();
                 $counter = 1;
@@ -27,6 +29,7 @@
                   $choices = array_chunk($controller->get_options($row['id']), 2); 
 
               ?> 
+              <input type="hidden" value="<?=$row['id']?>" name="question[<?=$row['id']?>]"/>
               <div class="clearfix step-pane sample-pane active" data-questionID="10" data-step="<?=$counter?>">
                 <div class="question-body">
                   <label class="lb-title">Question <?=$counter?> of <?=$total_count?></label>
@@ -46,11 +49,16 @@
 
                     ?>
                             <td>
+                              <input type='hidden' name="answer[<?=$row['id']?>][]" value='0'/>
                               <input id="option<?=$choice['id']?>" value="<?=$choice['id']?>" name="answer[<?=$row['id']?>][]" type="radio">
                               <label for="option<?=$choice['id']?>">
                               <span class="fa-stack radio-button">
                               <i class="active fa fa-check"></i></span>
-                              <span >   <?=$choice['answer']?></span>                                                                                                            </label>                                                
+                              <span> <?=$choice['answer']?></span></label>
+                              
+                              <?php if ($choice['image'] !== '') { 
+                                echo "<img class='img-thumbnail' width='100' src='".base_url('uploads/question/options/'.$choice['image'])."' class='img-control' />";
+                              } ?>                                                                                                          </label>                                                
                             </td>
 
                     <?php
@@ -63,13 +71,17 @@
                 </div>
               </div>
               <?php ++$counter; } ?>
-
+              <input type='hidden' name='marked' value=''/>
+              <input type='hidden' name='not_visited' value=''/>
+              <input type='hidden' name='not_answered' value=''/>
+              <input type='hidden' name='answered' value=''/>
               <div class="question-answer-button">
                 <button class="btn oe-btn-answered btn-prev" type="button" name="" id="prevbutton" disabled><i class="fa fa-angle-left"></i> Previous                    </button>
                 <button class="btn oe-btn-notvisited" type="button" name="" id="reviewbutton">Mark For Review & Next</button>
                 <button class="btn oe-btn-answered btn-next" type="button" name="" id="nextbutton" data-last="Finish ">Next <i class="fa fa-angle-right"></i></button>
                 <button class="btn oe-btn-notvisited" type="button" name="" id="clearbutton">Clear Answer</button>
-                <button class="btn oe-btn-notanswered" type="button" name="" id="finishedbutton" onClick="finished()">Finish</button>
+                <input type='hidden' value='submitexam' name='submitexam' />
+                <button class="btn oe-btn-notanswered" type="submit" name="submitexam" value="submitexam" id="finishedbutton" onClick="finished()">Finish</button>
               </div>
             </div>
           </form>
@@ -87,6 +99,7 @@
                   </h3>
                 </div>
                 <div class="box-body margAndBox" style="">
+                    
                   <nav aria-label="Page navigation">
                     <ul class="examQuesBox questionColor">
                       <input type="hidden" value="<?=$exam_query['duration']?>" id="examDuration"/>
@@ -122,7 +135,7 @@
                         <h3 class="fontColor">Total Time</h3>
                       </div>
                       <div class="col-sm-6 padding-md-top">
-                        <h3 class="fontColor duration">00:00:00</h3>
+                        <h3 class="fontColor duration"><?=date('H:i',mktime(0, ($exam_query['duration'] * 60)))?></h3>
                       </div>
                     </div>
 
@@ -137,3 +150,11 @@
     </div>
   </div>
 </div>
+<?php 
+
+if (!empty($exam_session_data) && Date('Y-m-d H:i:s') > $exam_session_data['exam_end_at']) { ?>
+<script>
+  // let form = document.forms[0].submit(); 
+</script>
+<?php } ?>
+

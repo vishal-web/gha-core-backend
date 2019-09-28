@@ -6767,5 +6767,16 @@ footer.demo .copyright {
   font-size: 14px !important;
 }
 
+.custom-table table tr th {
+  text-transform: uppercase;
+  font-weight: 800;
+}
 
+.custom-table table tr td {
+  color: #002147
+}
 
+.custom-preview p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}

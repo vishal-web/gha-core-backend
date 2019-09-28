@@ -50,6 +50,22 @@ $('#state').on('change', function(e) {
 	}
 });
 
+$("#start-exam").click(function() {
+	let href = $(this).data('href');
+	let id = $(this).data('id');
+	$.ajax({
+		url : BASE_URL + 'ajaxresponse/examstarted',
+		method : 'POST',
+		dataType: 'JSON',
+		data: {id},
+		success: function(data, err) {
+			if (data.status == true) {
+				window.location.href = href;
+			}
+		}
+	})
+})
+
 /*$('#login-with-google').click((e) => { 
 
 	// console.log($(e.target));

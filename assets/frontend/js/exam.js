@@ -46,6 +46,11 @@ function summaryUpdate() {
   $('#summaryAnswered').html(summaryAnswered);
   $('#summaryMarked').html(summaryMarked);
   $('#summaryNotAnswered').html(summaryNotAnswered);
+
+  document.getElementsByName('answered')[0].value = summaryAnswered;
+  document.getElementsByName('marked')[0].value = summaryMarked;
+  document.getElementsByName('not_visited')[0].value = summaryNotVisited;
+  document.getElementsByName('not_answered')[0].value = summaryNotAnswered;
 }
 
 function changeColor(stepID) {
@@ -133,11 +138,12 @@ function clearAnswer() {
 }
 
 function finished() {
+  summaryUpdate();
   $('#answerForm').submit();
 }
 
 function counter() {
-  setInterval(function () {
+  interval = setInterval(function () {
     durationUpdate();
     $('#timerdiv').html(((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds));
     duration = (hours * 60) + minutes;
@@ -177,16 +183,30 @@ function timeString() {
 
 var duration = parseInt(document.getElementById('examDuration').value);
 var totalQuestions = parseInt(document.getElementById('totalQuestion').value);
-var seconds = 1;
+var seconds = 0;
 var hours = 0;
 var minutes = -1;
 var NowStep = 1;
 var marked = 0;
+var interval = 0;
+var end = atob(document.getElementById('end').value);
+var start = new Date();
+var result = (parseInt(new Date(end) - start) / 1000);
+var totalMinute = Math.floor(result / 60);
+var totalSecond = Math.floor(result % 60); 
+seconds = totalSecond > 0 ? totalSecond : seconds;
+duration = totalMinute > 0 ? totalMinute : 0;
+
+var calculate = (totalMinute * 60 ) + seconds;
+
+console.log('start', start, 'end', end,'totalMinute', totalMinute, 'totalSecond', totalSecond);
+
 durationUpdate();
-$('.duration').html(timeString());
+// $('.duration').html(timeString());
 if (duration != 0) {
   counter();
 } else {
+  finished();
   $('.counterDiv').hide();
 }
 summaryUpdate();

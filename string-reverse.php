@@ -58,4 +58,7 @@
 			 create table gha_homepage (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, course_id int NOT NULL, description TEXT NOT NULL, type VARCHAR(100) NOT NULL, status TINYINT not null default 0, created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP , updated_at DATETIME default NULL)
 			
 		*/
+
+		CREATE TABLE gha_exam_history (id int NOT NULL AUTO_INCREMENT PRIMARY KEY,user_id INT NOT NULL, exam_id INT NOT NULL, status TINYINT NOT NULL, started_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, finished_at DATETIME  DEFAULT NULL );
+
 ?>

@@ -61,5 +61,24 @@
 
 			$this->output->set_content_type('application/json')->set_output(json_encode($output));
 		}
+
+		public function examstarted() {
+			$output['status'] = false;
+			$logged_in_user_data = $this->session->userdata('logged_in_user_data');
+			if (!empty($logged_in_user_data)) { 
+				$user_id = $logged_in_user_data['user_id'];
+				$exam_id = $this->input->post('id');
+
+				$insertData = [
+					'exam_id' => $exam_id,
+					'user_id' => $user_id
+				];
+
+				if ($this->common_model->dbinsert('gha_exams_history',$insertData)) {
+					$output['status'] = true;
+				}
+			}
+			$this->output->set_content_type('application/json')->set_output(json_encode($output));
+		}
 	}
 ?>

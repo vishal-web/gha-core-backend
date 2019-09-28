@@ -134,6 +134,15 @@ class Public_Controller extends CI_Controller {
 	}
 
 
+	public function logged_in_history($logged_in_id, $logged_in_type) {
+		$insertData = [
+			'logged_in_id' => $logged_in_id,
+			'logged_in_type' => $logged_in_type, 
+		];
+		
+		$this->common_model->dbinsert('gha_logged_in_history', $insertData);
+	}
+
 	public function do_upload($image, $upload_path, $allowed_types = null) {
 
 		$allowed_types = $allowed_types == null || $allowed_types == '' ? 'gif|jpg|png|jpeg' : $allowed_types;

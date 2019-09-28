@@ -55,6 +55,7 @@
 
     <script>
         var BASE_URL = '<?=base_url()?>';
+        window.page_type = 'Frontedn';
     </script>
 </body>
 

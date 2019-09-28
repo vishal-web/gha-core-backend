@@ -24,7 +24,7 @@
 				$this->common_model->dbinsert('gha_payment', $insertData);
 
 				// update order
-				$condition['id'] = order_id;
+				$condition['id'] = $order_id;
 				$updateData = ['status' => 1, 'updated_at' => Date('Y-m-d')];
 				$this->common_model->dbupdate('gha_order', $updateData, $condition);
 				redirect(base_url('payment/success/'.$payment_reference_id));
