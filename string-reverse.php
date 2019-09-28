@@ -1,7 +1,13 @@
 <?php
 	
+	echo Date('Y-m-d H:i:s');
+
+	echo '<pre>';
+	print_r($_SESSION);
+	echo '</pre>';
 
 
+/* 
 	$config['base_url'] = ((isset ( $_SERVER ['HTTPS'] ) && $_SERVER ['HTTPS'] == "on") ? "https" : "http");
 	$config['base_url'] = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "ghahealth.herokuapp.com") ? 'https' : $config['base_url'];
 	$config['base_url'] .= "://" . $_SERVER ['HTTP_HOST'];
@@ -14,8 +20,7 @@
 	if (is_https()) {
 		echo "Yes";
 	}
-
-
+ */
 
 
 	
@@ -29,7 +34,7 @@
 
 	// ALTER TABLE gha_registration ADD COLUMN about TEXT NOT NULL AFTER profile_picture
 
-	----NOT--UPDATED---
+	// ----NOT--UPDATED---
 
 	// ALTER TABLE gha_order CHANGE COLUMN order_course_id order_product_id int not null;
 
@@ -59,6 +64,6 @@
 			
 		*/
 
-		CREATE TABLE gha_exam_history (id int NOT NULL AUTO_INCREMENT PRIMARY KEY,user_id INT NOT NULL, exam_id INT NOT NULL, status TINYINT NOT NULL, started_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, finished_at DATETIME  DEFAULT NULL );
-
+		// CREATE TABLE gha_exam_history (id int NOT NULL AUTO_INCREMENT PRIMARY KEY,user_id INT NOT NULL, exam_id INT NOT NULL, status TINYINT NOT NULL, started_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, finished_at DATETIME  DEFAULT NULL );
+			
 ?>
