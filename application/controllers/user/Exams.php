@@ -23,7 +23,7 @@
       $group_by = null;
       $data['query'] = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
 
-      $data['headline'] = 'Exams';
+      $data['headline'] = $this->head_title = 'Exams';
       $data['view_file'] = 'frontend/user/exams/index';
       $this->load->view($this->layout, $data);
     }
@@ -42,7 +42,7 @@
       $this->check();
 
       $data['query'] = $this->common_model->dbselect('gha_exams', ['id' => $exam_id,'status' => 1])->result_array();      
-      
+      $data['headline'] = $this->head_title = 'Exam Preview';
       $data['view_file'] = 'frontend/user/exams/preview';
       $this->load->view($this->layout, $data);
     }
@@ -166,6 +166,7 @@
       $data['query'] = $this->db->query($mysql_query);
       $data['controller'] = $this;
       $data['view_file'] = 'frontend/user/exams/start';
+      $data['headline'] = $this->head_title = $exam_query[0]['title'];
       $this->load->view($this->layout, $data);
     }
 
@@ -187,7 +188,7 @@
       $condition['id'] = $summary_id;
       $data['exam_details'] = $this->common_model->dbselect('gha_exams_history', $condition)->result_array(); 
 
-      $data['headline'] = 'Exam Summary';
+      $data['headline'] = $this->head_title = 'Exam Summary';
       $data['view_file'] = 'frontend/user/exams/summary';
       $this->load->view($this->layout, $data);
     }
@@ -207,7 +208,7 @@
       $group_by = null;
       $data['query'] = $this->common_model->dbselect('gha_exams e', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
 
-      $data['headline'] = 'Exam History';
+      $data['headline'] = $this->head_title = 'Exam History';
       $data['view_file'] = 'frontend/user/exams/history';
       $this->load->view($this->layout, $data);
     }

@@ -219,7 +219,7 @@ function disableF5(e) {
   }
 }
 
-// $(document).bind("keydown", disableF5);
+$(document).bind("keydown", disableF5);
 
 function Disable(event) {
   if (event.button == 2) {
@@ -229,7 +229,7 @@ function Disable(event) {
   }
 }
 
-// document.onmousedown = Disable;
+document.onmousedown = Disable;
 
 if (totalQuestions == 1) {
   $('#nextbutton').removeClass('oe-btn-answered');
