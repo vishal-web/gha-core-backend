@@ -1,6 +1,13 @@
 <div class='default-padding custom-preview'>
   <div class='container'>
-    <div class='col-md-7 col-md-offset-3'>
+    <h3><?=$headline?></h3>
+    <div class='col-md-12-1'>
+      <?php
+        echo '<pre>';
+        print_r($course_details);
+        echo '</pre>';
+      ?>
+
       <?php 
         if (!empty($query)) { 
           $query = $query[0]; 
@@ -11,6 +18,12 @@
         <img src="<?=$img_path?>" class="img-responsive" alt="Image">
       </div>
       <?php
+          } else if ($query['type'] === 'youtube'){
+      ?>
+        <iframe width="420" height="345" src="<?=$query['study_material']?>" frameborder="0" allowfullscreen></iframe>
+
+      <?php
+
           }
         }
       ?>    

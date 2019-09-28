@@ -89,6 +89,7 @@ class Studymaterial extends Backend_Controller {
 					'status' => 	$this->input->post('status'),
 				];
 				
+				$study_material = $this->input->post('study_material');
 
 				$image_err = 0;
 
@@ -107,9 +108,11 @@ class Studymaterial extends Backend_Controller {
 						$image_err = $do_upload['err'];
 						$featured_image = isset($do_upload['file_name']) ? $do_upload['file_name'] : '';
 					}
+
+					$study_material = $featured_image;
 				}
 
-				$insert_data['study_material'] = $featured_image;
+				$insert_data['study_material'] = $study_material;
 
 				if ($image_err == 0 ) {
 					if ($update_id > 0) {

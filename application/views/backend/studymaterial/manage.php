@@ -115,6 +115,10 @@
 								if ($row['type'] == 'img') {
 									$html = '<a target="_blank" href="'.$file_path.'"><img width="100" height="50" src="'.$file_path.'"></a>';	
 								}
+								
+								if ($row['type'] == 'youtube') {
+									$html = '<a target="_blank" href="'.$row['study_material'].'">Youtube Link</a>';	
+								}
 					?>
 					
 					<tr>

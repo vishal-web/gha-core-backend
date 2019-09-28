@@ -35,9 +35,9 @@
       // check if user enrolled for this material
       $this->check();
 
-      
       $data['query'] = $this->common_model->dbselect('gha_study_material', ['id' => $material_id,'status' => 1])->result_array();      
-      $this->head_title = 'Study Material Preview';
+      $data['course_details'] = $this->get_course_details($data['query'][0]['course_id']);
+      $data['headline'] = $this->head_title = 'Study Material Preview';
       $data['view_file'] = 'frontend/user/studymaterial/preview';
       $this->load->view($this->layout, $data);
     }
