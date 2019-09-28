@@ -132,10 +132,7 @@
                   <div class="box-body">
                     <div class="row">
                       <div class="col-sm-6 padding-md-top">
-                        <h3 class="fontColor">Total Time</h3>
-                      </div>
-                      <div class="col-sm-6 padding-md-top">
-                        <h3 class="fontColor duration"><?=date('H:i',mktime(0, ($exam_query['duration'] * 60)))?></h3>
+                        <h3 class="fontColor">Total Time Left</h3>
                       </div>
                     </div>
 
