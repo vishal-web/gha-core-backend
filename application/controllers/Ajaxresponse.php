@@ -71,7 +71,8 @@
 
 				$insertData = [
 					'exam_id' => $exam_id,
-					'user_id' => $user_id
+					'user_id' => $user_id,
+					'started_at' => Date('Y-m-d H:i:s'),
 				];
 
 				if ($this->common_model->dbinsert('gha_exams_history',$insertData)) {

@@ -92,6 +92,7 @@ class Exam extends Backend_Controller {
 					'passing_percentage' => 	$this->input->post('passing_percentage'),
 					'course_id' => 	$this->input->post('course_id'),
 					'total_question' => 	$this->input->post('total_question'),
+					'created_at' => Date('Y-m-d H:i:s'),
 				];
 
 				$course_question_count = $this->get_total_question($insert_data['course_id']);

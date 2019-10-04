@@ -101,7 +101,8 @@ class Question extends Backend_Controller {
 					'description' => $this->input->post('description'),
 					'status' => $this->input->post('status'),
 					'is_multiple_choice' => 0,
-					'updated_at' => Date('Y-m-d H:i:s a'),
+					'updated_at' => Date('Y-m-d H:i:s'),
+					'created_at' => Date('Y-m-d H:i:s'),
 					'options' => $serialize_choice
 				];
 
@@ -208,6 +209,7 @@ class Question extends Backend_Controller {
 						$insert_data['updated_at'] = Date('Y-m-d H:i:s');
 						$this->common_model->dbupdate('gha_answers', $insert_data, ['id' => $row['answer_id']]);
 					} else {
+						$insert_data['created_at'] = Date('Y-m-d H:i:s');
 						$this->common_model->dbinsert('gha_answers', $insert_data);
 					}
 				}

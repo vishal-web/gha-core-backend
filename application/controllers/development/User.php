@@ -54,10 +54,10 @@ Class User extends Backend_Controller {
 		$join[0]['table'] = 'gha_profession p';
 		$join[0]['condition'] = 'r.profession = p.id';
 
-		$query = $this->common_model->dbselect('gha_registration r',$condition, null, $per_page, $join, $order_by, $limit); 
+		$select_data = ['r.*', 'p.name'];
+		$query = $this->common_model->dbselect('gha_registration r',$condition, $select_data, $per_page, $join, $order_by, $limit); 
 
 		$data['query'] = $query->result_array();
-
 		$data['form_location'] = current_url();
 		$this->load->view($this->layout, $data); 
 	}
@@ -79,6 +79,7 @@ Class User extends Backend_Controller {
 					'city' => $this->input->post('city'),
 					'profession' => $this->input->post('profession'),
 					'phone' => $this->input->post('phone'),
+					'created_at' => Date('Y-m-d H:i:s'),
 				];
 
 				if ($update_id > 0) {

@@ -87,6 +87,7 @@ class Studymaterial extends Backend_Controller {
 					'course_id' => 	$this->input->post('course_id'),
 					'type' => 	$this->input->post('material_type'), 
 					'status' => 	$this->input->post('status'),
+					'created_at' => Date('Y-m-d H:i:s'),
 				];
 				
 				$study_material = $this->input->post('study_material');
@@ -94,8 +95,16 @@ class Studymaterial extends Backend_Controller {
 				$image_err = 0;
 
 				if (in_array($material_type, ['ppt','pdf','img','doc'])) {
+					$allowed_types = $material_type == 'pdf' ? 'pdf|csv' : null;
+					$upload_path = './uploads/studymaterial';
+					
+					if ($material_type == 'pdf') {
+						$upload_path .= '/pdf';
+					} else if ($material_type == 'img') {
+						$upload_path .= '/img';
+					}
 
-					$do_upload = $this->do_upload('featured_image', './uploads/studymaterial');
+					$do_upload = $this->do_upload('featured_image', $upload_path, $allowed_types);
 					
 					if ($update_id > 0) {
 						if (isset($_FILES['featured_image']['name']) && $_FILES['featured_image']['name'] !== '' ) {
@@ -175,6 +184,21 @@ class Studymaterial extends Backend_Controller {
 		} else {
 			return $url_title;
 		}
+	}
+
+	public function donot_change_course($str) {
+		$update_id = (int)$this->uri->segment('4');
+		if ($update_id > 0) {
+			$condition['id'] = $update_id;
+			$condition['course_id'] = $str;
+			$query = $this->common_model->dbselect('gha_study_material',$condition)->result_array();
+			if (empty($query)) {
+				$this->form_validation->set_message('donot_change_course','You are not allowed to change course while doing update.');
+				return FALSE;
+			}
+		}
+
+		return TRUE;
 	}
 
 	public function generate_random_string($length = 8) {

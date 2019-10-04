@@ -1,6 +1,7 @@
 <?php
 	$custom_err_message = [
-		'greater_than' => '%s must be greater than 0'
+		'greater_than' => '%s must be greater than 0',
+		'required' => '%s feild is required.'
 	];
 
 	$config = [
@@ -62,17 +63,26 @@
 			[
 				'field' => 'title',
 				'label' => 'Title',
-				'rules' => 'required|trim'
+				'rules' => 'required|trim',
+				'errors' => $custom_err_message,
 			],
 			[
 				'field' => 'price',
 				'label' => 'Price',
-				'rules' => 'required|trim'
+				'rules' => 'required|trim',
+				'errors' => $custom_err_message,
 			],
 			[
 				'field' => 'duration',
 				'label' => 'Duration',
-				'rules' => 'required|trim'
+				'rules' => 'required|trim',
+				'errors' => $custom_err_message,
+			],
+			[
+				'field' => 'status',
+				'label' => 'Status',
+				'rules' => 'required|trim',
+				'errors' => $custom_err_message,
 			]
 		],	
 		'admin_homepage_create' => [
@@ -127,7 +137,7 @@
 			[
 				'field' => 'course_id',
 				'label' => 'Course',
-				'rules' => 'required|trim',
+				'rules' => 'required|trim|callback_donot_change_course',
 				'errors' => array('required' => 'Please select a course')
  			],
  			/*[

@@ -83,7 +83,8 @@
 					$insert_data = [
 						'question_title' => $this->input->post('question_title'),
 						'is_multiple_choice' => 	$this->input->post('is_multiple_choice'),
-						'updated_at' => Date('Y-m-d H:i:s a'),
+						'updated_at' => Date('Y-m-d H:i:s'),
+						'created_at' => Date('Y-m-d H:i:s'),
 						'options' => serialize($choice)
 					];
 

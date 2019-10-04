@@ -17,6 +17,10 @@
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?=base_url()?>assets/backend/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
+  <?php if (isset($select2_option) && $select2_option) { ?>
+  <link rel="stylesheet" href="<?=base_url()?>assets/backend/bower_components/select2/dist/css/select2.min.css">
+  <?php } ?>
+
   <link rel="stylesheet" href="<?=base_url()?>assets/backend/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/backend/dist/css/skins/skin-blue.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">
@@ -212,6 +216,16 @@
 
   </script>
   <script src="<?=base_url()?>assets/backend/dist/js/custom.js"></script>
+
+  <?php if (isset($select2_option) && $select2_option) { ?>
+  <script src="<?=base_url()?>assets/backend/bower_components/select2/dist/js/select2.full.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.select2').select2();
+    })
+  </script>
+  <?php } ?>
+
   <?php if(isset($editor) && $editor == true) { ?>
   <script src="<?=base_url()?>assets/backend/bower_components/ckeditor/ckeditor.js"></script>
   <script> 

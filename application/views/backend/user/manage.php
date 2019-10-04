@@ -106,7 +106,7 @@
 						<td><?=$row['phone']?></td>
 						<td><?=$row['name']?></td>
 						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td>
-						<td><?=date('Y-m-d h:i a', strtotime($row['created_at']))?></td>
+						<td><?=date('Y-m-d h:i A', strtotime($row['created_at']))?></td>
 						<td><a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a></td>
 					</tr>
 					<?php

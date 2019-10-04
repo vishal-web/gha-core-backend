@@ -19,6 +19,7 @@
 					'response_description' => $this->input->post('responseDescription'),
 					'payment_reference_id' => $payment_reference_id,
 					'status' => 1,
+					'created_at' => Date('Y-m-d H:i:s'),
 				];
 
 				$this->common_model->dbinsert('gha_payment', $insertData);

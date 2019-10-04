@@ -119,6 +119,7 @@ class Welcome extends Public_Controller {
 					'phone' => $this->input->post('phone'),
 					'profession' => $this->input->post('profession'), 
 					'password' => $this->input->post('password'), 
+					'created_at' => Date('Y-m-d H:i:s'),
 				];			
 
 				$query = $this->common_model->dbinsert('gha_registration', $insert_data);
@@ -257,5 +258,37 @@ class Welcome extends Public_Controller {
 			}
 		}
 		return $options;
+	}
+
+	// miscellaneous
+	public function updateColumn() {
+
+		$mysql_query = "SHOW tables";
+		$query = $this->db->query($mysql_query)->result_array();
+		
+		foreach ($query as $row) {
+			// $mysql_query = "SHOW COLUMNS FROM ".$row['Tables_in_kKTPrkjIvj']." LIKE 'started_at'";
+			// $column_query = $this->db->query($mysql_query)->result_array();
+
+			$mysql_query = "SHOW CREATE TABLE ".$row['Tables_in_kKTPrkjIvj'];
+			$column_query = $this->db->query($mysql_query)->result_array();
+			echo $row['Tables_in_kKTPrkjIvj'].'<hr>';
+			echo '<pre>';
+			print_r($column_query);
+			echo '</pre>';
+			
+			// echo '<pre>';
+			// print_r($row['Tables_in_kKTPrkjIvj']);
+			// echo '</pre>';
+
+			
+			// if (!empty($column_query)) {
+			// 	$mysql_query = "ALTER TABLE ".$row['Tables_in_kKTPrkjIvj']." MODIFY started_at DATETIME DEFAULT NULL";
+			// 	$alter_query = $this->db->query($mysql_query);
+				
+			// }
+		}
+
+		die();
 	}
 }

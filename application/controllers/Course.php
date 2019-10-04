@@ -12,11 +12,12 @@
 				redirect(base_url());
 			}
 			
-			$course_details = $this->get_course_details($url_title);
+			$course_details = $this->get_course_details_from_url_title($url_title);
 			if (empty($course_details)) {
 				redirect(base_url());
 			}
 
+			$data['controller'] = $this;
 			$this->head_title = $course_details[0]['title'].' - '.$this->head_title; 
 			$data['title'] = $course_details[0]['title'];
 			$data['course_details'] = $course_details[0];
@@ -32,7 +33,7 @@
 				redirect(base_url());
 			}
 			
-			$course_details = $this->get_course_details($url_title);
+			$course_details = $this->get_course_details_from_url_title($url_title);
 			if (empty($course_details)) {
 				redirect(base_url());
 			}
@@ -70,6 +71,7 @@
 
 			$order_data = [
 				'order_product_id' => $order_product_id,
+				'created_at' => Date('Y-m-d H:i:s'),
 				'updated_at' => Date('Y-m-d H:i:s'),
 				'order_reference_id' => $order_reference_id,
 				'status' => 0 // Pending by default
@@ -138,8 +140,13 @@
 			return $query->result_array();
 		}
 
-		public function get_course_details($url_title) {
+		public function get_course_details_from_url_title($url_title) {
 			$query = $this->common_model->dbselect('gha_courses',['url_title' => $url_title])->result_array();
+			return $query;
+		}
+
+		public function get_course_details_from_id($course_id) {
+			$query = $this->common_model->dbselect('gha_courses',['id' => $course_id])->result_array();
 			return $query;
 		}
 

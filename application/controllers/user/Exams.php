@@ -128,6 +128,7 @@
                 'user_answer_id' => $user_answer_id,
                 'answers' => $get_answers,
               ]),
+              'created_at' => Date('Y-m-d H:i:s'),
             ];
 
             $this->add_exam_history_details($history_data);

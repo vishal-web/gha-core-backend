@@ -72,12 +72,12 @@
 					<!-- End Tab Info -->
 				</div>
 			</div>
-			<?php /*?>
 			<!-- Start Sidebar -->
 			<div class="col-md-4">
 				<div class="sidebar">
 					<aside>
 						<!-- Sidebar Item -->
+						<?php /*?>
 						<div class="sidebar-item search">
 							<div class="sidebar-info">
 								<form>
@@ -86,127 +86,44 @@
 								</form>
 							</div>
 						</div>
+						<?php */ ?>
 						<!-- End Sidebar Item --> 
-						
-
+						<?php if ($course_details['related_courses'] !== '') { 
+							$related_courses = unserialize($course_details['related_courses']); 
+						?>
 						<!-- Sidebar Item -->
 						<div class="sidebar-item recent-post">
 							<div class="title">
 								<h4>Popular Courses</h4>
 							</div>
-							
+							<?php if (!empty($related_courses)) {
+								foreach ($related_courses as $key => $value) {
+									$single_course = $controller->get_course_details_from_id($value);
+									$single_course = !empty($single_course) ? $single_course[0] : [];
+									$thumb_path = base_url('uploads/course/thumb/'.$single_course['featured_image']);
+									if (!empty($single_course)) {
+							?>
 							<div class="item">
 								<div class="content">
 									<div class="thumb">
 										<a href="#">
-											<img src="assets/img/courses/g1.jpg" alt="Thumb">
+											<img src="<?=$thumb_path?>" alt="<?=$single_course['title']?>" title="<?=$single_course['title']?>">
 										</a>
 									</div>
 									<div class="info">
 										<h4>
-											<a href="#">Profession paython learing</a>
+											<a href="#"><?=substr($single_course['title'],0, 30)?></a>
 										</h4>
-										<div class="rating">
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star-half-alt"></i>
-											<span>4.5 (23,890)</span>
-										</div>
-										<div class="meta">
-											<i class="fas fa-user"></i> By <a href="#">Drup Paul</a> 
-										</div>
 									</div>
 								</div>
 							</div>
-							<div class="item">
-								<div class="content">
-									<div class="thumb">
-										<a href="#">
-											<img src="assets/img/courses/g2.jpg" alt="Thumb">
-										</a>
-									</div>
-									<div class="info">
-										<h4>
-											<a href="#">Profession paython learing</a>
-										</h4>
-										<div class="rating">
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star-half-alt"></i>
-											<span>4.5 (23,890)</span>
-										</div>
-										<div class="meta">
-											<i class="fas fa-user"></i> By <a href="#">Drup Paul</a> 
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							
-							
-							<div class="item">
-								<div class="content">
-									<div class="thumb">
-										<a href="#">
-											<img src="assets/img/courses/g2.jpg" alt="Thumb">
-										</a>
-									</div>
-									<div class="info">
-										<h4>
-											<a href="#">Profession paython learing</a>
-										</h4>
-										<div class="rating">
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star-half-alt"></i>
-											<span>4.5 (23,890)</span>
-										</div>
-										<div class="meta">
-											<i class="fas fa-user"></i> By <a href="#">Drup Paul</a> 
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div class="item">
-								<div class="content">
-									<div class="thumb">
-										<a href="#">
-											<img src="assets/img/courses/g3.jpg" alt="Thumb">
-										</a>
-									</div>
-									<div class="info">
-										<h4>
-											<a href="#">Profession paython learing</a>
-										</h4>
-										<div class="rating">
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star"></i>
-											<i class="fas fa-star-half-alt"></i>
-											<span>4.5 (23,890)</span>
-										</div>
-										<div class="meta">
-											<i class="fas fa-user"></i> By <a href="#">Drup Paul</a> 
-										</div>
-									</div>
-								</div>
-							</div>
+							<?php } } } ?>
 						</div>
 						<!-- End Sidebar Item -->
-
+						<?php } ?>
 					</aside>
 				</div>
-			</div>
-			<?php */?>
+			</div> 
 			<!-- End Sidebar -->
 		</div>
 	</div>

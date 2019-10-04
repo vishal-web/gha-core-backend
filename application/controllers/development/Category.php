@@ -76,6 +76,7 @@
 						'duration' => 	$this->input->post('duration'),
 						'description' => 	$this->input->post('description'),
 						'url_title' =>	url_title(strtolower($this->input->post('title'))),
+						'created_at' => Date('Y-m-d H:i:s'),
 					];
 					
 					$image_err = 0;

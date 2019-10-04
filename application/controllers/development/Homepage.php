@@ -31,6 +31,7 @@ class Homepage extends Backend_Controller {
 					'description' => 	$this->input->post('description'),
 					'status' => 	$this->input->post('status'),
 					'type' => 'homepage_course',
+					'created_at' => Date('Y-m-d H:i:s'),
 				];
 				
 
@@ -122,6 +123,7 @@ class Homepage extends Backend_Controller {
 			if($this->form_validation->run('admin_homepage_banner')) {
 				$do_upload = $this->do_upload('featured_image', './uploads/homepage/banner');
 				$insert_data['type'] = 'homepage_banner';
+				$insert_data['created_at'] = Date('Y-m-d H:i:s');
 				$insert_data['status'] = $this->input->post('status');
 				$image_err = 0;
 

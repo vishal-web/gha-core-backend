@@ -1,10 +1,13 @@
 <?php
 class Course extends Backend_Controller {
 	
-	
-
 	public function __construct() {
 		parent::__construct();
+	}
+
+	public function test() {
+		$image = '7f9fd61b2714077fb4df4f8c7d6f2269.png';
+		$this->create_thumbnail($image);
 	}
 
 	public function manage() { 
@@ -66,6 +69,9 @@ class Course extends Backend_Controller {
 				redirect(base_url().'development/course/create');
 			} else {
 				$data = $getData[0];
+				if ($data['related_courses'] !== '') {
+					$data['related_courses'] = unserialize($data['related_courses']);
+				}
 			}
 		}
 
@@ -74,7 +80,12 @@ class Course extends Backend_Controller {
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 		if ($this->input->post('submit') == 'submit') {
 			if($this->form_validation->run('admin_course_create')) {
-				$do_upload = $this->do_upload('featured_image', './uploads/course');
+				$thumbnail_data['create_thumbnail'] = TRUE;
+				$thumbnail_data['upload_path'] = './uploads/course/thumb'; 
+				$do_upload = $this->do_upload('featured_image', './uploads/course', null, $thumbnail_data);
+
+				$related_courses = $this->input->post('related_courses');
+				$related_courses = !empty($related_courses) ? serialize($related_courses) : '';
 
 				$insert_data = [
 					'title' => 	$this->input->post('title'),
@@ -82,8 +93,10 @@ class Course extends Backend_Controller {
 					'duration' => 	$this->input->post('duration'),
 					'description' => 	$this->input->post('description'),
 					'status' => 	$this->input->post('status'),
+					'related_courses' => $related_courses,
+					'created_at' => Date('Y-m-d H:i:s'),
 				];
-				
+ 
 				$url_title = url_title(strtolower($this->input->post('title')));
 				$is_url_title_exists = $this->is_url_title_exists($url_title, $update_id);
 				$insert_data['url_title'] = $is_url_title_exists ? $this->generate_url_title($url_title, $update_id) : $url_title;
@@ -131,6 +144,8 @@ class Course extends Backend_Controller {
 			redirect(base_url().'development/course/manage');
 		}
 
+		$data['select2_option'] = TRUE;
+		$data['related_courses_options'] = $this->get_courses_dd();
 
 		$data['headline'] = $headline; 
 		$data['editor'] = true;
@@ -176,6 +191,25 @@ class Course extends Backend_Controller {
 		  $randomString .= $characters[rand(0, $charactersLength - 1)];
 		}
 		return $randomString;
+	}
+
+	private function get_courses_dd() {
+		$update_id = (int)$this->uri->segment('4');
+		$condition['status'] = 1;
+		if ($update_id > 0) {
+			$condition['id !='] = $update_id;
+		}
+	
+		$order_by['field'] = 'title';
+		$order_by['type'] = 'asc';
+		$query = $this->common_model->dbselect('gha_courses', $condition,null,null,null,$order_by)->result_array();
+		if (!empty($query)) {
+ 			foreach ($query as $row) {
+ 				$options[$row['id']] = $row['title'];
+			}	
+		}
+
+		return $options;
 	}
 }
 ?>

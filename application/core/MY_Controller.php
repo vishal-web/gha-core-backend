@@ -16,25 +16,58 @@ class Backend_Controller extends CI_Controller {
     $this->referrer_url = $this->agent->referrer();
   }
 
-	public function do_upload($image, $upload_path, $allowed_types = null) {
+	public function do_upload($image, $upload_path, $allowed_types = null, $thumbnail_data = null) {
 
 		$allowed_types = $allowed_types == null || $allowed_types == '' ? 'gif|jpg|png|jpeg' : $allowed_types;
+		
+		if (!is_dir($upload_path)) {
+			mkdir($upload_path, 0777, true);
+		}
 
 		$config['upload_path'] = $upload_path;
 		$config['allowed_types'] = $allowed_types;
 		$config['encrypt_name'] = TRUE;
 		// $config['max_size'] = 2048;
 		$this->load->library('upload', $config);
+		$this->upload->initialize($config);
 
 		if (!$this->upload->do_upload($image)) {
 			$uploadData['err'] = 1;
 			$uploadData['error_message'] = $this->upload->display_errors('<p class="text-danger">','</p>'); 
 		} else {
+			$file_data = $this->upload->data();
 			$uploadData['err'] = 0;
-			$uploadData['file_name'] = $this->upload->data()['file_name']; 
+			$uploadData['file_name'] = $file_data['file_name']; 
+
+			if (!empty($thumbnail_data) && $thumbnail_data['create_thumbnail'] == TRUE) {
+				if (!is_dir($thumbnail_data['upload_path'])) {
+					mkdir($thumbnail_data['upload_path'], 0777, true);
+				}
+ 
+				$new_image = $thumbnail_data['upload_path'];
+				$this->create_thumbnail($file_data['file_name'], $upload_path, $new_image);
+			}
 		}
 
 		return $uploadData;
+	}
+
+	private function create_thumbnail($file_name, $source_image, $new_image) {
+		$this->load->library('image_lib');
+		$config['image_library'] = 'gd2'; 
+		$config['source_image'] = $source_image.'/'.$file_name;
+    $config['new_image'] = $new_image.'/'.$file_name;
+		$config['maintain_ratio'] = TRUE; 
+		$config['width'] = 200;
+		$config['height'] = 200;
+
+		$this->load->library('image_lib', $config);
+
+		$this->image_lib->initialize($config);
+
+		if (!$this->image_lib->resize()) {
+			// echo $this->image_lib->display_errors();
+		}
 	}
 
 	public function multiple_upload($image, $upload_path) {
@@ -138,6 +171,7 @@ class Public_Controller extends CI_Controller {
 		$insertData = [
 			'logged_in_id' => $logged_in_id,
 			'logged_in_type' => $logged_in_type, 
+			'created_at' => Date('Y-m-d H:i:s'),
 		];
 		
 		$this->common_model->dbinsert('gha_logged_in_history', $insertData);

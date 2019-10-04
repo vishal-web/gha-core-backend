@@ -28,7 +28,8 @@
 						'email' => $userInfo['email'],
 						'profile_picture' => isset($userInfo['picture']) ? $userInfo['picture'] : '',
 						'profession' => 4, 
-						'status' => 1
+						'status' => 1,
+						'created_at' => Date('Y-m-d H:i:s'),
 					];			
 
 					$query = $this->common_model->dbinsert('gha_registration', $insert_data);

@@ -88,21 +88,21 @@
       </form>
     </div>
 
-    <?php if($update_id > 0) {?>
+    <?php if($update_id > 0) { $full_file_path = base_url().'uploads/studymaterial/';?>
     <div class="box box-primaryox">
       <div class="box-header">
         <h3 class="box-title">File</h3>
       </div>
       <div class="box-body">
-        <?php if($type == 'img') {
-          $full_path_image = base_url().'uploads/studymaterial/'.$study_material;  
-        ?>
         <div class="row">
           <div class="col-md-12">
-            <img src='<?=$full_path_image?>' class='img-responsive' style='max-width: 300px'>
+          <?php if($type == 'img') { $full_file_path .= 'img/'.$study_material; ?>
+            <img src='<?=$full_file_path?>' class='img-responsive' style='max-width: 300px'>
+          <?php } else if($type == 'pdf') { $full_file_path .= 'pdf/'.$study_material;?> 
+            <iframe width="100%" height="100%" style='min-height:100vh' src="<?=$full_file_path?>"></iframe>    
+          <?php } ?>
           </div>
         </div>
-        <?php } ?>
       </div>
     </div>
     <?php } ?>

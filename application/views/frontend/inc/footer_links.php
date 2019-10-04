@@ -22,3 +22,34 @@
 <?php
   }
 ?>
+
+<?php if (isset($block_ctr) && $block_ctr) { ?>
+<script>
+  function disableF5(e) {
+    if (((e.which || e.keyCode) == 116) || (e.keyCode == 82 && e.ctrlKey)) {
+      e.preventDefault();
+    }
+  }
+
+  $(document).bind("keydown", disableF5);
+
+  function Disable(event) {
+    if (event.button == 2) {
+      window.oncontextmenu = function () {
+        return false;
+      }
+    }
+  }
+
+  document.onmousedown = Disable;
+  $("#iframe").on("click", function (e) { event.stopPropagation(); return false; });
+
+
+  /* document.oncontextmenu = function() { 
+    return false; 
+  };
+
+  console.log(window.frames['iframe']['document']);
+  window.frames["iframe"].document.oncontextmenu = function(){ return false; }; */
+</script>
+<?php } ?>
