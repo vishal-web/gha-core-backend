@@ -6,8 +6,15 @@ class Course extends Backend_Controller {
 	}
 
 	public function test() {
-		$image = '7f9fd61b2714077fb4df4f8c7d6f2269.png';
-		$this->create_thumbnail($image);
+		$dir  = './uploads/course/thumb';
+		if (is_writable($dir)) {
+			echo 'Yes';
+		} else {
+			echo 'No';
+		}
+
+		// $image = '7f9fd61b2714077fb4df4f8c7d6f2269.png';
+		// $this->create_thumbnail($image);
 	}
 
 	public function manage() { 

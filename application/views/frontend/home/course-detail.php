@@ -101,21 +101,23 @@
 									$single_course = $controller->get_course_details_from_id($value);
 									$single_course = !empty($single_course) ? $single_course[0] : [];
 									$thumb_path = base_url('uploads/course/thumb/'.$single_course['featured_image']);
+									$course_details_url = base_url().'course/'.$single_course['url_title'];
 									if (!empty($single_course)) {
 							?>
 							<div class="item">
-								<div class="content">
-									<div class="thumb">
-										<a href="#">
+								<a href="<?=$course_details_url?>" target="_blank">
+									<div class="content">
+										<div class="thumb"> 
 											<img src="<?=$thumb_path?>" alt="<?=$single_course['title']?>" title="<?=$single_course['title']?>">
-										</a>
+										</div>
+										<div class="info">
+											<h4 class='overflow-ellipsis'>
+												<?=substr($single_course['title'],0, 30)?>
+											</h4>
+											<p class='m-b-0'>₹ <?=$single_course['price']?></p>
+										</div>
 									</div>
-									<div class="info">
-										<h4>
-											<a href="#"><?=substr($single_course['title'],0, 30)?></a>
-										</h4>
-									</div>
-								</div>
+								</a>
 							</div>
 							<?php } } } ?>
 						</div>
