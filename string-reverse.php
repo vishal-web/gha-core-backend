@@ -41,8 +41,8 @@
 	}
  */
 
-	mkdir('./uploads/course/thumb');
-	
+	mkdir($_SERVER['DOCUMENT_ROOT'].'uploads/course/thumb');
+
 	
 	// ALTER TABLE gha_answers ADD COLUMN image TEXT NOT NULL AFTER correct
 	// ALTER TABLE gha_questions ADD COLUMN course_id int NOT NULL AFTER options;
