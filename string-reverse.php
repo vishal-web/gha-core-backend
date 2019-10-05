@@ -1,12 +1,31 @@
 <?php
-	date_default_timezone_set('Asia/Kolkata');
-	echo Date('Y-m-d H:i:s');
+	// date_default_timezone_set('Asia/Kolkata');
+	// echo Date('Y-m-d H:i:s');
 
-	echo '<pre>';
-	print_r($_SESSION);
-	echo '</pre>';
+	
+	// $gmtTimezone = new DateTimeZone('GMT');
+	// $myDateTime = new DateTime(Date('Y-m-d H:i:s'), $gmtTimezone);
+	// echo "<br>";
+	// echo $myDateTime->format('r');
+	// echo "<br>";
 
 
+	// echo '<pre>';
+	// print_r($_SERVER);
+	// echo '</pre>';
+	// $array[10][] = '1';
+	// $array[7][] = '1';
+	// $array[1][] = '1';
+	// $array[9][] = '1';
+	// $array[8][] = '1';
+	// $array[11][] = '1';
+
+	// foreach ($array as $key => $row) {
+
+	// 	echo '<pre>';
+	// 	print_r($row);
+	// 	echo '</pre>';
+	// }
 /* 
 	$config['base_url'] = ((isset ( $_SERVER ['HTTPS'] ) && $_SERVER ['HTTPS'] == "on") ? "https" : "http");
 	$config['base_url'] = (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "ghahealth.herokuapp.com") ? 'https' : $config['base_url'];
@@ -22,7 +41,8 @@
 	}
  */
 
-
+	mkdir('./uploads/course/thumb');
+	
 	
 	// ALTER TABLE gha_answers ADD COLUMN image TEXT NOT NULL AFTER correct
 	// ALTER TABLE gha_questions ADD COLUMN course_id int NOT NULL AFTER options;
