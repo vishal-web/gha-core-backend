@@ -12,10 +12,12 @@ class Course extends Backend_Controller {
 		} else {
 			echo 'No';
 		}
-		
+
+
 		$file_name = $this->input->get('image'); 
-		$source_image  = './uploads/course'; 
+		$source_image  = FCPATH.'uploads/course'; 
 		$new_image = $source_image.'/thumb';
+		echo $source_image;
 		$this->create_thumbnail($file_name, $source_image, $new_image);
 	}
 
@@ -89,9 +91,10 @@ class Course extends Backend_Controller {
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 		if ($this->input->post('submit') == 'submit') {
 			if($this->form_validation->run('admin_course_create')) {
+				$upload_path = FCPATH.'uploads/course';
 				$thumbnail_data['create_thumbnail'] = TRUE;
-				$thumbnail_data['upload_path'] = './uploads/course/thumb'; 
-				$do_upload = $this->do_upload('featured_image', './uploads/course', null, $thumbnail_data);
+				$thumbnail_data['upload_path'] = $upload_path.'/thumb'; 
+				$do_upload = $this->do_upload('featured_image', $upload_path, null, $thumbnail_data);
 
 				$related_courses = $this->input->post('related_courses');
 				$related_courses = !empty($related_courses) ? serialize($related_courses) : '';
