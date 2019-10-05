@@ -52,7 +52,7 @@ class Backend_Controller extends CI_Controller {
 		return $uploadData;
 	}
 
-	private function create_thumbnail($file_name, $source_image, $new_image) {
+	public function create_thumbnail($file_name, $source_image, $new_image) {
 		$this->load->library('image_lib');
 		$config['image_library'] = 'gd2'; 
 		$config['source_image'] = $source_image.'/'.$file_name;

@@ -12,9 +12,11 @@ class Course extends Backend_Controller {
 		} else {
 			echo 'No';
 		}
-
-		// $image = '7f9fd61b2714077fb4df4f8c7d6f2269.png';
-		// $this->create_thumbnail($image);
+		
+		$file_name = $this->input->get('image'); 
+		$source_image  = './uploads/course'; 
+		$new_image = $source_image.'/thumb';
+		$this->create_thumbnail($file_name, $source_image, $new_image);
 	}
 
 	public function manage() { 
