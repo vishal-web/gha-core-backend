@@ -9,7 +9,7 @@
     public function index() { 
 
       $join = [ 
-        ['type' => 'LEFT', 'condition' => 'o.order_product_id = op.id', 'table' => 'gha_order_product op'],
+        ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
         ['type' => 'LEFT', 'condition' => 'sm.course_id = op.course_id AND sm.status = 1', 'table' => 'gha_study_material sm'],
       ];
 
@@ -17,7 +17,7 @@
       $select_data = ['sm.*', 'op.course_title'];
       $order_by = null;
       $condition['o.status'] = 1;
-      $condition['op.user_id'] = $this->logged_in_user_id;
+      $condition['o.user_id'] = $this->logged_in_user_id;
       $condition['sm.id IS NOT NULL'] = NULL;
       $group_by = null;
       $data['query'] = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
@@ -46,7 +46,7 @@
       $material_id = $this->uri->segment('4');
       
       $join = [ 
-        ['type' => 'LEFT', 'condition' => 'o.order_product_id = op.id', 'table' => 'gha_order_product op'],
+        ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
         ['type' => 'LEFT', 'condition' => 'sm.course_id = op.course_id AND sm.status = 1', 'table' => 'gha_study_material sm'],
       ];
 
@@ -54,7 +54,7 @@
       $select_data = ['op.course_title'];
       $order_by = null;
       $condition['o.status'] = 1;
-      $condition['op.user_id'] = $this->logged_in_user_id; 
+      $condition['o.user_id'] = $this->logged_in_user_id; 
       $condition['sm.id'] = $material_id;
       $group_by = null;
       $query = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by)->result_array();

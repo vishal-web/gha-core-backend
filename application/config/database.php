@@ -95,17 +95,23 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost') {
-	/*$db['default']['hostname'] = 'angelinajoseph.com';
+if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'angelinajoseph') > 0) {
+	//$db['default']['hostname'] = 'angelinajoseph.com';
 	$db['default']['username'] = 'angelinajosep_ghahealth';
 	$db['default']['password'] = 'Ghahealth@123';
-	$db['default']['database'] = 'angelinajosep_ghahealth';*/
+	$db['default']['database'] = 'angelinajosep_ghahealth';
 
 
-	$db['default']['hostname'] = 'remotemysql.com';
-	$db['default']['username'] = 'kKTPrkjIvj';
-	$db['default']['password'] = 'AZLxijL00d';
-	$db['default']['database'] = 'kKTPrkjIvj';
+	// $db['default']['hostname'] = 'remotemysql.com';
+	// $db['default']['username'] = 'kKTPrkjIvj';
+	// $db['default']['password'] = 'AZLxijL00d';
+	// $db['default']['database'] = 'kKTPrkjIvj';
+}
+
+if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth') > 0) {
+	$db['default']['username'] = 'a878452_ghacours';
+	$db['default']['password'] = 'K]GE=8y_8XLC';
+	$db['default']['database'] = 'a878452_ghacourses';
 }
 
 
@@ -120,4 +126,20 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost') {
 
 	Port: 3306
 	
+*/
+
+/* 
+
+You have successfully created a new database. The details are below.
+
+Username: ZVXahAyLcG
+
+Database name: ZVXahAyLcG
+
+Password: NJhcieQy2R
+
+Server: remotemysql.com
+
+Port: 3306
+
 */

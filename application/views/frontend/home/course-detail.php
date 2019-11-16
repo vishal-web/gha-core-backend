@@ -37,14 +37,20 @@
 						<div class="course-meta"> 
 							
 							<div class="item price">
-								<h4 style="font-size:25px;">Price : INR <?=$course_details['price']?></h4>
-								
+								<h4 style="font-size:25px;">Price : INR <?=$course_details['price']?></h4> 
 							</div>
 							<div class="align-right">
-								<a class="btn btn-dark effect btn-sm" target="_blank" href="<?=$redirect_url?>" style="width:250px; font-size:17px;">
+								<a class="btn btn-dark effect btn-sm" target="_blank" data-course-id="<?=$course_details['id']?>" id="add-to-cart" href="#" style="width:250px; font-size:16px;">
 									<i class="fas fa-chart-bar"></i> Enroll
 								</a>
 							</div>
+							<?php /* ?>
+							<div class="align-right">
+								<a class="btn btn-gray effect m-r-10" target="_blank" data-course-id="<?=$course_details['id']?>" id="add-to-cart" href="#" style="width:150px; font-size:14px;">
+									<i class="fas fa-shopping-cart"></i> Add To Cart
+								</a>
+							</div>
+							<?php */ ?>
 						</div>
 						<!-- End Course Meta -->
 					</div>

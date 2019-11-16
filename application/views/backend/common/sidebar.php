@@ -44,7 +44,9 @@
       <li class="">
         <a href="<?=base_url()?>development/payment/manage"><i class="fa fa-history"></i> <span>Payment History</span></a>
       </li>
-
+      <li class="">
+        <a href="<?=base_url()?>development/order/manage"><i class="fa fa-first-order"></i> <span>Order History</span></a>
+      </li>
     </ul>
   <!-- /.sidebar-menu -->
   </section>

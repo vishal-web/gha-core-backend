@@ -9,7 +9,7 @@
           if ($query['type'] == 'img') {
             $full_file_path .= 'img/'.$query['study_material'];
       ?>
-      <div class=''>
+      <div class='container'>
         <img src="<?=$full_file_path?>" class="img-responsive" alt="Image">
       </div>
       <?php } else if ($query['type'] == 'youtube') { ?>

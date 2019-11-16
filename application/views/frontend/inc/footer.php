@@ -5,8 +5,7 @@
                 <div class="col-md-4 item">
                     <div class="f-item">
                         <img src="<?=base_url()?>assets/frontend/img/logo_1.png" alt="Logo" align="middle" style="margin-left:70px;">
-                        <p>
-                            Excellence decisively nay man yet impression for contrasted remarkably. There spoke happy for you are out. Fertile how old address did showing because sitting replied six. Had arose guest visit going off child she new.                            </p>
+                        <p>Excellence doesn’t come to you, it is achieved with constant practice and testing your knowledge. We sincerely hope that we proved to be a helpful medium for you to take a step forward in your quest to be a better healthcare provider.</p>
                         <div class="social">
                             <ul>
                                 <li>

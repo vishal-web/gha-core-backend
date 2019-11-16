@@ -1,5 +1,5 @@
 <?php
-  class User extends Public_Controller {
+  class Test extends Public_Controller {
     public $head_title = 'Gloobal Health Alliance';
     public $layout = 'frontend/frontend-layout';
     public $homepage = FALSE;
@@ -8,14 +8,36 @@
     public function __construct() {
       parent::__construct();
       $this->load->helper('form');
-      $logged_in_user_data = $this->session->userdata('logged_in_user_data');
-      if (empty($logged_in_user_data)) {
-        redirect('login');
-      }
+      // $logged_in_user_data = $this->session->userdata('logged_in_user_data');
+      // if (empty($logged_in_user_data)) {
+      //   redirect('login');
+      // }
 
-      $this->logged_in_user_id = $logged_in_user_data['user_id'];
+      // $this->logged_in_user_id = $logged_in_user_data['user_id'];
     }
 
+    public function test() {
+ 
+      // chmod('/var/www/html/ghahealth/application/cache/foo', 0640);  
+ 
+      // $this->cache->file->clean();
+      $this->cache->file->save('test11', 'bar', 10);
+
+
+      // $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+      // $this->cache->delete('courses');
+      // if ( ! $foo = $this->cache->get('courses'))
+      // {
+      //   echo 'Saving to the cache!<br />';
+      //   $courses = 'coursesbarbaz asdfasd asdfasdf asdfasdf ';
+
+      //   // Save into the cache for 5 minutes
+      //   $this->cache->save('courses', $courses);
+      // }
+
+      // echo $courses;
+    }
+ 
     private function get_logged_in_user_details() {
 
       $join = [

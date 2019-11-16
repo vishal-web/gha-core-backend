@@ -9,9 +9,7 @@
           <th>S.No</th> 
           <th>Transaction id</th>
           <th>Mode</th>
-          <th>Amount</th>
-          <th>Course</th>
-          <th>Course duration</th>
+          <th>Amount</th> 
           <th>Message</th>
           <th>Date</th> 
         </tr>
@@ -25,9 +23,7 @@
           <td><?=++$counter?></td>
           <td><?=$row['transaction_id']?></td>
           <td><?=$row['mode']?></td>
-          <td><?=($row['amount'] / 100)?></td>
-          <td><?=$row['course_title']?></td>
-          <td><?=$row['course_duration'] .' Month'?></td>
+          <td><?=($row['amount'] / 100)?></td> 
           <td><?=$row['response_description']?></td>
           <td><?=$row['payment_date']?></td>
         </tr>

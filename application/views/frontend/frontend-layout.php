@@ -34,7 +34,10 @@
     ============================================= -->
     <?php $this->load->view('frontend/inc/footer'); ?>
     <!-- End Footer -->
-
+    <script>
+        var BASE_URL = '<?=base_url()?>';
+        window.page_type = 'Frontedn';
+    </script>
     <!-- jQuery Frameworks
     ============================================= -->
     <?php $this->load->view('frontend/inc/footer_links'); ?>
@@ -52,11 +55,6 @@
         });
     </script>
     <?php } ?>
-
-    <script>
-        var BASE_URL = '<?=base_url()?>';
-        window.page_type = 'Frontedn';
-    </script>
 </body>
 
 </html>

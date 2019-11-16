@@ -207,9 +207,7 @@
       <div class="site-heading text-center">
         <div class="col-md-8 col-md-offset-2">
           <h2>UPCOMING COURSES</h2>
-          <p>
-            New Courses Going Soon
-          </p>
+          <p>New courses going online soon.</p>
         </div>
       </div>
     </div>
@@ -411,9 +409,7 @@
       <div class="site-heading text-center">
         <div class="col-md-8 col-md-offset-2">
           <h2>Students Review</h2>
-          <p>
-            Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay own additions education satisfied the perpetual. If he cause manor happy. Without farther she exposed saw man led. Along on happy could cease green oh.                        
-          </p>
+          <p>Analysis of our courses from those who have done courses with us.</p>
         </div>
       </div>
     </div>

@@ -9,8 +9,8 @@
 
     public function index() { 
 
-      $join = [ 
-        ['type' => 'LEFT', 'condition' => 'o.order_product_id = op.id', 'table' => 'gha_order_product op'],
+      $join = [
+        ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
         ['type' => 'LEFT', 'condition' => 'e.course_id = op.course_id AND e.status = 1', 'table' => 'gha_exams e'],
       ];
 
@@ -18,7 +18,7 @@
       $select_data = ['e.*', 'op.course_title'];
       $order_by = null;
       $condition['o.status'] = 1;
-      $condition['op.user_id'] = $this->logged_in_user_id;
+      $condition['o.user_id'] = $this->logged_in_user_id;
       $condition['e.id IS NOT NULL'] = NULL;
       $group_by = null;
       $data['query'] = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
@@ -53,7 +53,11 @@
         redirect(base_url('user/exams'));
       }
 
-      // $this->allow_only_them_who_refer_from_preview_page();
+      $submit = $this->input->post('submitexam');
+
+      if ($submit == '') {
+        $this->allow_only_them_who_refer_from_preview_page();
+      }
 
       // check if user enrolled for this exam
       $this->check();
@@ -77,8 +81,9 @@
       }
 
 
-      $submit = $this->input->post('submitexam');
- 
+      
+
+
       if ($submit == 'submitexam') {
         $question = $this->input->post('question');
         $answer = $this->input->post('answer');
@@ -136,7 +141,7 @@
 
           $passing_percentage = $exam_query[0]['passing_percentage'];
           $total_question = $exam_query[0]['total_question'];
-          $calculate_pecentage = number_format(($scored_marks * 100) / ($total_question * $each_marks), 2);
+          $calculate_pecentage = ($scored_marks * 100) / ($total_question * $each_marks);
 
 
           $updateData = [
@@ -215,22 +220,16 @@
     }
 
     private function allow_only_them_who_refer_from_preview_page() {
-
-      $explode = explode('/', $this->referrer_url);
-      $count = count($explode);
-      
-      if (strtolower($explode[$count - 2]) !== 'preview') {
-        if (!$this->session->userdata('referrer_from_preview')) {
-          redirect(base_url('user/exams'));
-        }
-      }
+      if (strpos($this->referrer_url,"preview") === false) {
+        redirect(base_url('user/exams'));
+      } 
     }
 
     private function check() {
       $exam_id = $this->uri->segment('4');
       
-      $join = [ 
-        ['type' => 'LEFT', 'condition' => 'o.order_product_id = op.id', 'table' => 'gha_order_product op'],
+      $join = [
+        ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
         ['type' => 'LEFT', 'condition' => 'e.course_id = op.course_id AND e.status = 1', 'table' => 'gha_exams e'],
       ];
 
@@ -238,8 +237,7 @@
       $select_data = ['e.*', 'op.course_title'];
       $order_by = null;
       $condition['o.status'] = 1;
-      $condition['op.user_id'] = $this->logged_in_user_id;
-      $condition['op.user_id'] = $this->logged_in_user_id; 
+      $condition['o.user_id'] = $this->logged_in_user_id; 
       $condition['e.id'] = $exam_id;
       $group_by = null;
       $query = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by)->result_array();

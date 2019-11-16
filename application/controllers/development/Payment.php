@@ -9,8 +9,7 @@ class Payment extends Backend_Controller {
 		$data['headline'] = 'Manage Payments'; 
 		$data['view_file'] = 'backend/payment/manage';
 		$data['edit_url'] = base_url().'development/payment/create';
-		$data['view_url'] = base_url().'development/payment/view';
-
+		$data['view_url'] = base_url().'development/order/view';
 
 		$search = trim($this->input->get('search'));			
 		$start_date = trim($this->input->get('start_date'));			

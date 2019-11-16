@@ -1,4 +1,10 @@
 <?php
+	// $conn = mysqli_connect('angelinajoseph.com','angelinajosep_ghahealth','Ghahealth@123');
+
+	// if (!$conn) {
+	// 	echo mysqli_connect_error();
+	// }
+
 	// date_default_timezone_set('Asia/Kolkata');
 	// echo Date('Y-m-d H:i:s');
 

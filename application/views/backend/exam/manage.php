@@ -76,7 +76,7 @@
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-condensed table-bordered">
+				<table class="table table-bordered">
 					<tr>
 						<th>SN</th>
 						<th>Exam Title</th>

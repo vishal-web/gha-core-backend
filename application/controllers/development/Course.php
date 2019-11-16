@@ -13,12 +13,11 @@ class Course extends Backend_Controller {
 			echo 'No';
 		}
 
-
-		$file_name = $this->input->get('image'); 
-		$source_image  = FCPATH.'uploads/course'; 
-		$new_image = $source_image.'/thumb';
-		echo $source_image;
-		$this->create_thumbnail($file_name, $source_image, $new_image);
+		// $file_name = $this->input->get('image'); 
+		// $source_image  = FCPATH.'uploads/course'; 
+		// $new_image = $source_image.'/thumb';
+		// echo $source_image;
+		// $this->create_thumbnail($file_name, $source_image, $new_image);
 	}
 
 	public function manage() { 
@@ -131,6 +130,7 @@ class Course extends Backend_Controller {
 				$insert_data['featured_image'] = $featured_image;
 
 				if ($image_err == 0) {
+					$this->cache->file->delete('courses');
 					if ($update_id > 0) {
 						$query = $this->common_model->dbupdate('gha_courses',$insert_data,['id' => $update_id]);
 						if ($query) {

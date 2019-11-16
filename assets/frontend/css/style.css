@@ -226,11 +226,11 @@ b, strong {
   box-shadow: inherit;
 }
 
-input {
+form input {
   border: 1px solid #e7e7e7;
   border-radius: inherit;
   box-shadow: inherit;
-  min-height: 50px;
+  min-height: 45px;
 }
 /* Default CSS */
 .container-half {
@@ -753,24 +753,31 @@ nav.navbar.bootsnav.navbar-transparent.pad-top {
      # Topbar 
 =================================================================== */
 .top-bar-area {
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 .top-bar-area {
-  padding: 10px 0;
+  padding: 5px 0;
+}
+
+.top-bar-area .user-login a:not(:last-child) {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding-right: 20px;
 }
 
 .top-bar-area .user-login a {
-  background: #ffb606 none repeat scroll 0 0;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  color: #002147;
+  /* background: #ffb606 none repeat scroll 0 0; */
+  /* -webkit-border-radius: 5px; */
+  /* -moz-border-radius: 5px; */
+  /* border-radius: 5px; */
+  /* color: #002147; */
   display: inline-block;
   font-weight: 600;
   margin-left: 5px;
-  padding: 8px 25px;
+  /* padding: 8px 25px; */
 }
+
+
 
 .top-bar-area .user-login a i {
   margin-right: 2px;
@@ -809,7 +816,7 @@ nav.navbar.bootsnav.navbar-transparent.pad-top {
 .top-bar-area .address-info li span {
   display: block;
   font-weight: 600;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .top-bar-area .address-info li p {
@@ -824,6 +831,10 @@ nav.navbar.bootsnav.navbar-transparent.pad-top {
 
 .top-bar-area .address-info li i {
   margin-right: 3px;
+}
+
+.top-bar-area .address-info .info {
+  margin: 3px 0px;
 }
 
 .top-bar-area.address-one-lines .address-info {
@@ -942,6 +953,38 @@ nav.navbar.bootsnav.navbar-transparent.pad-top {
   width: 20px;
 }
 
+@media (min-width: 1024px) {
+  .top-bar-area + .navbar-default.navbar-transparent {
+    margin-top: 40px !important;
+  }
+
+  nav.navbar.bootsnav ul.nav.navbar-right .dropdown-menu {
+    right: 0;
+  }
+}
+.navbar-brand img {
+  width: 200px;
+}
+
+nav.navbar.bootsnav .navbar-brand {
+  padding: 10px 15px;
+}
+
+#navbar-menu li a {
+  font-size: 16px;
+}
+
+#navbar-menu li.user-menu a {
+  font-size: 14px;
+}
+
+nav.navbar.bootsnav.sticked .navbar-brand {
+  padding: 10px 15px;
+}
+
+.navbar {
+  min-height: 40px;
+}
 
 /* ============================================================== 
      # Bradcrumb 
@@ -6777,5 +6820,38 @@ footer.demo .copyright {
 
 .custom-preview p {
   margin-bottom: 10px;
+  font-size: 16px;
+}
+
+#validation-errors p {
+  margin-bottom: 5px;
+}
+
+.title-base {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.text-title hr {
+  height: 2px;
+  margin-bottom: 20px;
+  border-color: #b3b3b3;
+  background-color: #F3B007;
+}
+
+.vcenter {
+  /* display: inline-block; */
+  vertical-align: middle !important;
+  float: none;
+}
+.cart table>tbody>tr>td {
+  border-top: 0px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.cart table {
+  border: 1px solid #ddd;
+}
+
+.fs-16 {
   font-size: 16px;
 }

@@ -65,7 +65,7 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/course" class="btn btn-warning">Cancel</a>
+		      <a href="<?=current_url()?>" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 
@@ -75,7 +75,7 @@
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Payment History</h3>
+				<h3 class="box-title">Order History</h3>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
@@ -83,11 +83,11 @@
 					<tr>
 						<th>SN</th>
 						<th>Order ID</th>
-						<th>Mode</th>
-						<th>Amount</th>
-						<th>Description</th> 
-						<th>Payment Date</th>
-						<th>Status</th> 
+						<th>Name</th> 
+						<th>Email</th> 
+						<th>Order Date</th>
+						<?php /* ?><th><a href='?sort_by=status&type=<?=$type?>'>Status</a></th><?php */ ?>
+						<th>Status</th>
 						<th>Action</th>
 					</tr>
 
@@ -103,20 +103,21 @@
 									$status_text = 'Failed';
 									$status_label = 'danger';
 								} else if ($row['status'] == 0) {
-									$status_text = 'Payment Initiated';
+									$status_text = 'Order Initiated';
 									$status_label = 'warning';
 								}
+
+								$created_at = !empty($row['created_at']) ? Date('Y-m-d H:i A', strtotime($row['created_at'])) : '---'; 
 					?>
 					
 					<tr>
 						<td><?=++$sn?></td>
-            <td><?=$row['order_id']?></td>
-            <td><?=$row['mode']?></td>
-            <td><?=number_in_inr($row['amount'] / 100)?></td>
-            <td class='col-md-4'><?=$row['response_description']?></td>
-            <td><?=Date('Y-m-d H:i A', strtotime($row['created_at']))?></td> 
+            <td><?=$row['order_reference_id']?></td>
+            <td><?=ucwords($row['firstname'].' '.$row['lastname'])?></td>
+            <td><?=$row['email']?></td> 
+            <td><?=$created_at?></td> 
 						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
-						<td><a class="btn btn-sm btn-warning" href="<?=$view_url.'/'.$row['order_id']?>">View</a></td>
+						<td><a class="btn btn-sm btn-warning" href="<?=$view_url.'/'.$row['id']?>">View</a></td>
 					</tr>
 					<?php
 							}

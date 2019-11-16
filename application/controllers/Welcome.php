@@ -75,7 +75,7 @@ class Welcome extends Public_Controller {
 					$this->logged_in_history($query[0]['id'], 'user');
 
 					$this->session->set_userdata('logged_in_user_data', $session_data);
-
+					$this->move_local_cart_items_to_user_cart();
 					redirect('user/dashboard');
 				} else {
 					$this->session->set_flashdata('flash_message', 'You have entered invalid login details');

@@ -80,7 +80,7 @@ nav.bg-dark.navbar.bootsnav {
 nav.navbar.bootsnav ul.nav > li > a {
   color: #333333;
   background-color: transparent !important;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-weight: 600;
 }
 
@@ -876,7 +876,7 @@ nav.navbar.bootsnav {
     font-weight: 600;
     letter-spacing: 0.06em;
     padding: 35px 15px;
-    text-transform: uppercase;
+    text-transform: capitalize;
   }
 
   nav.navbar.bootsnav.sticked ul.nav > li > a {

@@ -10,7 +10,7 @@
     <div class='row'>
       <div class="col-sm-8 fu-example section">
         <div class="box outheBoxShadow wizard bg-light" data-initialize="wizard" id="questionWizard">
-          <div class="steps-container bg-light">
+          <div class="steps- bg-light">
             <ul class="steps hidden" style="margin-left: 0">
               <?php for ($i = 1; $i <= $query->num_rows(); $i++) { ?>
               <li data-step="<?=$i?>" class="<?=$i == 1 ? 'active' : ''?>"></li>

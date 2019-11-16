@@ -194,17 +194,17 @@ label {
     box-shadow: 0 0 0 rgba(0, 0, 0, 0.070) inset;
 }
 
-.checkbox > label > input[type="checkbox"] {
+form .checkbox > label > input[type="checkbox"] {
     float: left;
     padding: 0px;
     margin: 0px 0px 0px 0px;
 }
 
-.checkbox > label > span {
+form .checkbox > label > span {
   color:#a4b1c2;
 }
 
-.checkbox > span > label > a {
+form .checkbox > span > label > a {
   color:#a4b1c2;
 }
 /* Login Close */

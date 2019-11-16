@@ -51,7 +51,7 @@
 				$this->session->set_userdata('logged_in_user_data', $session_data);
 
 				$this->logged_in_history($checkUser[0]['id'], 'user');
-
+				$this->move_local_cart_items_to_user_cart();
 				if ($checkUser[0]['city'] == 0 || $checkUser[0]['state'] == 0 || $checkUser[0]['country'] == 0) {
 					redirect('user/profile');
 				}
