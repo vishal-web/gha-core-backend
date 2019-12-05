@@ -91,6 +91,10 @@
           <table class='table table-bordered'>
             
             <tr>
+              <th class='col-md-6'>Result</th>
+              <td><?=($exam_details[0]['percentage'] >= $exam_details[0]['passing_percentage']) ? 'Pass' : 'Fail'?></td>
+            </tr>
+            <tr>
               <th class='col-md-6'>Total Score</th>
               <td><?=$exam_details[0]['total_score']?></td>
             </tr>

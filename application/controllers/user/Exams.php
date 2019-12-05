@@ -193,6 +193,9 @@
       unset($condition);
       $condition['id'] = $summary_id;
       $data['exam_details'] = $this->common_model->dbselect('gha_exams_history', $condition)->result_array(); 
+      if (empty($data['exam_details'])) {
+        redirect(base_url().'user/exams');
+      }
 
       $data['headline'] = $this->head_title = 'Exam Summary';
       $data['view_file'] = 'frontend/user/exams/summary';

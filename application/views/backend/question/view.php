@@ -21,6 +21,13 @@
 
 					echo $question_data['question_title'];
 					echo "<br><br>";
+					
+					if ($question_data['image']) {
+						echo "<img src='".base_url('uploads/question/'.$question_data['image'])."' width='150' class='img-responsive'>";
+						echo "<br><br>";
+					}
+
+
 					echo "Choices-";
 					echo "<br><br>";
 

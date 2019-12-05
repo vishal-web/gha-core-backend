@@ -73,7 +73,7 @@
             </ul>
           </li>
           <?php } ?>
-          <li><a href="<?=base_url()?>contact" >contact Us</a></li>
+          <li><a href="https://ghahealth.com/Contact-Us.php" target='_blank' >contact Us</a></li>
           <?php if(empty($this->session->userdata('logged_in_user_data'))) { ?>
           <li><a href="<?=base_url()?>login"  class="popup-with-form1"> Log In</a></li>
           <li><a href="<?=base_url()?>register"  class="popup-with-form1"> Register</a></li>
@@ -86,6 +86,7 @@
                 <li><a href="<?=base_url()?>user/payment">Payment History</a></li>
                 <li><a href="<?=base_url()?>user/exams">Online Exam</a></li>
                 <li><a href="<?=base_url()?>user/exams/history">Exam History</a></li>
+                <li><a href="<?=base_url()?>user/review">Review</a></li>
                 <li><a href="<?=base_url()?>user/studymaterial">Study Material</a></li>
                 <li><a href="<?=base_url()?>user/certificate">Download Certificate</a></li>
                 <li><a href="<?=base_url()?>user/logout">Logout</a></li>

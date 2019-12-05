@@ -31,7 +31,7 @@ class Course extends Backend_Controller {
 
 		$per_page = $this->input->get('per_page') != '' ? $this->input->get('per_page') : 0;
 		$base_url = base_url().'development/course/manage';
-		$condition = [];
+		$condition = ['upcoming_course' => 0];
 
 		if (isset($_GET['search']) || (isset($_GET['start_date']) && isset($_GET['end_date']))) {
 			$base_url .= '?query=';
@@ -104,6 +104,7 @@ class Course extends Backend_Controller {
 					'duration' => 	$this->input->post('duration'),
 					'description' => 	$this->input->post('description'),
 					'status' => 	$this->input->post('status'),
+					'upcoming_course' => 	(int)$this->input->post('upcoming_course'),
 					'related_courses' => $related_courses,
 					'created_at' => Date('Y-m-d H:i:s'),
 				];
@@ -112,7 +113,6 @@ class Course extends Backend_Controller {
 				$is_url_title_exists = $this->is_url_title_exists($url_title, $update_id);
 				$insert_data['url_title'] = $is_url_title_exists ? $this->generate_url_title($url_title, $update_id) : $url_title;
 				
-
 				$image_err = 0;
 
 				if ($update_id > 0) {
@@ -145,7 +145,7 @@ class Course extends Backend_Controller {
 							$this->session->set_flashdata('flash_type', 'success');
 							redirect(current_url());	
 						}
-					}	
+					}
 				} else { 
 					$data['featured_image_error'] = $do_upload['error_message'];
 				}

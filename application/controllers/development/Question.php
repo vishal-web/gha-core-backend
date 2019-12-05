@@ -14,9 +14,9 @@ class Question extends Backend_Controller {
 		$per_page = $this->input->get('per_page') != '' ? $this->input->get('per_page') : 0;
 		$base_url = base_url().'development/question/manage';
 		$condition = [];
-
+		
 		$this->load->library('pagination');
-		$order_by = ['field' => 'id', 'type' => 'desc'];
+		$order_by = ['field' => 'q.id', 'type' => 'desc'];
 		$limit	= 10;
 		$total_result	= $this->common_model->dbselect("gha_questions",$condition, "COUNT(id) as Total")->result_array();
 
@@ -27,9 +27,14 @@ class Question extends Backend_Controller {
 		$config['total_rows']	= $total_result[0]['Total'];
 		$config['base_url']		= $base_url;
 
-		$this->pagination->initialize($config);
+		$join = [
+			['table' => 'gha_courses c', 'condition' => 'c.id = q.course_id', 'type' => 'left']
+		];
 
-		$query = $this->common_model->dbselect('gha_questions',$condition, null, $per_page,null, $order_by, $limit); 
+
+		$this->pagination->initialize($config);
+		$select_data = ['q.*', 'c.title', 'c.url_title'];
+		$query = $this->common_model->dbselect('gha_questions q',$condition, $select_data, $per_page, $join, $order_by, $limit); 
 		$data['query'] = $query->result_array();
 
 		$data['form_location'] = current_url();
@@ -60,10 +65,19 @@ class Question extends Backend_Controller {
 
 			if($this->form_validation->run('admin_question_create')) {
 				$choice = $this->input->post('choice');
+				$image_name = $update_id > 0 ? $data['image'] : '';
+				$image_upload = 0;
 
 				// options image upload
 				if (isset($_FILES)) {
 					$uploaded_options = $this->multiple_upload('choice','./uploads/question/options');
+					if (isset($_FILES['image']['name']) && $_FILES['image']['name'] !== '') {
+						$do_upload = $this->do_upload('image', './uploads/question');	
+						$image_upload = $do_upload['err'];
+						if ($image_upload === 0) {
+							$image_name = $do_upload['file_name'];
+						}
+					}
 				}
 
 				$correct_answer_checked = 0;
@@ -101,34 +115,41 @@ class Question extends Backend_Controller {
 					'description' => $this->input->post('description'),
 					'status' => $this->input->post('status'),
 					'is_multiple_choice' => 0,
+					'image' => $image_name,
 					'updated_at' => Date('Y-m-d H:i:s'),
 					'created_at' => Date('Y-m-d H:i:s'),
 					'options' => $serialize_choice
 				];
 
-				if ($correct_answer_checked > 0) {
-					if ($update_id > 0) {
-						$query = $this->common_model->dbupdate('gha_questions',$insert_data,['id' => $update_id]);
-						if ($query) {
-							$this->answers($update_id, $choice);
-							$this->session->set_flashdata('flash_message', 'Question details has been successfully updated.');
-							$this->session->set_flashdata('flash_type', 'success');
+				if ($image_upload === 0) {
+					if ($correct_answer_checked > 0) {
+						if ($update_id > 0) {
+							$query = $this->common_model->dbupdate('gha_questions',$insert_data,['id' => $update_id]);
+							if ($query) {
+								$this->answers($update_id, $choice);
+								$this->session->set_flashdata('flash_message', 'Question details has been successfully updated.');
+								$this->session->set_flashdata('flash_type', 'success');
 
-							redirect(current_url());	
+								redirect(current_url());	
+							}
+						} else {
+							$query = $this->common_model->dbinsert('gha_questions', $insert_data);
+							if ($query) {
+								$this->answers($this->db->insert_id(), $choice);
+								$this->session->set_flashdata('flash_message', 'Question has been successfully added.');
+								$this->session->set_flashdata('flash_type', 'success');
+								
+								redirect(current_url());
+							}
 						}
 					} else {
-						$query = $this->common_model->dbinsert('gha_questions', $insert_data);
-						if ($query) {
-							$this->answers($this->db->insert_id(), $choice);
-							$this->session->set_flashdata('flash_message', 'Question has been successfully added.');
-							$this->session->set_flashdata('flash_type', 'success');
-							
-							redirect(current_url());
-						}
+						$data['custom_error'] = 1;
+						$data['custom_error_msg'] = 'Please check correct from any of the choices below.';
 					}
 				} else {
 					$data['custom_error'] = 1;
-					$data['custom_error_msg'] = 'Please check correct from any of the choices below.';
+					$data['custom_error_msg'] = strip_tags($do_upload['error_message']); 
+					$data['img_upload_error_msg'] = $do_upload['error_message']; 
 				}
 			}
 		}

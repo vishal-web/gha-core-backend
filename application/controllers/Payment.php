@@ -9,10 +9,10 @@
 			if($this->mobikwik->verifyChecksum()) {
 
 				$payment_reference_id = $this->get_payment_reference_id();
-				$order_id = $this->get_order_id($this->input->post('orderId'));
+				$order = $this->get_order($this->input->post('orderId'));
 
 				$insertData = [
-					'order_id' => $order_id,
+					'order_id' => $order['id'],
 					'amount' => $this->input->post('amount'),
 					'transaction_id' => $this->input->post('pgTransId'),
 					'mode' => $this->input->post('paymentMode'),
@@ -25,9 +25,12 @@
 				$this->common_model->dbinsert('gha_payment', $insertData);
 
 				// update order
-				$condition['id'] = $order_id;
+				$condition['id'] = $order['id'];
 				$updateData = ['status' => 1, 'updated_at' => Date('Y-m-d')];
 				$this->common_model->dbupdate('gha_order', $updateData, $condition);
+
+				$this->confirmation_mail($this->input->post('orderId'), $order['user_id']);
+				
 				redirect(base_url('payment/success/'.$payment_reference_id));
 			} else {
 				redirect(base_url('payment/failed'));
@@ -47,6 +50,50 @@
 			$this->load->view($this->layout, $data);
 		}
 
+		private function confirmation_mail($order_reference_id, $user_id) {
+			$message = 'Your payment has been successful. <br /><br />';
+			$order_details = $this->get_ordered_course($order_reference_id);
+			foreach ($order_details as $key => $row) {
+				$message .= 'The '. $row['course_title'] .' course purchase is valid for the period of ';
+				$message .= $row['course_duration']. '  month. ';
+				$message .= 'You will be able to take two attempts at the test. ';
+				$message .= 'On the first failed attempt your test will be locked for 48 hours.';
+				$message .= ' <br /> <br />';
+				$message .= 'So, we will kindly request you to take both of your attempts within the period of '. $row['course_duration'] .' month.';
+				$message .= ' <br /> <br />';
+				
+				if (isset($order_details[$key + 1])) {
+					$message .= ' <span style="border-width: 1px; display: block;overflow: hidden;border: 1px solid;margin-bottom: 20px;"></span>';
+				}
+			}
+
+			$userData = $this->common_model->dbselect('gha_registration',['id' => $user_id])->result_array();
+			if (!empty($userData)) {
+				$email = $userData[0]['email'];
+
+				$data['message'] = $message;
+				$data['view_file'] = 'mailer/common-mail';
+				$mailer_message = $this->load->view('mailer/mailer-layout',$data, true);
+
+				send_mail($email, 'Order : '.$order_reference_id.' Payment Success', $mailer_message);
+			}
+		}
+
+		public function get_ordered_course($order_reference_id) {
+			$join = [
+				['type' => 'left', 'table' => 'gha_billing_address ba', 'condition' => 'ba.id = o.billing_address_id'], 
+				['type' => 'left', 'table' => 'gha_order_product op', 'condition' => 'op.order_id = o.id'], 
+			];
+	
+			$condition = ['o.order_reference_id' => $order_reference_id];
+			$select_data = ['o.id', 'op.*'];
+	
+			$query = $this->common_model->dbselect('gha_order o',$condition, $select_data, null, $join);
+			return $query->result_array(); 
+		}
+
+
+
 		public function failed() {
 			$data['view_file'] = 'frontend/home/payment-details';
 			$this->load->view($this->layout, $data);
@@ -62,9 +109,9 @@
 			}
 		}
 
-		private function get_order_id($order_reference_id) {
+		private function get_order($order_reference_id) {
 			$query = $this->common_model->dbselect('gha_order', ['order_reference_id' => $order_reference_id])->result_array();
-			return !empty($query) ? $query[0]['id'] : 0;
+			return !empty($query) ? $query[0] : 0;
 		}
 	}
 	

@@ -169,7 +169,7 @@
 		public function generate_navbar() {
 			$get_course = $this->cache->file->get('courses');
 			if (!$get_course) {
-				$query = $this->common_model->dbselect('gha_courses', ['status'=>1], null, null, null,['field' => 'title', 'type'=>'asc'])->result_array();
+				$query = $this->common_model->dbselect('gha_courses', ['status'=>1, 'upcoming_course' => 0], null, null, null,['field' => 'title', 'type'=>'asc'])->result_array();
 				$this->cache->file->save('courses', $query);
 			} else {
 				$query = $get_course;

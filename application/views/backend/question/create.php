@@ -29,6 +29,15 @@
               <?=form_error('question_title')?>
             </div>
     			</div>
+          
+          
+          <div class="form-group">
+    			  <label for="" class="col-md-2 control-label">Question Image</label>
+            <div class="col-md-9">
+              <input type="file" class="form-control" name="image" /> 
+              <?=isset($img_upload_error_msg) ? $img_upload_error_msg : null?>
+            </div>
+    			</div>
 
           <div class="form-group">
             <label for="" class="col-md-2 control-label">Description</label>

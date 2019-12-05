@@ -195,23 +195,26 @@
     });
 
     /* ---------- Add class .active to current link  ---------- */
+    
+    let splitLocation = String(window.location).split('/');
     $('ul.sidebar-menu li a').each(function() {
-      if($($(this))[0].href==String(window.location)) {
-        console.log('hello');
+
+      // let splitHref = String($($(this))[0].href).split('/'); 
+      // console.log(String($($(this))[0].href).replace(window.location.origin, ''))
+      // console.log(String(window.location));
+
+      if($($(this))[0].href==String(window.location)) { 
         $(this).parent().addClass('active');
-        
       }
     });
 
     $('ul.sidebar-menu li ul li a').each(function(){
       
-        if($($(this))[0].href==String(window.location)) {
-          
-          $(this).parent().addClass('active');
-          $(this).parent().parent().show();
-          
-        }
-
+      if($($(this))[0].href==String(window.location)) {
+        
+        $(this).parent().addClass('active');
+        $(this).parent().parent().show(); 
+      } 
     });
 
   </script>

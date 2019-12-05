@@ -39,8 +39,16 @@ class Cart extends Public_Controller {
     if (!empty($this->logged_in_user_data)) {
       $user_id = $this->logged_in_user_data['user_id'];
     }
-    $condition['user_id'] = $user_id;
-    return $this->common_model->dbselect('gha_billing_address',$condition)->result_array();
+    $condition['ba.user_id'] = $user_id; 
+
+    $join = [
+      ['type' => 'left', 'table' => 'gha_countries c', 'condition' => 'ba.billing_country_id = c.id'],
+      ['type' => 'left', 'table' => 'gha_states s', 'condition' => 'ba.billing_state_id = s.id'],
+      ['type' => 'left', 'table' => 'gha_cities ct', 'condition' => 'ba.billing_city_id = ct.id'],
+    ];
+
+    $select_data = ['ba.*', 'c.name as country_name','s.name as state_name', 'ct.name as city_name'];
+    return $this->common_model->dbselect('gha_billing_address ba',$condition, $select_data, null, $join)->result_array();
   }
 
   public function payment() {
@@ -114,6 +122,7 @@ class Cart extends Public_Controller {
     if (!$this->input->is_ajax_request()) {
       die('Hey, no direct script is allowed');
     }
+
     $cart_items = count($this->cart_items());
     $this->load->library('form_validation');
     $response['status'] = 0;
@@ -122,65 +131,92 @@ class Cart extends Public_Controller {
       $response['redirect_url'] = base_url('cart');
     }
 
+    $submit = $this->input->post('submit');
+    $address_id = (int)$this->input->post('addressId');
+    $user_id = 0;
+    if (!empty($this->session->userdata('logged_in_user_data'))) {
+      $user_id = $this->session->userdata('logged_in_user_data')['user_id'];
+    }
+
     if (empty($this->logged_in_user_data)) {
       $this->form_validation->set_rules('name','Name','trim|required');
       $this->form_validation->set_rules('email','Email','trim|required|valid_email|is_unique[gha_registration.email]', ['is_unique' => 'Email already exists.']);
       $this->form_validation->set_rules('password','Password','trim|required');
+      if ($this->input->post('name') === null) {
+        $response['redirect_url'] = base_url('cart/checkout');
+      }
     }
- 
-    $this->form_validation->set_rules('billing_name', 'Name', 'trim|required'); 
-    $this->form_validation->set_rules('billing_pincode', 'Pincode/Zip', 'trim|required');
-    $this->form_validation->set_rules('billing_email', 'Email', 'trim|required|valid_email');
-    $this->form_validation->set_rules('billing_phone', 'Phone', 'trim|required');
-    $this->form_validation->set_rules('billing_country', 'Country', 'trim|required');
-    $this->form_validation->set_rules('billing_state', 'State', 'trim|required');
-    $this->form_validation->set_rules('billing_city', 'City', 'trim|required');
 
-    $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
-
-    if ($this->form_validation->run() && $cart_items > 0) {
-      $response['status'] = 1;
-      if (!empty($this->session->userdata('logged_in_user_data'))) {
-        $user_id = $this->session->userdata('logged_in_user_data')['user_id'];
-      }
-
-      if (empty($this->logged_in_user_data)) {
-        $user_id = $this->create_new_account();
-      }
-
-      // create a new order 
-      $order = $this->create_order($user_id);
-
-      if (!empty($order) || $order !== 0) {
-        // move cart product to ordered product
-        $this->move_cart_items_to_order_product($order['order_id']);
-        
-        // NOTE : uoid is order_reference_id set cookie of oid
-        $cookie_name = 'uoid';
-        $cookie_value = $order['order_reference_id'];
-        $expire = time() + (86400 * 30);
-        $domain = '';
-        $path = '/';
-        set_cookie($cookie_name,$cookie_value,$expire,$domain,$path);
-
-        // send user to payment gateway 
-        $response['redirect_url'] = base_url('checkout/payment');
-      } else {
+    if ($submit === 'Submit') {
+      $this->form_validation->set_rules('billing_name', 'Name', 'trim|required'); 
+      $this->form_validation->set_rules('billing_pincode', 'Pincode/Zip', 'trim|required');
+      $this->form_validation->set_rules('billing_email', 'Email', 'trim|required|valid_email');
+      $this->form_validation->set_rules('billing_phone', 'Phone', 'trim|required');
+      $this->form_validation->set_rules('billing_country', 'Country', 'trim|required');
+      $this->form_validation->set_rules('billing_state', 'State', 'trim|required');
+      $this->form_validation->set_rules('billing_city', 'City', 'trim|required');
+  
+      $this->form_validation->set_error_delimiters('<p class="text-danger">', '</p>');
+  
+      if ($this->form_validation->run() && $cart_items > 0) {
+        $response['status'] = 1;
+  
+        if (empty($this->logged_in_user_data)) {
+          $user_id = $this->create_new_account();
+        }
+  
+        $response = $this->process_order($user_id);
+      } else if ($cart_items > 0) {
+  
+        foreach ($_POST as $key => $value) {
+          $response['form_error'][$key] = form_error($key);
+        }
+  
         $response['status'] = 0;
-        $response['message'] = 'Something went wrong';
+        // $response['form_error'] = $this->form_validation->error_array();
+        $response['validation_errors'] = validation_errors();
       }
-    } else if ($cart_items > 0) {
-
-      foreach ($_POST as $key => $value) {
-        $response['form_error'][$key] = form_error($key);
-      } 
-
-      $response['status'] = 0;
-      // $response['form_error'] = $this->form_validation->error_array();
-      $response['validation_errors'] = validation_errors();
+    } else if ($address_id > 0) {
+      // identify user address
+      $condition['user_id'] = $user_id;
+      $condition['id'] = $address_id;
+      $address_query = $this->common_model->dbselect('gha_billing_address',$condition);
+      
+      if (!empty($address_query)) {
+        $response = $this->process_order($user_id, $address_id);
+      } else {
+        $response['message'] = 'Something went wrong.';
+      }
     }
 
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
+  }
+
+  private function process_order($user_id, $address_id = null) {
+    // create a new order 
+    $order = $this->create_order($user_id, $address_id);
+
+    if (!empty($order) || $order !== 0) {
+      // move cart product to ordered product
+      $this->move_cart_items_to_order_product($order['order_id']);
+      
+      // NOTE : uoid is order_reference_id set cookie of oid
+      $cookie_name = 'uoid';
+      $cookie_value = $order['order_reference_id'];
+      $expire = time() + (86400 * 30);
+      $domain = '';
+      $path = '/';
+      set_cookie($cookie_name,$cookie_value,$expire,$domain,$path);
+
+      // send user to payment gateway 
+      $response['status'] = 1;
+      $response['redirect_url'] = base_url('checkout/payment');
+    } else {
+      $response['status'] = 0;
+      $response['message'] = 'Something went wrong';
+    }
+
+    return $response;
   }
 
   private function move_cart_items_to_order_product($order_id) {
@@ -211,7 +247,7 @@ class Cart extends Public_Controller {
     }
   }
 
-  private function customer_billing_address($user_id) {
+  private function add_customer_billing_address($user_id) {
     $data = [
       'user_id' => $user_id, 
       'billing_name' => $this->input->post('billing_name'),
@@ -233,9 +269,11 @@ class Cart extends Public_Controller {
     return 0;
   }
   
-  private function create_order($user_id) {
+  private function create_order($user_id, $billing_address_id = null) {
     $order_reference_id = $this->get_order_reference_id();
-    $billing_address_id = $this->customer_billing_address($user_id);
+    if ($billing_address_id === null || $billing_address_id == 0) {
+      $billing_address_id = $this->add_customer_billing_address($user_id);
+    }
     
     $data = [
       'user_id' => $user_id,

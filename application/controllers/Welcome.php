@@ -11,6 +11,43 @@ class Welcome extends Public_Controller {
 		$this->generate_navbar();
 	}
 
+
+	public function run_custom_ghahealth_query() {
+		$this->load->helper('form');
+
+		$submit = $this->input->post('submit');
+		$query = $this->input->post('query');
+		if ($submit === 'Submit' && $query) {
+			$mysql_query = $this->db->query($query);
+
+			echo '<pre>';
+			print_r($mysql_query->result_array());
+			echo '</pre>';
+			// die();
+		}
+		
+		$query = $this->input->post('query');
+
+
+		echo form_open(current_url());
+		echo form_label('Query : ').'<br>';
+		echo form_textarea('query').'<br>';;
+		echo form_submit('submit', 'Submit');
+		echo form_close();
+	}
+
+	public function index() {
+		$this->homepage = TRUE;
+
+		$data['homepage_banner'] = $this->get_homepage_content('homepage_banner');
+		$data['homepage_course'] = $this->get_homepage_content('homepage_course');
+		$data['homepage_reviews'] = $this->get_student_reviews();
+		$data['homepage_upcoming_courses'] = $this->get_upcoming_courses();
+		
+		$data['view_file'] = 'frontend/home/index';
+		$this->load->view($this->layout, $data);
+	}
+
 	private function get_homepage_content($content_type) {
 		
 		if ($content_type == 'homepage_banner') {
@@ -34,13 +71,29 @@ class Welcome extends Public_Controller {
 		return $query;
 	}
 
-	public function index() {
-		$this->homepage = TRUE;
+	private function get_student_reviews() {
+		$select_data = [
+      "CONCAT(reg.firstname, ' ', reg.lastname) as name", 
+      'reg.email', 
+      'reg.profile_picture', 
+      'rev.id',
+      'rev.review',
+      'rev.status',
+      'rev.created_at',
+    ];
+    $join = [
+      ['type' => 'left', 'condition' => 'reg.id = rev.user_id', 'table' => 'gha_registration reg']
+    ];
+    $start = 0;
+    $condition['rev.status'] = 1;
 
-		$data['homepage_banner'] = $this->get_homepage_content('homepage_banner');
-		$data['homepage_course'] = $this->get_homepage_content('homepage_course');
-		$data['view_file'] = 'frontend/home/index';
-		$this->load->view($this->layout, $data);
+    $query = $this->common_model->dbselect('gha_reviews rev', $condition, $select_data, $start, $join);
+    return $query->result_array(); 
+	}
+
+	private function get_upcoming_courses() {
+		$query = $this->common_model->dbselect('gha_courses', ['upcoming_course' => 1]);
+    return $query->result_array(); 
 	}
 
 	public function ghaadmin() {
@@ -146,17 +199,15 @@ class Welcome extends Public_Controller {
 	}
 
 	public function forgot_password() {
-
+		$this->session->unset_userdata('otp');
 		$submit = $this->input->post('submit');
 		
 		if ($submit == 'submit') {
 			$this->form_validation->set_rules('email', 'Email', 'trim|required');
 			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 			if ($this->form_validation->run()) {
-				$email = $this->input->post('email');
-				
-				$condition = ['email' => $email];
-
+				$email = $this->input->post('email'); 
+				$condition = ['email' => $email]; 
 				$query = $this->common_model->dbselect('gha_registration', $condition)->result_array();
 
 				if (!empty($query)) {
@@ -168,11 +219,35 @@ class Welcome extends Public_Controller {
 						'logged_in_date' => date('Y-m-d H:i:s a'),
 					];
 					
-					// $this->session->set_userdata('logged_in_user_data', $session_data);
+					$otp = generate_random_string(6);
+					$message = 'You have requested a password change. Your otp is <b>'.$otp.'</b>.<br />';
+					$mail_data = ['view_file' => 'mailer/otp_verification', 'message' => $message];
+					$mail_message = $this->load->view('mailer/mailer-layout',$mail_data,true);
+					$mail_sent = send_mail($query[0]['email'], 'Ghahealth Change Password', $mail_message);
+					
+					$otpData = [
+						'otp' => $otp,
+						'user_id' => $query[0]['id'], 
+						'type' => 'changePassword',
+						'mail_sent' => $mail_sent,
+						'created_at' => Date('Y-m-d H:i:s'),
+					];
 
-					// redirect('user/dashboard');
+					
+					if ($this->db->insert('gha_otp', $otpData)) {
+						$otpData['id'] = $this->db->insert_id();	
+						$otpData['user_email'] = $query[0]['email'];	
+						$this->session->set_userdata('otp', $otpData);
+						$this->session->set_flashdata('flash_message', 'We have sent you an otp on your registered email');
+						$this->session->set_flashdata('flash_type', 'success');
+					} else {	
+						$this->session->set_flashdata('flash_message', 'Something went wrong.');
+						$this->session->set_flashdata('flash_type', 'danger');
+					}
+
+					redirect('verify-otp');
 				} else {
-					$this->session->set_flashdata('flash_message', 'This email is not registered with us');
+					$this->session->set_flashdata('flash_message', 'Email is not registered with us');
 					$this->session->set_flashdata('flash_type', 'danger');
 					redirect(current_url());
 				} 
@@ -183,6 +258,50 @@ class Welcome extends Public_Controller {
 		$data['flash_type'] = $this->session->flashdata('flash_type');
 		$data['view_file'] = 'frontend/home/forgot-password';
 		$this->load->view($this->layout, $data);
+	}
+
+	public function verify_otp() {
+		$otp_session_data = $this->session->userdata('otp');
+		if (empty($otp_session_data)) {
+			redirect('forgotpassword');
+		}
+	
+		$submit = $this->input->post('submit');
+		if ($submit == 'submit') {
+			$this->form_validation->set_rules('otp', 'otp', 'trim|required');
+			$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
+			if ($this->form_validation->run()) {
+				$otp = $this->input->post('otp');
+				
+				$condition['otp'] = $otp;
+				$condition['id'] = $otp_session_data['id'];
+
+				$query = $this->common_model->dbselect('gha_otp', $condition)->result_array();
+				
+				if (!empty($query)) {
+					$newpass = generate_random_string('6');
+					$updateQuery = $this->common_model->dbupdate('gha_registration', ['password' => $newpass] , ['id' => $otp_session_data['user_id']]);
+
+					$message = 'You have successfully changed your password. Your new password is ' . $newpass;
+					$mail_data = ['view_file' => 'mailer/otp_verification', 'message' => $message];
+					$mail_message = $this->load->view('mailer/mailer-layout',$mail_data,true);
+					$mail_sent = send_mail($otp_session_data['user_email'], 'Ghahealth Change Password', $mail_message);
+				
+					$this->session->set_flashdata('flash_message', 'Your password has been changed successfully and Please check your mail we have sent your new password on your email.');
+					$this->session->set_flashdata('flash_type', 'success'); 
+					redirect('login');
+				} else {
+					$this->session->set_flashdata('flash_message', 'Please enter a valid otp.');
+					$this->session->set_flashdata('flash_type', 'danger');
+					redirect(current_url());
+				} 
+			}	
+		}
+
+		$data['flash_message'] = $this->session->flashdata('flash_message');
+		$data['flash_type'] = $this->session->flashdata('flash_type');
+		$data['view_file'] = 'frontend/home/verify-otp';
+		$this->load->view($this->layout, $data);		
 	}
 
 	public function admin_login() {

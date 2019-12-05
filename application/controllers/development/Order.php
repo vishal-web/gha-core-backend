@@ -97,7 +97,6 @@ class Order extends Backend_Controller {
 		$query = $this->common_model->dbselect('gha_order o',$condition, $select_data, null, $join)->result_array(); 
 		$data['query'] = !empty($query) ? $query[0] : []; 
 
-
 		$data['order_items'] = $this->order_items($fourth_bit);
 
 		$data['headline'] = 'Order';		

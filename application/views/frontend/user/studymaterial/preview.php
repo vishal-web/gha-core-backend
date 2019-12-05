@@ -1,6 +1,6 @@
 <div class='default-padding custom-preview'>
   <div class='container'>
-    <h3><?=$headline .' For '.$course_details['title']?> </h3>
+    <h3><?=$headline .' For '.$course_details['title']?> <span class='pull-right'><a class='btn btn-primary' href='<?=base_url('user/studymaterial')?>'><i class='fa fa-arrow-left'></i> Back</a></span></h3>
     <div class='col-md-12-1'> 
       <?php 
         if (!empty($query)) { 
@@ -9,7 +9,7 @@
           if ($query['type'] == 'img') {
             $full_file_path .= 'img/'.$query['study_material'];
       ?>
-      <div class='container'>
+      <div class='container1'>
         <img src="<?=$full_file_path?>" class="img-responsive" alt="Image">
       </div>
       <?php } else if ($query['type'] == 'youtube') { ?>

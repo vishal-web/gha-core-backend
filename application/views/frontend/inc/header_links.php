@@ -7,10 +7,6 @@
 <link href="<?=base_url()?>assets/frontend/css/inilab.css" rel="stylesheet">
 <?php } ?>
 
-
-
-
-<!-- ========== Start Stylesheet ========== -->
 <link href="<?=base_url()?>assets/frontend/css/bootstrap.min.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/font-awesome.min.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/flaticon-set.css" rel="stylesheet" />
@@ -20,8 +16,9 @@
 <link href="<?=base_url()?>assets/frontend/css/animate.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/bootsnav.css" rel="stylesheet" />
 <link href="<?=base_url()?>assets/frontend/css/style.css" rel="stylesheet">
+<link href="<?=base_url()?>assets/frontend/css/card.css" rel="stylesheet"> 
 <link href="<?=base_url()?>assets/frontend/css/responsive.css" rel="stylesheet" />
-<link href="<?=base_url()?>assets/frontend/css/common.css" rel="stylesheet">
+<link href="<?=base_url()?>assets/frontend/css/common.css" rel="stylesheet"> 
 
 <?php if ($this->uri->segment('3') === 'start') {?>
   <link type="text/css" href="<?=base_url('assets/frontend/css/fuelux.css')?>" rel="stylesheet">

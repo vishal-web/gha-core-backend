@@ -36,6 +36,18 @@
                   <label class="lb-mark"> 1 Mark </label>
                   <label class="lb-content">
                     <?=$row['question_title']?>
+
+                    <?php 
+                      if ($row['image']) {
+                        echo "<img src='".base_url('uploads/question/'.$row['image'])."' width='150' class='img-responsive'>";
+                        echo "<br><br>";
+                      }
+                      
+                      if ($row['description']) {
+                        echo $row['description'];
+                      }
+                    ?>
+
                   </label>
                 </div>
                 <div class="question-answer" id="step<?=$counter?>">

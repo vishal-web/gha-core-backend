@@ -61,6 +61,7 @@ $route['login'] = 'welcome/login';
 $route['register'] = 'welcome/register';
 $route['webdev'] = 'welcome/admin_login';
 $route['forgotpassword'] = 'welcome/forgot_password';
+$route['verify-otp'] = 'welcome/verify_otp';
 $route['course/(:any)'] = 'course/index/$1';
 $route['checkout/payment'] = 'cart/payment';
 

@@ -50,8 +50,8 @@
               <?php
                 $duration_value = set_value('duration') == '' ? (isset($duration) ? $duration : '') : set_value('duration');
                 $duration_options[''] = 'Select Course Duration';
-                for($i = 3; $i <= 36; $i += 3) {
-                  $duration_options[$i] = $i.' Months';
+                for($i = 1; $i <= 12; $i++) {
+                  $duration_options[$i] = $i.' Month';
                 }
                 $additional_option = ['class' => 'form-control'];
 
@@ -96,6 +96,24 @@
               ?>
               <textarea class="form-control" id="editor1" name="description" rows="6" placeholder="Enter description"><?=$description_value?></textarea>
               <?=form_error('description')?>
+            </div>
+          </div> 
+
+          <div class="form-group">
+            <label for="" class="col-md-2 control-label"></label>
+            <div class="col-md-8">
+              <?php
+                $upcoming_course_value = isset($upcoming_course) && $upcoming_course == 1 ? 'checked' : '';
+              ?>
+               
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="upcoming_course" value="1" <?=$upcoming_course_value?>> Upcoming Course
+                </label>
+              </div>
+              
+
+              <?=form_error('upcoming_course')?>
             </div>
           </div> 
         </div>  

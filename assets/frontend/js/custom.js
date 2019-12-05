@@ -71,7 +71,10 @@ const Exam = {
 			data: {id},
 			success: function(data, err) {
 				if (data.status == true && data.id) {
-					window.location.href = href + '/' + data.id;
+					window.open(href + '/' + data.id, '_blank')
+					setTimeout(() => {
+						window.location.href = BASE_URL + 'user/exams';
+					}, 100);
 				}
 			}
 		})
@@ -99,13 +102,13 @@ var cart = {
 				uuid
 			}, function(response) {
 				if (response.status === 0) {
-					alert(response.message);
-				} else if (response.status === 1) {
 					// alert(response.message);
+				} else if (response.status === 1) { 
 					cart.updateCart();
 					// jQuery('html,body').animate({scrollTop:0},0); 
 					window.location = BASE_URL + 'cart';
 				}
+				window.location = BASE_URL + 'cart';
 			})
 		}
 	},
@@ -170,6 +173,7 @@ function getCookie(cname) {
 cart.updateCart();
 
 $("#checkout-form").on('submit',function(e) {
+	$('.loader').show();
 	e.preventDefault();  
 	let formData = new FormData($("#checkout-form")[0]);
 	let url = $(this).attr('action');
@@ -180,6 +184,8 @@ $("#checkout-form").on('submit',function(e) {
 		processData: false,
 		contentType: false, 
 		success: function(response) {
+			$('.loader').hide();
+
 			let { status, form_error, message, redirect_url } = response;
 
 			if (status === 0) {
@@ -204,18 +210,112 @@ $("#checkout-form").on('submit',function(e) {
 				$('.text-danger').remove();
 			}
 
-			if(!isEmpty(redirect_url)) {
-				window.location = redirect_url;
-				return '';
-			}
-
 			if (!isEmpty(message)) {
 				alert(message);
 			}
+
+			if(!isEmpty(redirect_url)) {
+				window.location = redirect_url;
+				return '';
+			} 
 		}
 	});
 });
 
+
+const billingAddressForm = '#billing-address-form';
+const billingAddressList = '#billing-address-list';
+const billingAddressAdd = '#billing-address-add';
+const billingAddressUse = '.billing-address-use';
+
+$(billingAddressAdd).click(function() {
+	$(billingAddressList).slideUp();
+	$(billingAddressForm).show('slow');
+});
+
+$(billingAddressUse).click(function() {
+	$(this).addClass('selected');
+
+	$(billingAddressUse).each((index, row) => {
+		if ($(this).data('id') !== $(row).data('id')) {
+			$(row).removeClass('selected');
+		}
+	}) 
+});
+
+
 $('#place-order').click(function() {
-	$("#checkout-form").submit();
+	if ($(billingAddressUse).length && !$(billingAddressForm).is(':visible')) { 
+		let addressId = 0;
+		$(billingAddressUse).each((index, row) => {
+			if ($(row).hasClass('selected')) {
+				addressId = $(row).data('id');
+				return false;
+			}
+		});
+
+		if (addressId > 0) {
+			let url =  $("#checkout-form").attr('action');
+			$.post(url, { addressId },function(response) {
+				let { status, message, redirect_url } = response;
+
+				if (!isEmpty(message)) {
+					alert(message);
+				}
+	
+				if(!isEmpty(redirect_url)) {
+					window.location = redirect_url;
+					return '';
+				}
+			})
+		}
+
+	} else {
+		$("#checkout-form").submit();
+	}
+})
+
+
+$('#checkout-form input[name="email"]').change(function() {
+	$('input[name="billing_email"]').val($(this).val());
+});
+
+$('#searchForm').on('submit', function(e) {
+	e.preventDefault();
+})
+
+$('input[name="searchCourse"]').keyup(function(e) {
+	let srchTxt = $.trim($(this).val());
+	Search.fetchResult(srchTxt);
+});
+
+$('#srchBtn').click(() => {
+	let srchTxt = $.trim($('input[name="searchCourse"]').val());
+	Search.fetchResult(srchTxt);
+})
+
+const Search = {
+	fetchResult: (srchTxt) => {
+		Search.clearResult();
+		if (srchTxt.length > 0) {
+			let url = BASE_URL + 'search/get_result';
+			$.get(url, {srchTxt}, (response) => {
+				let  { status, result } = response;
+				if (status) {
+					$('#srchResult .list-group').show();
+					$('#srchResult').html(result).fadeIn();
+				}
+			})
+
+		}
+	},
+	clearResult: () => {
+		$('#srchResult').html('');
+	}
+}
+
+$('body, html').click(() => {
+	if ($('#srchResult .list-group').is(':visible')) {
+		$('#srchResult .list-group').hide();
+	}
 })

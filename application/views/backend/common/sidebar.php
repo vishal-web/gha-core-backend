@@ -14,8 +14,10 @@
           </span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="<?=base_url()?>development/homepage/course"><i class="fa fa-circle-o"></i> Featured Courses</a></li>
           <li><a href="<?=base_url()?>development/homepage/banner"><i class="fa fa-circle-o"></i> Homepage Banner</a></li>
+          <li><a href="<?=base_url()?>development/homepage/course"><i class="fa fa-circle-o"></i> Featured Courses</a></li>
+          <li><a href="<?=base_url()?>development/homepage/upcomingcourse"><i class="fa fa-circle-o"></i> Upcoming Course</a></li>
+          <li><a href="<?=base_url()?>development/studentreviews/manage"><i class="fa fa-circle-o"></i> Student Reviews</a></li>
         </ul>
       </li>
 

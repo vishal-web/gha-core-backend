@@ -202,6 +202,19 @@ class Homepage extends Backend_Controller {
 		$this->load->view($this->layout, $data); 
 	}
 
+	public function upcomingcourse() {
+		$condition['upcoming_course'] = 1;
+		$query = $this->common_model->dbselect('gha_courses',$condition); 
+		$data['query'] = $query->result_array();
+
+		$data['headline'] = 'Homepage Upcoming Course'; 
+		$data['view_file'] = 'backend/homepage/upcomingcourse';
+		$data['edit_url'] = base_url().'development/course/create';
+
+		$data['form_location'] = current_url();
+		$this->load->view($this->layout, $data); 
+	}
+
 	private function updated_banners($banner_id) {
 	
 		$condition['type'] = 'homepage_banner';

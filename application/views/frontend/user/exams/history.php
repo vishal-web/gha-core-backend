@@ -11,7 +11,7 @@
           <th>Percentage</th>
           <th>Status</th>
           <th>Date</th>
-          <th>Action</th>
+          <?php /* ?><th>Action</th><?php */?>
         </tr>
       </thead>
       <tbody>
@@ -38,11 +38,11 @@
           <td><?=$row['percentage'].'%'?></td>
           <td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
           <td><?=Date('Y-m-d H:i:s', strtotime($row['started_at']))?></td>
-          <td>
+          <?php /*?><td>
             <a href='<?=base_url('user/exams/summary/'.$row['id'])?>'>
               <button type="button" class="btn btn-primary ">View Summary</button>
             </a>
-          </td>
+          </td><?php */?>
         </tr>
       <?php } } else { ?> 
         <tr>

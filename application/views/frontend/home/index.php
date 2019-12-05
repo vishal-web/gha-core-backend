@@ -1,12 +1,27 @@
-<!-- Start Banner 
-  ============================================= -->
 <?php
   $homepage_banner_image = base_url().'assets/frontend/img/banner/banner_1.jpg';
   if (!empty($homepage_banner)) {
     $homepage_banner_image = base_url().'uploads/homepage/banner/'.$homepage_banner[0]['featured_image'];
   }
 ?>
+<style>
+.list-group-item:first-child {
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
 
+.list-group-item:last-child {
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.list-group {
+  text-align: left;
+}
+.list-group a {
+  margin-top: 0px !important;
+  color: #676767;
+}
+</style>
 <div class="banner-area transparent-nav banner-search content-top-heading bg-fixed text-light text-normal text-center" style="background-image: url(<?=$homepage_banner_image?>);">
   <div class="item">
     <div class="box-table shadow dark">
@@ -16,10 +31,10 @@
             <div class="col-md-8 col-md-offset-2">
               <div class="content">
                 <h1 style="font-size:40px; line-height:50px;">GROW YOUR CAREER ANYTIME FROM ANYWHERE WITH OUR COURSES</h1>
-                <form action="#">
-                  <input type="text" placeholder="Enter course name" style="font-size:19px; color:#000000;" class="form-control" style="color:#000000;" name="text">
-                  <button type="submit">
-                  Search Courses                                        </button>  
+                <form id='searchForm'>
+                  <input type="text" id='searchCourse' placeholder="Enter course name" style="font-size:19px; color:#000000;" class="form-control" style="color:#000000;" name="searchCourse">
+                  <button type="button" id='srchBtn'>Search Courses</button> 
+                  <div id="srchResult"></div> 
                 </form>
               </div>
             </div>
@@ -198,9 +213,8 @@
     </div>
   </div>
 </section>
-<!--End Advisor Area -->
-<!-- Start Popular Courses 
-  ============================================= -->
+
+<?php if (!empty($homepage_upcoming_courses)) { ?>
 <div class="popular-courses bg-light circle carousel-shadow default-padding">
   <div class="container">
     <div class="row">
@@ -214,120 +228,30 @@
     <div class="row">
       <div class="col-md-12">
         <div style="background-image:url(<?=base_url()?>'assets/frontend/img/advisor/bg.png');" class="popular-courses-items bottom-price popular-courses-carousel owl-carousel owl-theme">
-          <!-- Single Item -->
+          <?php foreach ($homepage_upcoming_courses as $course) { 
+            $course_full_path_image = base_url().'uploads/course/'.$course['featured_image'];
+            $course_target = base_url('course/'.$course['url_title']);
+          ?>
           <div class="item">
             <div class="thumb">
-              <a href="#">
-              <img src="<?=base_url()?>assets/frontend/img/courses/6.jpg" alt="Thumb">
-              </a>
+              <a href="<?=$course_target?>"> <img src="<?=$course_full_path_image?>" alt="Thumb"> </a>
               <div class="overlay">
-                <p class="fontcolor">Discourse assurance estimable applauded to so. Him everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. </p>
-                <a class="btn btn-theme effect btn-sm left" href="#">
-                <i class="fas fa-chart-bar"></i> Enroll Now     
-                </a>
+                <p class="fontcolor"><?=substr(strip_tags($course['description']),0, 200)?></p>
+                <a class="btn btn-theme effect btn-sm left" href="<?=$course_target?>"><i class="fas fa-chart-bar"></i> Enroll Now </a>
               </div>
             </div>
             <div class="info">
-              <h4 style="text-align: center;"><a href="#">Basic Life Support</a></h4>
+              <h4 style="text-align: center;"><a href="<?=$course_target?>"><?=$course['title']?></a></h4>
             </div>
           </div>
-          <!-- End Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="thumb">
-              <a href="#">
-              <img src="<?=base_url()?>assets/frontend/img/courses/1.jpg" alt="Thumb">
-              </a>
-              <div class="overlay">
-                <p class="fontcolor">Discourse assurance estimable applauded to so. Him everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. </p>
-                <a class="btn btn-theme effect btn-sm left" href="#">
-                <i class="fas fa-chart-bar"></i> Enroll Now     
-                </a>
-              </div>
-            </div>
-            <div class="info">
-              <h4 style="text-align: center;"><a href="#">Machine Learning Management</a></h4>
-            </div>
-          </div>
-          <!-- End Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="thumb">
-              <a href="#">
-              <img src="<?=base_url()?>assets/frontend/img/courses/2.jpg" alt="Thumb">
-              </a>
-              <div class="overlay">
-                <p class="fontcolor">Discourse assurance estimable applauded to so. Him everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. </p>
-                <a class="btn btn-theme effect btn-sm left" href="#">
-                <i class="fas fa-chart-bar"></i> Enroll Now     
-                </a>
-              </div>
-            </div>
-            <div class="info">
-              <h4 style="text-align: center;"><a href="#">Java Programming Masterclass</a></h4>
-            </div>
-          </div>
-          <!-- End Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="thumb">
-              <a href="#">
-              <img src="<?=base_url()?>assets/frontend/img/courses/3.jpg" alt="Thumb">
-              </a>
-              <div class="overlay">
-                <p class="fontcolor">Discourse assurance estimable applauded to so. Him everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. </p>
-                <a class="btn btn-theme effect btn-sm left" href="#">
-                <i class="fas fa-chart-bar"></i> Enroll Now     
-                </a>
-              </div>
-            </div>
-            <div class="info">
-              <h4 style="text-align: center;"><a href="#">Online Programming</a></h4>
-            </div>
-          </div>
-          <!-- End Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="thumb">
-              <a href="#">
-              <img src="<?=base_url()?>assets/frontend/img/courses/4.jpg" alt="Thumb">
-              </a>
-              <div class="overlay">
-                <p class="fontcolor">Discourse assurance estimable applauded to so. Him everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. </p>
-                <a class="btn btn-theme effect btn-sm left" href="#">
-                <i class="fas fa-chart-bar"></i> Enroll Now     
-                </a>
-              </div>
-            </div>
-            <div class="info">
-              <h4 style="text-align: center;"><a href="#">Machine Learning Management</a></h4>
-            </div>
-          </div>
-          <!-- End Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="thumb">
-              <a href="#">
-              <img src="<?=base_url()?>assets/frontend/img/courses/5.jpg" alt="Thumb">
-              </a>
-              <div class="overlay">
-                <p class="fontcolor">Discourse assurance estimable applauded to so. Him everything melancholy uncommonly but solicitude inhabiting projection off. Connection stimulated estimating excellence an to impression. </p>
-                <a class="btn btn-theme effect btn-sm left" href="#">
-                <i class="fas fa-chart-bar"></i> Enroll Now     
-                </a>
-              </div>
-            </div>
-            <div class="info">
-              <h4 style="text-align: center;"><a href="#">Covers Big Data analysis</a></h4>
-            </div>
-          </div>
-          <!-- End Single Item -->
+          <?php } ?>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- End Popular Courses -->	
+<?php } ?>
+
 <!-- Start Advisor Area
   ============================================= -->
 <section id="advisor" class="advisor-area bg-gray default-padding">
@@ -403,6 +327,7 @@
 <!--End Advisor Area -->
 <!-- Start Testimonials 
   ============================================= -->
+<?php if (!empty($homepage_reviews)) {  ?>
 <div class="testimonials-area carousel-shadow default-padding bg-dark text-light">
   <div class="container">
     <div class="row">
@@ -416,65 +341,31 @@
     <div class="row">
       <div class="col-md-12">
         <div class="clients-review-carousel owl-carousel owl-theme">
-          <!-- Single Item -->
+          <?php
+            foreach ($homepage_reviews as $reviews) {  
+              if (strpos($reviews['profile_picture'], '.com') !== false) {
+                $profile_picture = $reviews['profile_picture'];
+              } else if ($reviews['profile_picture']) {
+                $profile_picture = base_url().'uploads/profile/'.$reviews['profile_picture'];
+              } else {
+                $profile_picture = '';
+              }
+          ?>
+          
           <div class="item">
             <div class="col-md-5 thumb">
-              <img src="<?=base_url()?>assets/frontend/img/team/2.jpg" alt="Thumb">                            
+              <img src="<?=$profile_picture?>" alt="Thumb">                            
             </div>
             <div class="col-md-7 info">
-              <p>
-                Procuring continued suspicion its ten. Pursuit brother are had fifteen distant has. Early had add equal china quiet visit. Appear an manner as no limits either praise..                                
-              </p>
-              <h4>Druna Patia</h4>
-              <span>Biology Student</span>                            
+              <p><?=substr($reviews['review'], 0, 200)?></p>
+              <h4><?=$reviews['name']?></h4>                       
             </div>
           </div>
-          <!-- Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="col-md-5 thumb">
-              <img src="<?=base_url()?>assets/frontend/img/team/3.jpg" alt="Thumb">                            
-            </div>
-            <div class="col-md-7 info">
-              <p>
-                Procuring continued suspicion its ten. Pursuit brother are had fifteen distant has. Early had add equal china quiet visit. Appear an manner as no limits either praise..                                
-              </p>
-              <h4>Astron Brun</h4>
-              <span>Science Student</span>                            
-            </div>
-          </div>
-          <!-- Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="col-md-5 thumb">
-              <img src="<?=base_url()?>assets/frontend/img/team/4.jpg" alt="Thumb">                            
-            </div>
-            <div class="col-md-7 info">
-              <p>
-                Procuring continued suspicion its ten. Pursuit brother are had fifteen distant has. Early had add equal china quiet visit. Appear an manner as no limits either praise..                                
-              </p>
-              <h4>Paol Druva</h4>
-              <span>Development Student</span>                            
-            </div>
-          </div>
-          <!-- Single Item -->
-          <!-- Single Item -->
-          <div class="item">
-            <div class="col-md-5 thumb">
-              <img src="<?=base_url()?>assets/frontend/img/team/7.jpg" alt="Thumb">                            
-            </div>
-            <div class="col-md-7 info">
-              <p>
-                Procuring continued suspicion its ten. Pursuit brother are had fifteen distant has. Early had add equal china quiet visit. Appear an manner as no limits either praise..                                
-              </p>
-              <h4>Druna Patia</h4>
-              <span>Biology Student</span>                            
-            </div>
-          </div>
-          <!-- Single Item -->
+          <?php } ?>
         </div>
       </div>
     </div>
   </div>
 </div>
+<?php } ?>
 <!-- End Testimonials -->

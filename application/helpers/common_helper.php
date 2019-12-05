@@ -1,7 +1,40 @@
 <?php
   if (!function_exists('send_mail')) {
-    function send_mail() {
-      
+    
+    function send_mail($to, $subject, $message, $from = 'info@ghahealth.com', $name = 'Ghahealth') {
+
+      // $config['smtp_host'] = 'ssl://smtp.gmail.com';
+      // $config['smtp_user'] = 'vishalkumar750372@gmail.com';
+      // $config['smtp_pass'] = '*************';
+
+      $config['protocol'] = 'smtp';
+      $config['smtp_host'] = 'ghahealth.com';
+      $config['smtp_user'] = 'info@ghahealth.com';
+      $config['smtp_pass'] = '&qGnuf-+sc9W';
+      $config['smtp_timeout'] = '7';
+      $config['smtp_port'] = 465;
+      $config['mailtype'] = 'html';
+      $config['smtp_crypto'] = 'ssl';
+      $config['charset'] = 'utf-8';
+      $config['newline'] = "\r\n";
+      $config['validation']   = FALSE;
+      $config['wordwrap']   = TRUE; 
+
+      $CI =& get_instance(); 
+      $CI->load->library('email');
+      $CI->email->initialize($config);
+      $CI->email->from($from, $name);
+      $CI->email->to($to);
+      $CI->email->subject($subject);
+      $CI->email->message($message);  
+      $CI->email->set_newline("\r\n");
+
+      if ($CI->email->send()) {
+        return true;
+      } else {
+        // show_error($CI->email->print_debugger());
+        return false;
+      }
     }
   }
 

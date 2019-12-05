@@ -31,11 +31,9 @@
 						</div>
 						<!-- End Title-->
 
-					   
-
 						<!-- Course Meta -->
 						<div class="course-meta"> 
-							
+							<?php if ($course_details['upcoming_course'] == 0) { ?>
 							<div class="item price">
 								<h4 style="font-size:25px;">Price : INR <?=$course_details['price']?></h4> 
 							</div>
@@ -44,6 +42,7 @@
 									<i class="fas fa-chart-bar"></i> Enroll
 								</a>
 							</div>
+							<?php } ?>
 							<?php /* ?>
 							<div class="align-right">
 								<a class="btn btn-gray effect m-r-10" target="_blank" data-course-id="<?=$course_details['id']?>" id="add-to-cart" href="#" style="width:150px; font-size:14px;">

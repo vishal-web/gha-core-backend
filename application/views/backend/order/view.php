@@ -42,7 +42,7 @@
 
                 Status: <?=$status_text?></br>
 
-                Date: <?=Date('Y-m-d H:i:s A', strtotime($query['payment_date']))?>
+                Date: <?=Date('Y-m-d h:i:s A', strtotime($query['order_date']))?>
 
               </td>
               <td style='vertical-align:middle'>

@@ -1,21 +1,22 @@
+<?php /* ?>
 <p class="">
-	<!-- <a href="<?=base_url()?>development/question">
-		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Question</button>
+	<!-- <a href="<?=base_url()?>development/course">
+		<button type="button" class="btn bg-maroon btn-flat margin-r-5">Create Student Review</button>
 	</a>
-	<a href="<?=base_url()?>development/question">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-purple btn-flat margin-r-5">.btn.bg-purple.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/question">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-navy btn-flat margin-r-5">.btn.bg-navy.btn-flat</button>
 	</a>
-	<a href="<?=base_url()?>development/question">
+	<a href="<?=base_url()?>development/course">
 		<button type="button" class="btn bg-orange btn-flat margin-r-5">.btn.bg-orange.btn-flat</button>
 	</a> -->
-	<a href="<?=base_url()?>development/question/create">
-		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New Question</button>
+	<a href="<?=base_url()?>development/course/create">
+		<button type="button" class="btn bg-olive btn-flat margin-r-5">Add New Student Review</button>
 	</a>
 </p>
-
+<?php */?>
 <?php
 	$show_filter = FALSE;
 ?>
@@ -65,7 +66,7 @@
 		    </div>  
 		    <div class="box-footer">
 		      <button type="submit" value='submit' class="btn btn-primary">Submit</button>
-		      <a href="<?=base_url()?>development/question" class="btn btn-warning">Cancel</a>
+		      <a href="<?=base_url()?>development/course" class="btn btn-warning">Cancel</a>
 		    </div>
 		  </form>
 		</div> 
@@ -75,16 +76,18 @@
 	<div class="col-xs-12">
 		<div class="box">
 			<div class="box-header">
-				<h3 class="box-title">Questions List</h3>
+				<h3 class="box-title">Student Reviews List</h3>
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-bordered">
+				<table class="table table-hover table-bordered">
 					<tr>
 						<th>SN</th>
-						<th>Question</th>
-						<th>Course</th> 
+						<th>Name</th>
+						<th>Email</th>
+						<th>Review</th> 
 						<th>Status</th> 
+						<th>Date</th>
 						<th>Action</th>
 					</tr>
 
@@ -102,74 +105,25 @@
 								} else if ($row['status'] == 0) {
 									$status_text = 'Inactive';
 									$status_label = 'warning';
-								}
-
-								$question_type = 'Single Choice';
-								if ($row['is_multiple_choice'] === 1) {
-									$question_type = 'Multiple Choice';
-								}
-
-								// $options = !empty(unserialize($row['options'])) ? unserialize($row['options']) : [];
+								} 
 					?>
 					
 					<tr>
 						<td><?=++$sn?></td>
-						<td class="col-md-6"><?=substr(strip_tags($row['question_title']), 0, 60)?></td>
-						<td><a href='<?=base_url('course/'.$row['url_title'])?>' target='_blank'><?=$row['title']?></a></td>
-						
-						<?php /* ?>
-						<td>
-							<table class="table table-bordered table-striped m-b-0">
-								<thead>
-									<tr>
-										<th>Q. <?=$row['question_title']?></th> 
-									</tr>
-									<tr> 
-										<td>
-											<table class="table table-bordered table-striped m-b-0">
-												<tr>
-													<th>No.</th>
-													<th>Option</th>
-													<th>Correct</th>
-												</tr>
-
-												<?php
-													if (!empty($options)) {
-														$total_option_count = count($options);
-														$option_counter = 0;
-														foreach ($options as $key => $options_row) {
-												?>
-												<tr>
-													<td><?= ++$option_counter ?></td>
-													<td><?= $options_row['answer'] ?></td>
-													<td><?= $options_row['correct'] == 1 ? 'Yes' : 'No' ?></td>
-												</tr>
-												<?php
-														}
-													}
-												?>
-											</table>
-										</td>
-									</tr>									
-								</thead>
-							</table>
-						</td>
-						<?php */?>
-
-						<!-- <td><?=$question_type?></td> -->
+						<td><?=$row['firstname'] .' '.$row['lastname']?></td>
+						<td><?=$row['email']?></td>
+						<td><?=$row['review']?></td>  
 						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
-						<td>
-							<a class="btn btn-sm btn-warning" href="<?=$view_url.'/'.$row['id']?>">View</a>
-							<a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a>
-						</td>
+						<td><?=Date('Y-m-d h:i A', strtotime($row['created_at']))?></td>  
+						<td><a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a></td>
+ 
 					</tr>
-
 					<?php
 							}
 						} else {
 					?>
 					<tr>
-						<td colspan="6">No Record Found</td>
+						<td colspan="8">No Record Found</td>
 					</tr>
 					<?php
 						}
