@@ -32,7 +32,7 @@
                   <?php
                     $duration_value = set_value('duration') == '' ? (isset($duration) ? $duration : 0) : set_value('duration');
                   ?>
-                  <input type='number' class='form-control' name='duration' value='<?=$duration_value?>' min='0' />
+                  <input type='number' class='form-control' name='duration' value='<?=$duration_value?>' min='5' />
                   <?=form_error('duration')?>
                 </div>
 
@@ -90,6 +90,18 @@
               <input type="number" class="form-control" name="total_question"  min='0' value="<?=$total_question_value?>">
               <?=form_error('total_question')?>
               <?=isset($total_question_error) ? $total_question_error : ''?>
+            </div>
+          </div>  
+
+          <div class="form-group">
+            <label for="" class="col-md-2 control-label">Attempt</label>
+              <div class="col-md-4">
+              <?php
+                $attempt_value = set_value('attempt') == '' ? (isset($attempt) ? $attempt : '0') : set_value('attempt');
+              ?>
+              <input type="number" class="form-control" name="attempt"  min='0' value="<?=$attempt_value?>">
+              <?=form_error('attempt')?>
+              <?=isset($attempt_error) ? $attempt_error : ''?>
             </div>
           </div>    
           

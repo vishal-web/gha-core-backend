@@ -85,7 +85,7 @@
 						<th>Title</th>
 						<th>Price</th>
 						<th>Duration</th>
-						<th>Featured Image</th>
+						<th>Image</th>
 						<th>Description</th>
 						<th>Status</th> 
 						<th>Action</th>
@@ -110,7 +110,7 @@
 								$image_html = '';
 								if ($row['featured_image']) {
 									$image_src = base_url().'uploads/course/'.$row['featured_image'];
-									$image_html = '<a target="_blank" href="'.$image_src.'"><img width="100" height="50" src="'.$image_src.'"></a>';	
+									$image_html = '<a class="img-thumbnail" target="_blank" href="'.$image_src.'"><img width="30" height="30" src="'.$image_src.'"></a>';	
 								}
 					?>
 					

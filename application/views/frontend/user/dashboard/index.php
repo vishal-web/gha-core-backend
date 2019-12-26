@@ -14,7 +14,6 @@
             $address .= $data[0]['country_name'];
         }
 
-        
         return $address;
     }
 
@@ -31,9 +30,11 @@
     }
 ?>
 
-<div class="course-details-area default-padding bg-gray">
-    <div class="container ">
+<div class="course-details-area default-padding">
+    <div class="container">
         <div class="row">
+            <?php $this->load->view('frontend/user/inc/sidebar'); ?>
+            <?php /* ?>
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box">
                     <a class="small-box-footer bg-aqua" href="#">
@@ -98,8 +99,6 @@
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-sm-4">
                 <section class="panel">
                     <div class="profile-db-head  bg-yellow-gradient">
@@ -167,6 +166,52 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <?php */ ?>
+
+            <div class='col-md-9 p-t-60 custom-table'>
+                <div class='table-responsive'>
+                <table class='table table-bordered table-condensed'>
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Exam</th> 
+                            <th>Course</th>  
+                            <th>Attempt Left</th>  
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php if (!empty($query)) {
+                        $counter = 0;
+                        foreach ($query as $row) {
+                            $take_exam = false;
+                            if ($row['payment_date'] && $row['course_duration']) {
+                                $expiry_date = Date('Y-m-d', strtotime('+ '.$row['course_duration'].' months', strtotime($row['payment_date'])));
+                                if ($expiry_date >= Date('Y-m-d')) {
+                                    $take_exam = true;
+                                }
+                            }
+                        ?>
+                        <tr>
+                            <td><?=++$counter?></td>
+                            <td><?=$row['title']?></td> 
+                            <td><?=$row['course_title']?></td>  
+                            <td><?=$row['attempt_left']?></td>  
+                            <td> 
+                                <a href='<?=base_url('user/exams/history/'.$row['order_product_id'])?>'>
+                                    <button type="button" class="btn btn-danger ">View Details</button>
+                                </a> 
+                            </td>
+                        </tr>
+                        <?php } } else { ?> 
+                        <tr>
+                            <td colspan='8'>Unfortunately no exam is available for you</td>
+                        </tr>
+                        <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

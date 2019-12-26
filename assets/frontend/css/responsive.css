@@ -159,8 +159,8 @@
   }
 
   .course-details-area .sidebar {
-    margin-top: 50px;
-    padding-left: 0;
+    /* margin-top: 50px; */
+    /* padding-left: 0; */
   }
 
   /* Advisor */
@@ -897,10 +897,10 @@
     margin-top: 15px;
   }
 
-  .course-details-area .sidebar {
+  /* .course-details-area .sidebar {
     margin-top: 50px;
     padding-left: 0;
-  }
+  } */
 
   .course-list-items li .item {
     display: block;

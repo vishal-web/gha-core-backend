@@ -2,7 +2,6 @@
 
 	class Authentication extends Public_Controller {
 
-
 		public function __construct() {
 			parent::__construct();
 			$this->load->library('google');
@@ -15,9 +14,7 @@
 			}
 
 			if ($this->google->getAuthenticate($code)) {
-				
-				$userInfo = $this->google->getUserInfo();
-
+				$userInfo = $this->google->getUserInfo(); 
 				$checkUser = $this->common_model->dbselect('gha_registration',['oauth_provider' => 'google', 'oauth_uid' => $userInfo['id']])->result_array();
 
 				if (empty($checkUser)) {
@@ -30,14 +27,21 @@
 						'profession' => 4, 
 						'status' => 1,
 						'created_at' => Date('Y-m-d H:i:s'),
-					];			
+					];
 
-					$query = $this->common_model->dbinsert('gha_registration', $insert_data);
-
-					if ($query) {
-						$insert_id = $this->db->insert_id();
-						$checkUser = $this->common_model->dbselect('gha_registration',['id' => $insert_id])->result_array();
+					$regUser = $this->common_model->dbselect('gha_registration',['email' => $userInfo['email']])->result_array();
+					
+					if (empty($regUser)) {			
+						$query = $this->common_model->dbinsert('gha_registration', $insert_data);
+						if ($query) {
+							$insert_id = $this->db->insert_id();
+						}
+					} else {
+						$insert_id = $regUser[0]['id'];	
+						$this->common_model->dbupdate('gha_registration',['oauth_provider' => 'google', 'oauth_uid' => $userInfo['id']], ['id' => $insert_id]);
 					}
+					
+					$checkUser = $this->common_model->dbselect('gha_registration',['id' => $insert_id])->result_array();
 				}
 
 				$session_data = [

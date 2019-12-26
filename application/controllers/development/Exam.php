@@ -89,6 +89,7 @@ class Exam extends Backend_Controller {
 					'duration' => 	$this->input->post('duration'),
 					'duration_type' => 	$this->input->post('duration_type'),
 					'each_marks' => 	$this->input->post('each_marks'),
+					'attempt' => 	$this->input->post('attempt'),
 					'passing_percentage' => 	$this->input->post('passing_percentage'),
 					'course_id' => 	$this->input->post('course_id'),
 					'total_question' => 	$this->input->post('total_question'),

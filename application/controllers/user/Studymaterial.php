@@ -14,36 +14,43 @@
       ];
 
       $start = null;
-      $select_data = ['sm.*', 'op.course_title'];
+      $select_data = [ 
+        'DISTINCT(sm.course_id)',  
+        'op.course_title'
+      ];
+
       $order_by = null;
       $condition['o.status'] = 1;
       $condition['o.user_id'] = $this->logged_in_user_id;
       $condition['sm.id IS NOT NULL'] = NULL;
       $group_by = null;
       $data['query'] = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
-      $data['headline'] = $this->head_title = 'Study Material'; 
+  
+      $data['headline'] = $data['title'] = $this->head_title = 'Study Material'; 
       $data['view_file'] = 'frontend/user/studymaterial/index';
       $this->load->view($this->layout, $data);
     }
 
     public function preview() {
-      $material_id = $this->uri->segment('4');
-      if ($material_id === '' || !is_numeric($material_id)) {
+      $course_id = $this->uri->segment('4');
+      if ($course_id === '' || !is_numeric($course_id)) {
         redirect(base_url('user/studymaterial'));
       }
 
       // check if user enrolled for this material
       $this->check();
       $data['block_ctr'] = TRUE;
-      $data['query'] = $this->common_model->dbselect('gha_study_material', ['id' => $material_id,'status' => 1])->result_array();      
+      $data['query'] = $this->common_model->dbselect('gha_study_material', ['course_id' => $course_id,'status' => 1])->result_array();      
       $data['course_details'] = $this->get_course_details($data['query'][0]['course_id']);
+
+     
       $data['headline'] = $this->head_title = 'Study Material Preview';
       $data['view_file'] = 'frontend/user/studymaterial/preview';
       $this->load->view($this->layout, $data);
     }
 
-    private function check() {
-      $material_id = $this->uri->segment('4');
+    private function check() { 
+      $course_id = $this->uri->segment('4');
       
       $join = [ 
         ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
@@ -55,10 +62,11 @@
       $order_by = null;
       $condition['o.status'] = 1;
       $condition['o.user_id'] = $this->logged_in_user_id; 
-      $condition['sm.id'] = $material_id;
+      // $condition['sm.id'] = $material_id;
+      $condition['op.course_id'] = $course_id;
       $group_by = null;
       $query = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by)->result_array();
-      
+  
       if (empty($query)) {
         redirect(base_url().'user/studymaterial');
       }

@@ -11,19 +11,28 @@
 
       $join = [
         ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
+        ['type' => 'LEFT', 'condition' => 'p.order_id = o.id', 'table' => 'gha_payment p'],
         ['type' => 'LEFT', 'condition' => 'e.course_id = op.course_id AND e.status = 1', 'table' => 'gha_exams e'],
       ];
 
       $start = null;
-      $select_data = ['e.*', 'op.course_title'];
-      $order_by = null;
+      $select_data = [
+        'e.*', 
+        'op.course_title',
+        'op.course_duration',
+        'op.id as order_product_id',
+        'p.created_at as payment_date',
+        '(e.attempt - (SELECT COUNT(id) FROM gha_exams_history eh WHERE op.id = eh.order_product_id)) as attempt_left',
+      ];
+      
       $condition['o.status'] = 1;
       $condition['o.user_id'] = $this->logged_in_user_id;
-      $condition['e.id IS NOT NULL'] = NULL;
+      $condition['e.id IS NOT NULL'] = NULL; 
       $group_by = null;
+      $order_by = ['field' => 'payment_date', 'type' => 'desc'];
       $data['query'] = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
-
-      $data['headline'] = $this->head_title = 'Exams';
+ 
+      $data['headline'] = $data['title'] = $this->head_title = 'Exams';
       $data['view_file'] = 'frontend/user/exams/index';
       $this->load->view($this->layout, $data);
     }
@@ -47,9 +56,9 @@
       $this->load->view($this->layout, $data);
     }
 
-    public function start() {
-      $exam_id = $this->uri->segment('4');
-      if ($exam_id === '' || !is_numeric($exam_id)) {
+    public function start($exam_id, $order_product_id, $exam_start_id) {
+    
+      if (!is_numeric($exam_id) || !is_numeric($order_product_id) || !is_numeric($exam_start_id)) {
         redirect(base_url('user/exams'));
       }
 
@@ -61,6 +70,9 @@
 
       // check if user enrolled for this exam
       $this->check();
+
+      // make sure finished exam do not come here 
+      $this->_make_sure_exam_is_not_finished($exam_start_id);
 
       $exam_query = $this->common_model->dbselect('gha_exams', ['id' => $exam_id,'status' => 1])->result_array();
       
@@ -79,10 +91,6 @@
 
         $this->session->set_userdata('exam_session_data', $exam_session_data);
       }
-
-
-      
-
 
       if ($submit == 'submitexam') {
         $question = $this->input->post('question');
@@ -164,7 +172,7 @@
       }
 
       $mysql_query = "SELECT * FROM gha_questions 
-      WHERE course_id = '".$exam_query[0]['course_id']."'
+      WHERE course_id = '".$exam_query[0]['course_id']." AND status = 1'
       ORDER BY RAND() 
       LIMIT ".$exam_query[0]['total_question'];
 
@@ -203,7 +211,8 @@
     }
 
     public function history() { 
-
+      $order_product_id = $this->uri->segment(4);
+      
       $join = [ 
         ['type' => 'LEFT', 'condition' => 'e.id = eh.exam_id', 'table' => 'gha_exams_history eh'],
       ];
@@ -214,37 +223,53 @@
       $order_by['type'] = 'desc'; 
       $condition['eh.user_id'] = $this->logged_in_user_id;
       $condition['eh.finished_at IS NOT NULL'] = NULL;
+      if ($order_product_id > 0) {
+        $condition['eh.order_product_id'] = $order_product_id;
+      }
+      
       $group_by = null;
       $data['query'] = $this->common_model->dbselect('gha_exams e', $condition, $select_data, $start, $join, $order_by, $limit = null, $group_by)->result_array();
-
-      $data['headline'] = $this->head_title = 'Exam History';
+      
+      $data['headline'] = $data['title'] = $this->head_title = 'Exam History';
       $data['view_file'] = 'frontend/user/exams/history';
       $this->load->view($this->layout, $data);
     }
 
     private function allow_only_them_who_refer_from_preview_page() {
       if (strpos($this->referrer_url,"preview") === false) {
-        redirect(base_url('user/exams'));
+        // redirect(base_url('user/exams'));
       } 
+    }
+
+    private function _make_sure_exam_is_not_finished($exam_history_id) {
+      $query = $this->common_model->dbselect('gha_exams_history', ['id' => $exam_history_id, 'finished_at IS NULL' => NULL])->result_array();
+      if (empty($query)) {
+        redirect('user/exams');
+      }
     }
 
     private function check() {
       $exam_id = $this->uri->segment('4');
-      
+      $order_product_id = (int)$this->uri->segment('5');
+
       $join = [
         ['type' => 'LEFT', 'condition' => 'o.id = op.order_id', 'table' => 'gha_order_product op'],
+        ['type' => 'LEFT', 'condition' => 'o.id = p.order_id', 'table' => 'gha_payment p'],
         ['type' => 'LEFT', 'condition' => 'e.course_id = op.course_id AND e.status = 1', 'table' => 'gha_exams e'],
       ];
 
       $start = null;
-      $select_data = ['e.*', 'op.course_title'];
+      $select_data = ['e.id', 'op.course_title', 'DATE_ADD(p.created_at, INTERVAL op.course_duration MONTH) as payment_date', ];
       $order_by = null;
       $condition['o.status'] = 1;
       $condition['o.user_id'] = $this->logged_in_user_id; 
       $condition['e.id'] = $exam_id;
+      $condition['op.id'] = $order_product_id;
+      $condition['DATE_ADD(p.created_at, INTERVAL op.course_duration MONTH) >= "'.Date('Y-m-d H:i:s').'"'] = NULL;
+
       $group_by = null;
       $query = $this->common_model->dbselect('gha_order o', $condition, $select_data, $start, $join, $order_by)->result_array();
-      
+  
       if (empty($query)) {
         redirect(base_url().'user/exams');
       }

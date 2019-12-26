@@ -8,7 +8,7 @@
 
     public function index() {
       $data['profile'] = $this->get_logged_in_user_details()[0];
-
+      $data['title'] = 'Profile';
       $this->load->library('form_validation');
       $submit = $this->input->post('submit');
       if ($submit === 'update') {

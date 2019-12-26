@@ -6,6 +6,7 @@
     }
 
     public function index() {
+      
       $join = [
         ['type' => 'LEFT', 'condition' => 'o.id = p.order_id', 'table' => 'gha_order o'],
       ];
@@ -17,7 +18,7 @@
       $data['query'] = $this->common_model->dbselect('gha_payment p', $condition, $select_data, $start, $join, $order_by)->result_array();
 
       $this->head_title = 'User | Payment History';
-      $data['headline'] = 'Payment history';
+      $data['headline'] = $data['title'] = 'Payment history';
       $data['view_file'] = 'frontend/user/payment/index';
       $this->load->view($this->layout, $data);
     }

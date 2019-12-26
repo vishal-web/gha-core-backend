@@ -190,8 +190,8 @@ var NowStep = 1;
 var marked = 0;
 var interval = 0;
 var end = atob(document.getElementById('end').value);
-var start = new Date();
-var result = (parseInt(new Date(end) - start) / 1000);
+var start = atob(document.getElementById('start').value);
+var result = (parseInt(new Date(end) - new Date(start)) / 1000);
 var totalMinute = Math.floor(result / 60);
 var totalSecond = Math.floor(result % 60); 
 seconds = totalSecond > 0 ? totalSecond : seconds;
@@ -199,7 +199,7 @@ duration = totalMinute > 0 ? totalMinute : 0;
 
 var calculate = (totalMinute * 60 ) + seconds;
 
-console.log('start', start, 'end', end,'totalMinute', totalMinute, 'totalSecond', totalSecond);
+// console.log('start', start, 'end', end,'totalMinute', totalMinute, 'totalSecond', totalSecond);
 
 durationUpdate();
 // $('.duration').html(timeString());

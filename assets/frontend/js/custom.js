@@ -55,23 +55,24 @@ $("#start-exam, #yesConf").click(function() {
 	if ($("#confirmation").is(":checked")) {
 		let href = $("#start-exam").data('href');
 		let id = $("#start-exam").data('id');
+		let order_product_id = $("#start-exam").data('product-id');
 
-		Exam.start(href, id);	
+		Exam.start(href, {id, order_product_id});	
 	}
 
 	$("#verificationModal").modal();
 });
 
 const Exam = {
-	start : (href,id) => {
+	start : (href,postData) => {
 		$.ajax({
 			url : BASE_URL + 'ajaxresponse/examstarted',
 			method : 'POST',
 			dataType: 'JSON',
-			data: {id},
+			data: postData,
 			success: function(data, err) {
 				if (data.status == true && data.id) {
-					window.open(href + '/' + data.id, '_blank')
+					window.open(`${href}/${postData.order_product_id}/${data.id}`, '_blank')
 					setTimeout(() => {
 						window.location.href = BASE_URL + 'user/exams';
 					}, 100);

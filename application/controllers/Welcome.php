@@ -7,7 +7,6 @@ class Welcome extends Public_Controller {
 		parent::__construct();
 		$this->load->library('form_validation'); 
 		$this->load->library('Google');
-
 		$this->generate_navbar();
 	}
 

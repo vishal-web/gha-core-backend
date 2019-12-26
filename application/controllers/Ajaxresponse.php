@@ -125,9 +125,11 @@
 			if (!empty($logged_in_user_data)) { 
 				$user_id = $logged_in_user_data['user_id'];
 				$exam_id = $this->input->post('id');
+				$order_product_id = $this->input->post('order_product_id');
 
 				$insertData = [
 					'exam_id' => $exam_id,
+					'order_product_id' => $order_product_id,
 					'user_id' => $user_id,
 					'started_at' => Date('Y-m-d H:i:s'),
 				];

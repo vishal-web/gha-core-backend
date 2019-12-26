@@ -78,18 +78,17 @@
           <li><a href="<?=base_url()?>login"  class="popup-with-form1"> Log In</a></li>
           <li><a href="<?=base_url()?>register"  class="popup-with-form1"> Register</a></li>
           <?php } else { ?>
-            <li><a href="<?=base_url()?>user/dashboard"  class="popup-with-form1"> My Account</a></li>
+            <li><a href="<?=base_url()?>user/dashboard"  class="popup-with-form1"> Dashboard</a></li>
             <li class="dropdown user-menu"> 
               <a href="#" class="dropdown-toggle active" data-toggle="dropdown" ><i class="fas fa-user"></i> </a>
               <ul class="dropdown-menu">
-                <li><a href="<?=base_url()?>user/profile">User Profile</a></li>
-                <li><a href="<?=base_url()?>user/payment">Payment History</a></li>
-                <li><a href="<?=base_url()?>user/exams">Online Exam</a></li>
-                <li><a href="<?=base_url()?>user/exams/history">Exam History</a></li>
-                <li><a href="<?=base_url()?>user/review">Review</a></li>
-                <li><a href="<?=base_url()?>user/studymaterial">Study Material</a></li>
-                <li><a href="<?=base_url()?>user/certificate">Download Certificate</a></li>
-                <li><a href="<?=base_url()?>user/logout">Logout</a></li>
+                <li><a href="<?=base_url('user/profile')?>">User Profile </a></li>
+                <li><a href="<?=base_url('user/studymaterial')?>">Study Material</a></li>
+                <li><a href="<?=base_url('user/exams')?>">Online Exam</a></li>
+                <li><a href="<?=base_url('user/exams/history')?>">Exam History</a></li>
+                <li><a href="<?=base_url('user/review')?>">Reviews</a></li>
+                <li><a href="<?=base_url('user/payment')?>">Payment History </a></li>
+                <li><a href="<?=base_url('user/logout')?>">Logout </a></li>                
               </ul>                        
             <li> 
           <?php } ?>

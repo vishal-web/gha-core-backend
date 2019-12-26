@@ -7,8 +7,10 @@
 
 		public function response() {
 			if($this->mobikwik->verifyChecksum()) {
-
 				$payment_reference_id = $this->get_payment_reference_id();
+				
+				// ------------------------------------------------------------ 
+				// getting order_reference_id as order id from payment response
 				$order = $this->get_order($this->input->post('orderId'));
 
 				$insertData = [

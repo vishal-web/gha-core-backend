@@ -37,7 +37,7 @@
       $data['flash_type'] = $this->session->flashdata('flash_type');
 
       $this->head_title = 'User | Review';
-      $data['headline'] = 'Review';
+      $data['headline'] = $data['title'] = 'Review';
       $data['view_file'] = 'frontend/user/review/index';
       $this->load->view($this->layout, $data);
     }

@@ -32,7 +32,7 @@
                 Question <?=$counter?> of <?=$count?></a>
               </h4>
             </div>
-            <div id="collapse<?=$counter?>" class="panel-collapse collapse">
+            <div id="collapse<?=$counter?>" class="panel-collapse collapse in">
               <div class="panel-body">
                 <?=$row['question_title']?>
 

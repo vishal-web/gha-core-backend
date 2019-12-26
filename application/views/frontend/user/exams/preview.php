@@ -21,10 +21,10 @@
         <li>Marking per question - <?=$query['each_marks']?></li>
         <li>Passing marks/percentage: - <?=$query['passing_percentage'].'%'?></li>
         <li>Duration - <?=$query['duration'].' '.ucfirst($query['duration_type'])?> </li>
-        <li>Attempt - 0</li>
+        <li>Total Attempt - <?=$query['attempt']?></li>
       </ul>
       <br>
-      <a id="start-exam" data-id='<?=$query['id']?>' data-href='<?=base_url('user/exams/start/'.$query['id'])?>'>
+      <a id="start-exam" data-id='<?=$query['id']?>' data-product-id='<?=$this->uri->segment(5)?>' data-href='<?=base_url('user/exams/start/'.$query['id'])?>'>
         <button type="button" class="btn btn-danger ">Start Exam</button>
       </a>
       <?php } ?>
