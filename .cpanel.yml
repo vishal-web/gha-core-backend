@@ -1,6 +1,5 @@
 ---
 deployment:
  tasks:
- - export DEPLOYPATH=/home/user/public_html/courses/
- - /bin/cp index.html $DEPLOYPATH
- - /bin/cp style.css $DEPLOYPATH
+ - export DEPLOYPATH=/home3/ghahevoa/public_html/courses
+ - /bin/cp * $DEPLOYPATH
