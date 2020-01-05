@@ -114,6 +114,12 @@ if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth
 	$db['default']['database'] = 'a878452_ghacourses';
 }
 
+if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth') > 0) {
+	$db['default']['username'] = 'ghahevoa_courses';
+	$db['default']['password'] = 'pK!P+q)ac5TW';
+	$db['default']['database'] = 'ghahevoa_courses';
+}
+
 
 /*
 	Username: kKTPrkjIvj
@@ -141,5 +147,17 @@ Password: NJhcieQy2R
 Server: remotemysql.com
 
 Port: 3306
+
+*/
+
+
+
+/* 
+Username: ghahevoa_courses
+
+Password: pK!P+q)ac5TW
+
+Database: ghahevoa_courses
+
 
 */
