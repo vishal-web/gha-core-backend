@@ -2,4 +2,4 @@
 deployment:
  tasks:
  - export DEPLOYPATH=/home3/ghahevoa/public_html/courses/
- - /bin/cp * $DEPLOYPATH
+ - /bin/cp -r * $DEPLOYPATH
