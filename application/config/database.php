@@ -95,12 +95,11 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
-if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'angelinajoseph') > 0) {
+if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'angelinajoseph') !== false) {
 	//$db['default']['hostname'] = 'angelinajoseph.com';
 	$db['default']['username'] = 'angelinajosep_ghahealth';
 	$db['default']['password'] = 'Ghahealth@123';
 	$db['default']['database'] = 'angelinajosep_ghahealth';
-
 
 	// $db['default']['hostname'] = 'remotemysql.com';
 	// $db['default']['username'] = 'kKTPrkjIvj';
@@ -108,13 +107,13 @@ if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'angelinaj
 	// $db['default']['database'] = 'kKTPrkjIvj';
 }
 
-if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth') > 0) {
+if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth') !== false) {
 	$db['default']['username'] = 'a878452_ghacours';
 	$db['default']['password'] = 'K]GE=8y_8XLC';
 	$db['default']['database'] = 'a878452_ghacourses';
 }
 
-if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth') > 0) {
+if (isset($_SERVER['SERVER_NAME']) && strpos($_SERVER['SERVER_NAME'], 'ghahealth') !== false) {
 	$db['default']['username'] = 'ghahevoa_courses';
 	$db['default']['password'] = 'pK!P+q)ac5TW';
 	$db['default']['database'] = 'ghahevoa_courses';
