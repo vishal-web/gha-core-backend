@@ -153,7 +153,7 @@ function counter() {
 function durationUpdate() {
   hours = 0;
   minutes = duration;
-  if (minutes > 60) {
+  if (minutes >= 60) {
     hours = parseInt(duration / 60, 10);
     minutes = duration % 60;
   }
@@ -190,16 +190,26 @@ var NowStep = 1;
 var marked = 0;
 var interval = 0;
 var end = atob(document.getElementById('end').value);
+    end  = end.replace(/-/gi,'/'); 
 var start = atob(document.getElementById('start').value);
-var result = (parseInt(new Date(end) - new Date(start)) / 1000);
-var totalMinute = Math.floor(result / 60);
-var totalSecond = Math.floor(result % 60); 
-seconds = totalSecond > 0 ? totalSecond : seconds;
-duration = totalMinute > 0 ? totalMinute : 0;
+    start = start.replace(/-/gi,'/'); 
+var totalSeconds = (parseInt(new Date(end) - new Date(start)) / 1000);
+var totalMinutes = Math.floor(totalSeconds / 60);
+var totalHours = Math.floor(totalMinutes / 60);
 
-var calculate = (totalMinute * 60 ) + seconds;
 
-// console.log('start', start, 'end', end,'totalMinute', totalMinute, 'totalSecond', totalSecond);
+minutes = totalMinutes;
+// hours = totalHours;
+// seconds = (minutes % 60);
+
+
+
+// seconds = totalSeconds > 0 ? totalSeconds : seconds;
+// duration = totalMinutes > 0 ? totalMinutes : 0;
+
+var calculate = (totalMinutes * 60 ) + seconds;
+
+// console.log('start', start, 'end', end,'totalMinutes', totalMinutes, 'totalSeconds', totalSeconds);
 
 durationUpdate();
 // $('.duration').html(timeString());

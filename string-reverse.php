@@ -1,4 +1,26 @@
 <?php
+
+	$listArray = [1,2,3,4];
+	$newArray = [1,8,3,7];
+
+	$diff = [];
+	
+	foreach ($newArray as $newKey => $newValue) {
+		foreach ($listArray as $listKey => $listValue) {	 
+			if ($listValue == $newValue) {  
+				unset($newArray[$newKey]);
+			}
+		}
+	}
+
+	echo '<pre>';
+	print_r($diff); 
+	// print_r($newArray); 
+	echo '</pre>';
+
+	die();
+
+
 	// $conn = mysqli_connect('angelinajoseph.com','angelinajosep_ghahealth','Ghahealth@123');
 
 	// if (!$conn) {
@@ -48,7 +70,7 @@
  */
 
 	// mkdir($_SERVER['DOCUMENT_ROOT'].'uploads/course/thumb');
-	echo 'Updated Code';
+	// echo 'Updated Code';
 	
 	// ALTER TABLE gha_answers ADD COLUMN image TEXT NOT NULL AFTER correct
 	// ALTER TABLE gha_questions ADD COLUMN course_id int NOT NULL AFTER options;

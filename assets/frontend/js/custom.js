@@ -53,9 +53,9 @@ $('#state').on('change', function(e) {
 $("#start-exam, #yesConf").click(function() {
 
 	if ($("#confirmation").is(":checked")) {
-		let href = $("#start-exam").data('href');
-		let id = $("#start-exam").data('id');
-		let order_product_id = $("#start-exam").data('product-id');
+		var href = $("#start-exam").data('href');
+		var id = $("#start-exam").data('id');
+		var order_product_id = $("#start-exam").data('product-id');
 
 		Exam.start(href, {id, order_product_id});	
 	}
@@ -64,7 +64,7 @@ $("#start-exam, #yesConf").click(function() {
 });
 
 const Exam = {
-	start : (href,postData) => {
+	start : function(href,postData) {
 		$.ajax({
 			url : BASE_URL + 'ajaxresponse/examstarted',
 			method : 'POST',
@@ -72,10 +72,17 @@ const Exam = {
 			data: postData,
 			success: function(data, err) {
 				if (data.status == true && data.id) {
-					window.open(`${href}/${postData.order_product_id}/${data.id}`, '_blank')
-					setTimeout(() => {
-						window.location.href = BASE_URL + 'user/exams';
-					}, 100);
+					var isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+					var isIOS = /(iPhone|iPod|iPad)/i.test(navigator.platform);
+
+					if (isMacLike || isIOS) {
+						window.location.href = `${href}/${postData.order_product_id}/${data.id}`; 
+					} else {
+						window.open(`${href}/${postData.order_product_id}/${data.id}`, '_blank')
+						setTimeout(function(){
+							window.location.href = BASE_URL + 'user/exams';
+						}, 100);
+					}
 				}
 			}
 		})
@@ -85,7 +92,7 @@ const Exam = {
 /*$('#login-with-google').click((e) => { 
 
 	// console.log($(e.target));
-	// let url = $(this).data('href');
+	// var url = $(this).data('href');
 	// console.log('url', $(this).data("href"));
 	// window.open(url,'_blank','toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400');
 
@@ -94,9 +101,9 @@ const Exam = {
 
 var cart = {
 	addToCart: function(self) {
-		let course_id = self.data('course-id');
-		let uuid = getCookie('uuid'); 
-		let url = BASE_URL + 'ajaxresponse/add_to_cart';
+		var course_id = self.data('course-id');
+		var uuid = getCookie('uuid'); 
+		var url = BASE_URL + 'ajaxresponse/add_to_cart';
 		if (course_id && uuid) {
 			$.post(url,{
 				course_id,
@@ -114,8 +121,8 @@ var cart = {
 		}
 	},
 	removeCartItem: function(self) {
-		let id = self.data('id');
-		let url = BASE_URL + 'ajaxresponse/remove_cart_item/' + id;
+		var id = self.data('id');
+		var url = BASE_URL + 'ajaxresponse/remove_cart_item/' + id;
 		$.get(url,function(response) {
 			if (response.status === 1) {
 				window.location.reload();
@@ -125,7 +132,7 @@ var cart = {
 		})
 	},
 	updateCart: function() {
-		let url = BASE_URL + 'ajaxresponse/get_cart_item_count';
+		var url = BASE_URL + 'ajaxresponse/get_cart_item_count';
 		$.get(url,function(response) {
 			if (response.cart_items > 0) {
 				$('#cart_items_count').html(response.cart_items + ' course');
@@ -148,7 +155,7 @@ $(".remove-cart-item").click(function(e) {
 })
 
 
-const isEmpty = (value) => {
+function isEmpty(value) {
 	return value === undefined ||
   value === null ||
   (typeof value === 'object' && Object.keys(value).length === 0) ||
@@ -176,8 +183,8 @@ cart.updateCart();
 $("#checkout-form").on('submit',function(e) {
 	$('.loader').show();
 	e.preventDefault();  
-	let formData = new FormData($("#checkout-form")[0]);
-	let url = $(this).attr('action');
+	var formData = new FormData($("#checkout-form")[0]);
+	var url = $(this).attr('action');
 	$.ajax({
 		url: url,
 		type: 'POST', 
@@ -187,12 +194,12 @@ $("#checkout-form").on('submit',function(e) {
 		success: function(response) {
 			$('.loader').hide();
 
-			let { status, form_error, message, redirect_url } = response;
+			var { status, form_error, message, redirect_url } = response;
 
 			if (status === 0) {
 				if (!isEmpty(form_error)) { 
-					$.each(form_error, (key, val) => {
-						let elem = $('input[name="'+key+'"]');  
+					$.each(form_error, function(key, val) {
+						var elem = $('input[name="'+key+'"]');  
 						if (key === 'billing_city' || key === 'billing_country' || key === 'billing_state') {
 							key = key.replace('billing_','');
 							elem = $(`#${key}`);
@@ -237,7 +244,7 @@ $(billingAddressAdd).click(function() {
 $(billingAddressUse).click(function() {
 	$(this).addClass('selected');
 
-	$(billingAddressUse).each((index, row) => {
+	$(billingAddressUse).each(function(index, row) {
 		if ($(this).data('id') !== $(row).data('id')) {
 			$(row).removeClass('selected');
 		}
@@ -247,8 +254,8 @@ $(billingAddressUse).click(function() {
 
 $('#place-order').click(function() {
 	if ($(billingAddressUse).length && !$(billingAddressForm).is(':visible')) { 
-		let addressId = 0;
-		$(billingAddressUse).each((index, row) => {
+		var addressId = 0;
+		$(billingAddressUse).each(function(index, row) {
 			if ($(row).hasClass('selected')) {
 				addressId = $(row).data('id');
 				return false;
@@ -256,9 +263,9 @@ $('#place-order').click(function() {
 		});
 
 		if (addressId > 0) {
-			let url =  $("#checkout-form").attr('action');
+			var url =  $("#checkout-form").attr('action');
 			$.post(url, { addressId },function(response) {
-				let { status, message, redirect_url } = response;
+				var { status, message, redirect_url } = response;
 
 				if (!isEmpty(message)) {
 					alert(message);
@@ -286,22 +293,22 @@ $('#searchForm').on('submit', function(e) {
 })
 
 $('input[name="searchCourse"]').keyup(function(e) {
-	let srchTxt = $.trim($(this).val());
+	var srchTxt = $.trim($(this).val());
 	Search.fetchResult(srchTxt);
 });
 
-$('#srchBtn').click(() => {
-	let srchTxt = $.trim($('input[name="searchCourse"]').val());
+$('#srchBtn').click(function() {
+	var srchTxt = $.trim($('input[name="searchCourse"]').val());
 	Search.fetchResult(srchTxt);
 })
 
 const Search = {
-	fetchResult: (srchTxt) => {
+	fetchResult: function(srchTxt) {
 		Search.clearResult();
 		if (srchTxt.length > 0) {
-			let url = BASE_URL + 'search/get_result';
-			$.get(url, {srchTxt}, (response) => {
-				let  { status, result } = response;
+			var url = BASE_URL + 'search/get_result';
+			$.get(url, {srchTxt}, function(response) {
+				var  { status, result } = response;
 				if (status) {
 					$('#srchResult .list-group').show();
 					$('#srchResult').html(result).fadeIn();
@@ -310,12 +317,12 @@ const Search = {
 
 		}
 	},
-	clearResult: () => {
+	clearResult: function() {
 		$('#srchResult').html('');
 	}
 }
 
-$('body, html').click(() => {
+$('body, html').click(function() {
 	if ($('#srchResult .list-group').is(':visible')) {
 		$('#srchResult .list-group').hide();
 	}
