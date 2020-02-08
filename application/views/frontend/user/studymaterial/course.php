@@ -8,7 +8,7 @@
             <thead>
               <tr>
                 <th>S.No</th> 
-                <th>Course</th>
+                <th>Module</th>
                 <?php /*?><th>Material Type</th><?php */?> 
                 <th>Action</th>
               </tr>
@@ -20,17 +20,17 @@
             ?>
               <tr>
                 <td><?=++$counter?></td> 
-                <td><?=$row['course_title']?></td>
+                <td><?= $row['title'] !== '' ? $row['title'] : 'Module'  ?></td>
                 <?php /*?><td><?=get_material_dd()[$row['type']]?></td> <?php */?> 
                 <td>
-                  <a href='<?=base_url('user/studymaterial/course/'.$row['course_id'])?>'>
+                  <a href='<?=base_url('user/studymaterial/preview/'.$course_id.'/'.$row['id'])?>'>
                     <button type="button" class="btn btn-primary ">View</button>
                   </a>
                 </td>
               </tr>
             <?php } } else { ?> 
               <tr>
-                <td colspan='8'>Unfortunately no exam is available for you</td>
+                <td colspan='8'>Not found</td>
               </tr>
             <?php } ?>
             </tbody>
@@ -38,5 +38,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
+

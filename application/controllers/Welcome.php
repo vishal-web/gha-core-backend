@@ -7,7 +7,6 @@ class Welcome extends Public_Controller {
 		parent::__construct();
 		$this->load->library('form_validation'); 
 		$this->load->library('Google');
-		$this->generate_navbar();
 	}
 
 
@@ -89,12 +88,7 @@ class Welcome extends Public_Controller {
     $query = $this->common_model->dbselect('gha_reviews rev', $condition, $select_data, $start, $join);
     return $query->result_array(); 
 	}
-
-	private function get_upcoming_courses() {
-		$query = $this->common_model->dbselect('gha_courses', ['upcoming_course' => 1]);
-    return $query->result_array(); 
-	}
-
+	
 	public function ghaadmin() {
 		echo "ghaAdmin Panel will be here";
 	}

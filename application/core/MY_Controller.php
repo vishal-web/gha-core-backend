@@ -113,6 +113,8 @@
 		public $navbar = '';
 		public $logged_in_user_data = '';
 		public $referrer_url = '';
+		public $courseList = [];
+		public $upcomingCourseList = [];
 
 		public function __construct() {
 			parent::__construct();
@@ -122,6 +124,9 @@
 			$this->referrer_url = $this->agent->referrer();
 			$this->visitor_unique_id();
 			$this->load->helper('cookie');
+			$this->navbar = $this->generate_navbar();
+			$this->courseList = $this->get_all_course();
+			$this->upcomingCourseList = $this->get_upcoming_courses();
 		}
 
 		public function get_logged_in_user_details() {
@@ -248,6 +253,23 @@
 
 			return $uploadData;
 		}
+
+		public function get_all_course() {
+			$get_course = $this->cache->file->get('courses');
+			if (!$get_course) {
+				$query = $this->common_model->dbselect('gha_courses', ['status'=>1, 'upcoming_course' => 0], null, null, null,['field' => 'title', 'type'=>'asc'])->result_array();
+				$this->cache->file->save('courses', $query);
+			} else {
+				$query = $get_course;
+			}
+
+			return $query;
+		}
+
+		public function get_upcoming_courses() {
+			$query = $this->common_model->dbselect('gha_courses', ['upcoming_course' => 1]);
+			return $query->result_array(); 
+		}
 	}
 
 
@@ -259,6 +281,8 @@
 		public $logged_in_user_data = '';
 		public $referrer_url = '';
 		public $logged_in_user_id = 0;
+		public $courseList = [];
+		public $upcomingCourseList = [];
 
 		public function __construct() {
 			parent::__construct();
@@ -274,6 +298,8 @@
 
 			$this->logged_in_user_id = $logged_in_user_data['user_id'];
 			$this->navbar = $this->generate_navbar();
+			$this->courseList = $this->get_all_course();
+			$this->upcomingCourseList = $this->get_upcoming_courses();
 		}
 
 		public function generate_navbar() {
@@ -377,6 +403,23 @@
 			$query = $this->common_model->dbselect('gha_registration r', ['r.id' => $this->logged_in_user_id], $select_data, null, $join)->result_array();
 
 			return $query;
+		}
+
+		public function get_all_course() {
+			$get_course = $this->cache->file->get('courses');
+			if (!$get_course) {
+				$query = $this->common_model->dbselect('gha_courses', ['status'=>1, 'upcoming_course' => 0], null, null, null,['field' => 'title', 'type'=>'asc'])->result_array();
+				$this->cache->file->save('courses', $query);
+			} else {
+				$query = $get_course;
+			}
+
+			return $query;
+		}
+
+		public function get_upcoming_courses() {
+			$query = $this->common_model->dbselect('gha_courses', ['upcoming_course' => 1]);
+			return $query->result_array(); 
 		}
 	}
 

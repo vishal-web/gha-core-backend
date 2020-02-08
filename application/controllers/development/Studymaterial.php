@@ -84,6 +84,7 @@ class Studymaterial extends Backend_Controller {
 				$material_type = $this->input->post('material_type');
 
 				$insert_data = [
+					'title' => 	$this->input->post('title'),
 					'course_id' => 	$this->input->post('course_id'),
 					'type' => 	$this->input->post('material_type'), 
 					'status' => 	$this->input->post('status'),

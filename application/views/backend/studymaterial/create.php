@@ -13,6 +13,17 @@
         <div class="box-body">
 
           <div class="form-group">
+            <label for="" class="col-md-2 control-label">Title</label>
+              <div class="col-md-9">
+              <?php
+                $title_value = set_value('title') == '' ? (isset($title) ? $title : '') : set_value('title');
+              ?>
+              <input type="text" class="form-control" name="title" value="<?=$title_value?>">
+              <?=form_error('title')?>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="" class="col-md-2 control-label">Course</label>
             <div class="col-md-9">
               <?php

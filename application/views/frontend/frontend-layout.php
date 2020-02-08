@@ -11,6 +11,13 @@
 
     <!-- ========== Page Title ========== -->
     <title><?=$this->head_title?></title>
+    <style>
+        .social.mini {
+            margin-top: 0px;
+            padding-top: 0px;
+            border-top: none !important;
+        }
+    </style>
     <?php $this->load->view('frontend/inc/header_links'); ?>
 </head>
 

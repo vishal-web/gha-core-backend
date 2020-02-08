@@ -125,6 +125,11 @@
 		],
 		'admin_studymaterial_create' => [
 			[
+				'field' => 'title',
+				'label' => 'Title',
+				'rules' => 'required|trim',
+			],
+			[
 				'field' => 'material_type',
 				'label' => 'Material type',
 				'rules' => 'required|trim',

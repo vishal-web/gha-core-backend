@@ -82,9 +82,10 @@
 				<table class="table table-hover table-bordered">
 					<tr>
 						<th>SN</th>
+						<th>Title</th> 
 						<th>Course</th> 
 						<th>Type</th> 
-						<th>Material</th> 
+						<?php /* ?><th>Material</th> <?php */ ?>
 						<th>Status</th> 
 						<th>Action</th>
 					</tr>
@@ -123,9 +124,10 @@
 					
 					<tr>
 						<td><?=++$sn?></td>
+						<td><?=$row['title'] !== '' ? $row['title'] : '--' ?></td> 
 						<td><?=$row['course_title']?></td> 
 						<td><?=get_material_dd()[$row['type']]?></td> 
-						<td><?=$html?></td> 
+						<?php /* ?><td><?=$html?></td><?php */ ?> 
 						<td><span class="label label-<?=$status_label?>"><?=$status_text?></span></td> 
 						<td><a class="btn btn-sm btn-primary" href="<?=$edit_url.'/'.$row['id']?>">Edit</a></td>
 					</tr>
