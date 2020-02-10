@@ -9,9 +9,15 @@
 
 		public function __construct() {
 			$this->CI =& get_instance(); 
-			$this->CI->config->load('mobikwik'); 
+			$this->CI->config->load('mobikwik');
 
-			$mobikwik = $this->CI->config->item('development','mobikwik');
+			$mobikwik = $this->CI->config->item('mobikwik');
+
+			if ($mobikwik['isProduction']) {
+				$mobikwik = $mobikwik['production'];
+			} else {
+				$mobikwik = $mobikwik['development'];
+			}
 
 			$this->form_action = $mobikwik['form_action'];
 			$this->secret = $mobikwik['secret'];

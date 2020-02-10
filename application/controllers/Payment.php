@@ -6,21 +6,36 @@
 		}
 
 		public function response() {
+
 			if($this->mobikwik->verifyChecksum()) {
 				$payment_reference_id = $this->get_payment_reference_id();
-				
-				// ------------------------------------------------------------ 
+				$orderId = $this->input->post('orderId');
+				$amount = $this->input->post('amount');
+				$pgTransId = $this->input->post('pgTransId');
+				$paymentMode = $this->input->post('paymentMode');
+				$responseDescription = $this->input->post('responseDescription');
+				$responseCode = $this->input->post('responseCode');
+				$cardhashid = $this->input->post('cardhashid');
+
+				$status = 1;
+				if ($cardhashid === 'NA' || $responseCode !== 100  || $pgTransId !== NULL) {
+					$status = 0;
+				}
+
+
+				// ------	------------------------------------------------------ 
 				// getting order_reference_id as order id from payment response
-				$order = $this->get_order($this->input->post('orderId'));
+				$order = $this->get_order($orderId);
 
 				$insertData = [
 					'order_id' => $order['id'],
-					'amount' => $this->input->post('amount'),
-					'transaction_id' => $this->input->post('pgTransId'),
-					'mode' => $this->input->post('paymentMode'),
-					'response_description' => $this->input->post('responseDescription'),
+					'amount' => $amount,
+					'transaction_id' => $pgTransId === null ? 'Not Found' : $pgTransId,
+					'mode' => $paymentMode,
+					'response_description' => $responseDescription,
 					'payment_reference_id' => $payment_reference_id,
-					'status' => 1,
+					'response_code' => $responseCode,
+					'status' => $status,
 					'created_at' => Date('Y-m-d H:i:s'),
 				];
 
@@ -28,8 +43,13 @@
 
 				// update order
 				$condition['id'] = $order['id'];
-				$updateData = ['status' => 1, 'updated_at' => Date('Y-m-d')];
+				$updateData = ['status' => $status, 'updated_at' => Date('Y-m-d')];
 				$this->common_model->dbupdate('gha_order', $updateData, $condition);
+
+				if ($status === 0) {
+					redirect(base_url('payment/failed'));
+				}
+
 
 				$this->confirmation_mail($this->input->post('orderId'), $order['user_id']);
 				
@@ -48,7 +68,7 @@
 			}
 
 			$data['query'] = $query[0];
-			$data['view_file'] = 'frontend/home/payment-details';
+			$data['view_file'] = 'frontend/payment/success';
 			$this->load->view($this->layout, $data);
 		}
 
@@ -94,10 +114,8 @@
 			return $query->result_array(); 
 		}
 
-
-
 		public function failed() {
-			$data['view_file'] = 'frontend/home/payment-details';
+			$data['view_file'] = 'frontend/payment/failed';
 			$this->load->view($this->layout, $data);
 		}
 
@@ -146,4 +164,16 @@
 	pgTransTime: 09/21/2019 10:18:38
 
 	*/ 	
+
+	/* 
+    [orderId] => S2L91Z9T
+    [responseCode] => 102
+    [responseDescription] => Customer cancelled transaction. 
+    [checksum] => fd75060bc4c9518060f8f588a0a347fa2449ceedf6e2f0907cbc0a9ccba50159
+    [amount] => 100000
+    [doRedirect] => false
+    [paymentMode] => unknown
+    [paymentMethod] => Not Found
+    [cardhashid] => NA	
+	*/
 ?>
