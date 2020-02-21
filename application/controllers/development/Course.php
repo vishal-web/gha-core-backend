@@ -93,6 +93,8 @@ class Course extends Backend_Controller {
 				$upload_path = FCPATH.'uploads/course';
 				$thumbnail_data['create_thumbnail'] = TRUE;
 				$thumbnail_data['upload_path'] = $upload_path.'/thumb'; 
+				$thumbnail_data['image_ratio'] = ['width'=> 400, 'height' => 400]; 
+
 				$do_upload = $this->do_upload('featured_image', $upload_path, null, $thumbnail_data);
 
 				$related_courses = $this->input->post('related_courses');

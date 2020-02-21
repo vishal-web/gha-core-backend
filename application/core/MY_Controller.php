@@ -44,22 +44,31 @@
 						mkdir($thumbnail_data['upload_path'], 0777, true);
 					}
 	
+					$ratio = null;
+					if (isset($thumbnail_data['image_ratio'])) {
+						$ratio = $thumbnail_data['image_ratio'];	
+					}
+
 					$new_image = $thumbnail_data['upload_path'];
-					$this->create_thumbnail($file_data['file_name'], $upload_path, $new_image);
+					$this->create_thumbnail($file_data['file_name'], $upload_path, $new_image, $ratio);
 				}
 			}
 
 			return $uploadData;
 		}
 
-		public function create_thumbnail($file_name, $source_image, $new_image) {
+		public function create_thumbnail($file_name, $source_image, $new_image, $ratio = null) {
+		
+			$width = isset($ratio['width']) ? $ratio['width'] : 200;
+			$height = isset($ratio['height']) ? $ratio['height'] : 200;
+
 			$this->load->library('image_lib');
 			$config['image_library'] = 'gd2'; 
 			$config['source_image'] = $source_image.'/'.$file_name;
 			$config['new_image'] = $new_image.'/'.$file_name;
 			$config['maintain_ratio'] = TRUE; 
-			$config['width'] = 200;
-			$config['height'] = 200;
+			$config['width'] = $width;
+			$config['height'] = $height;
 
 			$this->load->library('image_lib', $config);
 

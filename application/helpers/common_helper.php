@@ -10,7 +10,8 @@
       $config['protocol'] = 'smtp';
       $config['smtp_host'] = 'ghahealth.com';
       $config['smtp_user'] = 'info@ghahealth.com';
-      $config['smtp_pass'] = '&qGnuf-+sc9W';
+      // $config['smtp_pass'] = '&qGnuf-+sc9W';
+      $config['smtp_pass'] = 'm4nGkh9Z5Qgr';
       $config['smtp_timeout'] = '7';
       $config['smtp_port'] = 465;
       $config['mailtype'] = 'html';

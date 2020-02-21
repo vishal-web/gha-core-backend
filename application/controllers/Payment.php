@@ -19,7 +19,7 @@
 
 				$status = 1;
 				if ($cardhashid === 'NA' || $responseCode !== 100  || $pgTransId !== NULL) {
-					$status = 0;
+					$status = 2;
 				}
 
 
@@ -46,7 +46,7 @@
 				$updateData = ['status' => $status, 'updated_at' => Date('Y-m-d')];
 				$this->common_model->dbupdate('gha_order', $updateData, $condition);
 
-				if ($status === 0) {
+				if ($status !== 1) {
 					redirect(base_url('payment/failed'));
 				}
 

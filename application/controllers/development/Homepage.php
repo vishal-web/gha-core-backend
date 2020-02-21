@@ -24,7 +24,12 @@ class Homepage extends Backend_Controller {
 		$this->form_validation->set_error_delimiters('<p class="text-danger">','</p>');
 		if ($this->input->post('submit') == 'submit') {
 			if($this->form_validation->run('admin_homepage_create')) {
-				$do_upload = $this->do_upload('featured_image', './uploads/homepage/course');
+				$upload_path = FCPATH.'uploads/homepage/course';
+				$thumbnail_data['create_thumbnail'] = TRUE;
+				$thumbnail_data['upload_path'] = $upload_path.'/thumb'; 
+				$thumbnail_data['image_ratio'] = ['width'=> 400, 'height' => 400]; 
+
+				$do_upload = $this->do_upload('featured_image', $upload_path, null, $thumbnail_data);
 
 				$insert_data = [
 					'course_id' => 	$this->input->post('course_id'), 

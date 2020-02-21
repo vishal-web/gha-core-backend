@@ -68,7 +68,7 @@
           ?>
           <div class="advisor-item">
             <div class="info-box">
-              <img src="<?=base_url()?>uploads/homepage/course/<?=$row['featured_image']?>" alt="Thumb">  
+              <img src="<?=base_url()?>uploads/homepage/course/thumb/<?=$row['featured_image']?>" alt="Thumb">  
               <div class="info-title">
                 <h4><?=$row['course_title']?></h4>
               </div>
@@ -229,7 +229,7 @@
       <div class="col-md-12">
         <div style="background-image:url(<?=base_url()?>'assets/frontend/img/advisor/bg.png');" class="popular-courses-items bottom-price popular-courses-carousel owl-carousel owl-theme">
           <?php foreach ($homepage_upcoming_courses as $course) { 
-            $course_full_path_image = base_url().'uploads/course/'.$course['featured_image'];
+            $course_full_path_image = base_url().'uploads/course/thumb/'.$course['featured_image'];
             $course_target = base_url('course/'.$course['url_title']);
           ?>
           <div class="item">

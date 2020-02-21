@@ -39,7 +39,7 @@ Class User extends Backend_Controller {
 		$this->load->library('pagination');
 		$order_by = ['field' => 'r.id', 'type' => 'desc'];
 		$limit	= 10;
-		$total_result	= $this->common_model->dbselect("gha_registration",$condition, "COUNT(id) as Total")->result_array();
+		$total_result	= $this->common_model->dbselect("gha_registration r",$condition, "COUNT(id) as Total")->result_array();
 
 		$this->config->load('pagination');
 		$config = $this->config->item('case2');
